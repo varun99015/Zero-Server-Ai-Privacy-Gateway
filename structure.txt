@@ -5,12 +5,11 @@ zero-server-ai-gateway/
 │   │   ├── sanitizer.cpp
 │   │   ├── sanitizer.h
 │   │   └── main.cpp
-│   │
 │   ├── build/
 │   ├── CMakeLists.txt
 │   └── build.sh
 │
-├── extension/                    # Chrome Extension (Manifest V3)
+├── extension/                    # Chrome Extension (ONLY extension files)
 │   ├── manifest.json
 │   │
 │   ├── background/
@@ -22,25 +21,26 @@ zero-server-ai-gateway/
 │   ├── worker/
 │   │   └── sanitizer.worker.js
 │   │
+│   ├── security/                 # MUST be inside extension
+│   │   ├── vault.js
+│   │   └── attestation.js
+│   │
+│   ├── shared/
+│   │   └── config.js
+│   │
 │   ├── popup/
 │   │   ├── popup.html
 │   │   ├── popup.js
 │   │   └── popup.css
 │   │
-│   └── assets/
+│   ├── assets/
+│   │
+│   └── tests/
+│       └── test-plan.md
 │
-├── security/                     # Crypto + Local Vault
-│   ├── attestation.js
-│   └── vault.js
-│
-├── shared/                       # Shared Interfaces
-│   └── config.js
-│
-├── tests/                        # Basic Testing
-│   └── test-plan.md
-│
-├── docs/                         # Documentation
+├── docs/
 │   └── architecture.md
 │
+├── LICENSE
 ├── README.md
 └── package.json
