@@ -1,40 +1,16 @@
-console.log("🚀 CONTENT SCRIPT IS RUNNING");
+// 1. Inject the patch file safely
+const s = document.createElement('script');
+s.src = chrome.runtime.getURL('content/inject.js');
+(document.head || document.documentElement).appendChild(s);
 
-async function runSecurityTests() {
-    console.log("=== RUNNING SECURITY TESTS ===");
-
-    const sessionId = "test-session-1";
-
-    // Store mappings
-    await storeMapping(sessionId, "Suraj", "Arjun");
-    await storeMapping(sessionId, "Ramesh", "Vikram");
-
-    console.log("Mappings Stored");
-
-    // Retrieve mappings
-    const mappings = await getMappings(sessionId);
-    console.log("Retrieved Mappings:", mappings);
-
-    // Test rehydration
-    const fakeResponse = "Hello Arjun and Vikram";
-    const restored = await rehydrateResponse(sessionId, fakeResponse);
-    console.log("Rehydrated Response:", restored);
-
-    // Test hash
-    const hash = await generateHash("Hello World");
-    console.log("SHA-256 Hash:", hash);
-
-    // Test attestation
-    const attestation = await createAttestation(sessionId, "Sanitized Prompt");
-    console.log("Attestation Object:", attestation);
-
-    console.log("=== TEST COMPLETE ===");
-
-    console.log("Testing hash directly inside content script...");
-
-    generateHash("Hello World").then(hash => {
-        console.log("Hash inside content script:", hash);
+// 2. Listen for scrub requests from the injected script (MAIN world)
+window.addEventListener('SCRUB_REQ', (e) => {
+    const { text, id } = e.detail;
+    // Forward to background service worker
+    chrome.runtime.sendMessage({ type: 'SCRUB', text, id }, (response) => {
+        // Forward sanitized text back to injected script
+        window.dispatchEvent(new CustomEvent(`SCRUB_RES_${response.id}`, {
+            detail: { text: response.scrubbedText }
+        }));
     });
-}
-
-runSecurityTests();
+});

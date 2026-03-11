@@ -1,0 +1,12 @@
+{
+  "name": "zero-server-ai-gateway",
+  "version": "1.0.0",
+  "scripts": {
+    "build:core": "cd core && mkdir -p build && cd build && emcmake cmake .. && make",
+    "test": "jest"
+  },
+  "devDependencies": {
+    "webpack": "^5.0.0",
+    "jest": "^29.0.0"
+  }
+}

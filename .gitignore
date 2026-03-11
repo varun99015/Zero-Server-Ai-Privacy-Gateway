@@ -1,0 +1,39 @@
+# C++ Build Directories
+core/build/
+core/bin/
+core/lib/
+
+# Emscripten/CMake temporary files
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.sln
+*.vcxproj
+*.filters
+
+# Compiled WebAssembly Output
+extension/assets/engine.js
+extension/assets/engine.wasm
+
+# Windows thumbnails
+Thumbs.db
+desktop.ini
+
+# OneDrive / Office temp files
+~$*
+.DS_Store
+
+# IDE - VS Code & JetBrains
+.vscode/
+.idea/
+*.suo
+*.user
+
+# Python/Node (if you use them for testing)
+node_modules/
+__pycache__/
+*.log
+
+# Emscripten specific
+.emscripten
