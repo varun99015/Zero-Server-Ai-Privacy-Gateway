@@ -1,25 +1,19 @@
-// security/attestation.js
-async function generateHash(data) {
+export async function signPrompt(payload) {
     const encoder = new TextEncoder();
-    const encoded = encoder.encode(data);
+    const data = encoder.encode(payload);
 
-    const hashBuffer = await crypto.subtle.digest("SHA-256", encoded);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const hashHex = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
+    // Generate hardware-backed signature
+    const keyPair = await window.crypto.subtle.generateKey(
+        { name: "ECDSA", namedCurve: "P-256" },
+        false,
+        ["sign", "verify"]
+    );
 
-    return hashHex;
+    const signature = await window.crypto.subtle.sign(
+        { name: "ECDSA", hash: { name: "SHA-256" } },
+        keyPair.privateKey,
+        data
+    );
+
+    return signature;
 }
-
-async function createAttestation(sessionId, sanitizedPrompt) {
-    const payload = sanitizedPrompt + "|" + sessionId + "|" + Date.now();
-    const hash = await generateHash(payload);
-
-    return {
-        sessionId,
-        hash,
-        timestamp: Date.now()
-    };
-}
-
-window.generateHash = generateHash;
-window.createAttestation = createAttestation;
