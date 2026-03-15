@@ -31,6 +31,9 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         const scrubbedText = engineInstance.process(text);
 
+        console.log("Original:", text);
+        console.log("Sanitized:", scrubbedText);
+
         // detect mappings
         detectAndStore(text, scrubbedText);
 
@@ -49,9 +52,11 @@ async function detectAndStore(original, sanitized) {
         const o = originalWords[i];
         const s = sanitizedWords[i];
 
-        if (o !== s && s.match(/[A-Z]+_\d+/)) {
+        // if the word changed and sanitizer produced a hidden token
+        if (o !== s && s.includes("HIDDEN")) {
 
-            // store mapping
+            console.log("Detected replacement:", o, "→", s);
+
             await saveMapping(s, o);
 
             console.log("Vault mapping saved:", s, "->", o);
