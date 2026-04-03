@@ -11,7 +11,7 @@ createEngineModule({
         return chrome.runtime.getURL('assets/' + path);
     }
 }).then(module => {
-    engineInstance = new module.Sanitizer();
+    engineInstance = module;
     console.log("Wasm engine ready");
 }).catch(err => {
     console.error("Failed to initialize Wasm engine:", err);
@@ -29,37 +29,41 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
             return;
         }
 
-        const scrubbedText = engineInstance.process(text);
+        let scrubbedText = engineInstance.ccall(
+            "process",      // function name in C++
+            "string",       // return type
+            ["string"],     // argument types
+            [text]          // arguments
+        );
+        scrubbedText = replaceWithFake(text, scrubbedText);
 
         console.log("Original:", text);
         console.log("Sanitized:", scrubbedText);
 
         // detect mappings
-        detectAndStore(text, scrubbedText);
+        // detectAndStore(text, scrubbedText);
 
         sendResponse({ scrubbedText, id });
     }
 
 });
 
-async function detectAndStore(original, sanitized) {
+function replaceWithFake(original, sanitized) {
+    const tokenRegex = /(PHONE_\d+|EMAIL_\d+|NAME_\d+)/g;
 
-    const originalWords = original.split(" ");
-    const sanitizedWords = sanitized.split(" ");
+    let result = sanitized;
+    let match;
 
-    for (let i = 0; i < originalWords.length; i++) {
+    while ((match = tokenRegex.exec(sanitized)) !== null) {
+        const token = match[0];
 
-        const o = originalWords[i];
-        const s = sanitizedWords[i];
+        let type = token.split("_")[0];
+        const fakeValue = generateFakeValue(type, token);
 
-        // if the word changed and sanitizer produced a hidden token
-        if (o !== s && s.includes("HIDDEN")) {
+        result = result.replace(token, fakeValue);
 
-            console.log("Detected replacement:", o, "→", s);
-
-            await saveMapping(s, o);
-
-            console.log("Vault mapping saved:", s, "->", o);
-        }
+        console.log(`Replaced ${token} → ${fakeValue}`);
     }
+
+    return result;
 }
