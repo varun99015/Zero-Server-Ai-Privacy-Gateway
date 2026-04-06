@@ -14,7 +14,6 @@
   }],
   "web_accessible_resources": [{
     "resources": [
-      "worker/sanitizer.worker.js",
       "assets/engine.js",
       "assets/engine.wasm",
       "content/inject.js"
