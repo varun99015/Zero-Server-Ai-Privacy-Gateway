@@ -142,3 +142,17 @@ std::string Sanitizer::process(const std::string& input) {
 
     return output;
 }
+
+extern "C" {
+
+EMSCRIPTEN_KEEPALIVE
+const char* process(const char* input) {
+    static std::string result;
+
+    Sanitizer s;
+    result = s.process(std::string(input));
+
+    return result.c_str();
+}
+
+}
