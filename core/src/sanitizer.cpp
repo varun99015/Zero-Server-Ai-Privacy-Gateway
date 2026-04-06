@@ -1,4 +1,5 @@
 #include "sanitizer.h"
+#include <emscripten.h>
 #include <regex>
 #include <string>
 #include <algorithm>
