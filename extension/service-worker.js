@@ -1,3 +1,4 @@
+importScripts("security/vault.js");
 importScripts('assets/engine.js');
 
 console.log("Zero-Server Background Service Worker Loaded");
@@ -5,7 +6,6 @@ console.log("Zero-Server Background Service Worker Loaded");
 let engineInstance = null;
 const pendingRequests = new Map();
 
-// Initialize Wasm module
 createEngineModule({
     locateFile: (path) => chrome.runtime.getURL('assets/' + path)
 }).then(module => {
