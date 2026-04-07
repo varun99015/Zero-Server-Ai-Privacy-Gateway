@@ -1,9 +1,9 @@
-importScripts("security/vault.js");
 importScripts('assets/engine.js');
+importScripts("utils/fakeGenerator.js");
+importScripts("utils/mapper.js");
 
 let tokenMap = {};
 
-// Load existing mappings once
 chrome.storage.local.get(["tokenMap"], (res) => {
     tokenMap = res.tokenMap || {};
 });
@@ -11,117 +11,25 @@ chrome.storage.local.get(["tokenMap"], (res) => {
 console.log("Zero-Server Background Service Worker Loaded");
 
 let engineInstance = null;
-const pendingRequests = new Map();
 
+// Initialize WASM
 createEngineModule({
     locateFile: (path) => chrome.runtime.getURL('assets/' + path)
 }).then(module => {
-    engineInstance = module;   // create C++ object instance
-    console.log("Wasm engine ready");
-}).catch(err => {
-    console.error("Failed to initialize Wasm engine:", err);
+    engineInstance = module;
+    console.log("WASM Ready");
 });
 
-
-function generateFakePhone() {
-    return Math.floor(1000000000 + Math.random() * 9000000000).toString();
-}
-
-function generateFakeEmail() {
-    const names = ["user", "client", "demo", "guest"];
-    const domains = ["gmail.com", "yahoo.com", "outlook.com"];
-
-    const name = names[Math.floor(Math.random() * names.length)];
-    const domain = domains[Math.floor(Math.random() * domains.length)];
-
-    return `${name}${Math.floor(Math.random() * 1000)}@${domain}`;
-}
-
-function generateFakeName() {
-    const names = ["Rahul", "Amit", "Neha", "Priya", "Arjun"];
-    return names[Math.floor(Math.random() * names.length)];
-}
-
-function generateFakeValue(type, token) {
-    // 1. Check in-memory cache
-    if (cache[token]) return cache[token];
-
-    // 2. Check persistent storage (loaded into tokenMap)
-    if (tokenMap[token]) {
-        cache[token] = tokenMap[token];
-        return tokenMap[token];
-    }
-
-    // 3. Generate new fake value
-    let value;
-    if (type === "PHONE") value = generateFakePhone();
-    if (type === "EMAIL") value = generateFakeEmail();
-    if (type === "NAME") value = generateFakeName();
-
-    // 4. Save in cache
-    cache[token] = value;
-
-    // 5. Save in persistent storage
-    tokenMap[token] = value;
-    chrome.storage.local.set({ tokenMap });
-
-    return value;
-}
-
-function replaceWithFake(original, sanitized) {
-    const tokenRegex = /(PHONE_\d+|EMAIL_\d+|NAME_\d+)/g;
-
-    let result = sanitized;
-    let match;
-
-    const originalMatches = original.match(/\b[\w@.+-]+\b/g) || [];
-
-    while ((match = tokenRegex.exec(sanitized)) !== null) {
-        const token = match[0];
-        const type = token.split("_")[0];
-
-        const fakeValue = generateFakeValue(type, token);
-
-        // pick first unmatched original (simple mapping)
-        const real = originalMatches.shift() || "unknown";
-
-        storeMapping(real, fakeValue, type);
-
-        result = result.replace(token, fakeValue);
-    }
-
-    return result;
-}
-
-
-function storeMapping(original, fake, type) {
-    chrome.storage.local.get(["logs"], (res) => {
-        let logs = res.logs || [];
-
-        logs.push({
-            original,
-            fake,
-            type,
-            time: new Date().toISOString()
-        });
-
-        chrome.storage.local.set({ logs });
-    });
-}
-
-// Handle messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
     if (message.type === "SCRUB") {
         const { text, id } = message;
 
         if (!engineInstance) {
-            // Engine not ready – fallback to original text
             sendResponse({ scrubbedText: text, id });
             return;
         }
 
         try {
-            // Call C++ process() method
             let scrubbedText = engineInstance.ccall(
                 "process",
                 "string",
@@ -131,12 +39,15 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
             scrubbedText = replaceWithFake(text, scrubbedText);
 
-            sendResponse({ scrubbedText, id });
             console.log("Original:", text);
             console.log("Sanitized:", scrubbedText);
+
+            sendResponse({ scrubbedText, id });
         } catch (err) {
             console.error("Wasm processing error:", err);
-            sendResponse({ scrubbedText: text, id }); // fallback
+            sendResponse({ scrubbedText: text, id });
         }
+
+        return true;
     }
 });
