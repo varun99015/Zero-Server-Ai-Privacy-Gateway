@@ -9,7 +9,7 @@ const pendingRequests = new Map();
 createEngineModule({
     locateFile: (path) => chrome.runtime.getURL('assets/' + path)
 }).then(module => {
-    engineInstance = new module.Sanitizer();   // create C++ object instance
+    engineInstance = module;   // create C++ object instance
     console.log("Wasm engine ready");
 }).catch(err => {
     console.error("Failed to initialize Wasm engine:", err);
@@ -28,7 +28,12 @@ chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
 
         try {
             // Call C++ process() method
-            const scrubbedText = engineInstance.process(text);
+            const scrubbedText = engineInstance.ccall(
+                "process",
+                "string",
+                ["string"],
+                [text]
+            );
             console.log("Original:", text);
             console.log("Sanitized:", scrubbedText);
             sendResponse({ scrubbedText, id });

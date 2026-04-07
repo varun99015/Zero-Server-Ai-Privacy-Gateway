@@ -4,7 +4,7 @@ let engineInstance = null;
 
 // Initialize Wasm Module
 Module().then(instance => {
-    engineInstance = new instance.Sanitizer();
+    engineInstance = instance.ccall("process", "string", ["string"], [""]);
     console.log("Zero-Server Engine: Wasm Worker Initialized.");
 
     queue.forEach(data => self.onmessage({ data }));
