@@ -1,10 +1,17 @@
 importScripts('../assets/engine.js');
 
+let tokenMap = {};
+
+// Load existing mappings once
+chrome.storage.local.get(["tokenMap"], (res) => {
+    tokenMap = res.tokenMap || {};
+});
+
 let engineInstance = null;
 
 // Initialize Wasm Module
 Module().then(instance => {
-    engineInstance = new instance.Sanitizer();
+    engineInstance = instance.ccall("process", "string", ["string"], [""]);
     console.log("Zero-Server Engine: Wasm Worker Initialized.");
 
     queue.forEach(data => self.onmessage({ data }));
@@ -33,14 +40,28 @@ function generateFakeName() {
 }
 
 function generateFakeValue(type, token) {
+    // 1. Check in-memory cache
     if (cache[token]) return cache[token];
 
+    // 2. Check persistent storage (loaded into tokenMap)
+    if (tokenMap[token]) {
+        cache[token] = tokenMap[token];
+        return tokenMap[token];
+    }
+
+    // 3. Generate new fake value
     let value;
     if (type === "PHONE") value = generateFakePhone();
     if (type === "EMAIL") value = generateFakeEmail();
     if (type === "NAME") value = generateFakeName();
 
+    // 4. Save in cache
     cache[token] = value;
+
+    // 5. Save in persistent storage
+    tokenMap[token] = value;
+    chrome.storage.local.set({ tokenMap });
+
     return value;
 }
 
