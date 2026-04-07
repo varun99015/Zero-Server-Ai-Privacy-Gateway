@@ -7,63 +7,34 @@ let engineInstance = null;
 const pendingRequests = new Map();
 
 createEngineModule({
-    locateFile: (path, prefix) => {
-        return chrome.runtime.getURL('assets/' + path);
-    }
+    locateFile: (path) => chrome.runtime.getURL('assets/' + path)
 }).then(module => {
-    engineInstance = module;
+    engineInstance = new module.Sanitizer();   // create C++ object instance
     console.log("Wasm engine ready");
 }).catch(err => {
     console.error("Failed to initialize Wasm engine:", err);
 });
 
+// Handle messages from content script
 chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
-
     if (message.type === "SCRUB") {
-
-        const text = message.text;
-        const id = message.id;
+        const { text, id } = message;
 
         if (!engineInstance) {
+            // Engine not ready – fallback to original text
             sendResponse({ scrubbedText: text, id });
             return;
         }
 
-        let scrubbedText = engineInstance.ccall(
-            "process",      // function name in C++
-            "string",       // return type
-            ["string"],     // argument types
-            [text]          // arguments
-        );
-        scrubbedText = replaceWithFake(text, scrubbedText);
-
-        console.log("Original:", text);
-        console.log("Sanitized:", scrubbedText);
-
-        // detect mappings
-        // detectAndStore(text, scrubbedText);
-
-        sendResponse({ scrubbedText, id });
+        try {
+            // Call C++ process() method
+            const scrubbedText = engineInstance.process(text);
+            console.log("Original:", text);
+            console.log("Sanitized:", scrubbedText);
+            sendResponse({ scrubbedText, id });
+        } catch (err) {
+            console.error("Wasm processing error:", err);
+            sendResponse({ scrubbedText: text, id }); // fallback
+        }
     }
-
 });
-
-function replaceWithFake(original, sanitized) {
-    const tokenRegex = /(PHONE_\d+|EMAIL_\d+|NAME_\d+)/g;
-
-    let result = sanitized;
-    let match;
-
-    while ((match = tokenRegex.exec(sanitized)) !== null) {
-        const token = match[0];
-
-        let type = token.split("_")[0];
-        const fakeValue = generateFakeValue(type, token);
-
-        result = result.replace(token, fakeValue);
-
-        console.log(`Replaced ${token} → ${fakeValue}`);
-    }
-
-    return result;
-}
