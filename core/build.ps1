@@ -8,8 +8,10 @@ emcc src/sanitizer.cpp `
   -s WASM=1 `
   -s MODULARIZE=1 `
   -s EXPORT_NAME="createEngineModule" `
+  -s EXPORTED_FUNCTIONS='["_process"]' `
+  -s EXPORTED_RUNTIME_METHODS='["ccall"]' `
   -s ALLOW_MEMORY_GROWTH=1 `
-  --bind `
+  -s ENVIRONMENT='web,worker' `
   -O3
 
 Write-Host "Build complete!"

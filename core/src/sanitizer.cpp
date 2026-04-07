@@ -42,16 +42,16 @@ std::string Sanitizer::process(const std::string& input) {
 
     // ========== 1. Email ==========
     std::regex email_regex(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})");
-    output = std::regex_replace(output, email_regex, "[EMAIL_HIDDEN]");
+    output = std::regex_replace(output, email_regex, "EMAIL_1");
 
     // ========== 2. Phone numbers (US and international) ==========
     // US: (123) 456-7890, 123-456-7890, 123.456.7890, +1 123 456 7890
     std::regex us_phone(R"(\b(?:\+?1[ .-]?)?\(?[0-9]{3}\)?[ .-]?[0-9]{3}[ .-]?[0-9]{4}\b)");
-    output = std::regex_replace(output, us_phone, "[PHONE_HIDDEN]");
+    output = std::regex_replace(output, us_phone, "PHONE_1");
 
     // International (simplified): +CC XXX XXX XXX
     std::regex intl_phone(R"(\+\d{1,3}[ .-]?\d{1,4}[ .-]?\d{1,4}[ .-]?\d{1,9}\b)");
-    output = std::regex_replace(output, intl_phone, "[PHONE_HIDDEN]");
+    output = std::regex_replace(output, intl_phone, "PHONE_1");
 
     // ========== 3. SSN (US) ==========
     std::regex ssn_regex(R"(\b\d{3}-\d{2}-\d{4}\b)");
