@@ -1,142 +1,166 @@
 # Zero-Server AI Privacy Gateway
-### A privacy-focused browser extension that automatically redacts personally identifiable information (PII) from your prompts before they reach online LLM services like ChatGPT and Claude. All processing happens locally using a high‑performance C++ engine compiled to WebAssembly (Wasm). No data ever leaves your device unredacted.
+
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+
+A privacy-focused browser extension that automatically redacts personally identifiable information (PII) from your prompts before they reach online LLM services like ChatGPT and Claude. All processing happens locally using a high-performance C++ engine compiled to WebAssembly (Wasm). **No data ever leaves your device unredacted.**
 
 ## 🚀 Features
-- Email redaction – replaces email addresses with [EMAIL_HIDDEN]
 
-- Phone number redaction – 10‑digit US phone numbers → [PHONE_HIDDEN]
-
-- redit card / numeric pattern redaction – 13–16 digit numbers → [SENSITIVE_NUM_HIDDEN]
-
-- Zero‑server architecture – Wasm engine runs inside your browser’s extension background worker
-
-- Seamless integration – works on ChatGPT and Claude; just use the sites normally
-
-- Graceful fallback – if the engine isn’t ready, the original text is sent (no interruption)
+- **Email Redaction** – Replaces email addresses with placeholders like `EMAIL_1`, `EMAIL_2`, etc.
+- **Phone Number Redaction** – Handles US and international numbers → `PHONE_1`, `PHONE_2`, ...
+- **Comprehensive PII Detection** – Covers SSN, credit card numbers, IP addresses, MAC addresses, dates of birth, ages, street addresses, locations, driver's licenses, passports, bank accounts, medical IDs, VINs, geocoordinates, usernames, and passwords – all redacted with consistent placeholders.
+- **Persistent Vault** – Unique PII is stored in IndexedDB, ensuring the same original value always maps to the same placeholder (e.g., `test@gmail.com` → `EMAIL_1` consistently).
+- **Zero-Server Architecture** – Wasm engine runs in the browser's background service worker; no unredacted data leaves your machine.
+- **Seamless Integration** – Works transparently on ChatGPT and Claude; use the sites normally.
+- **Audit Page** – View all stored mappings (original → placeholder) in a clean GUI.
+- **Graceful Fallback** – If the engine isn't ready, original text is sent without interruption.
 
 ## 🧱 Architecture
 
+```text
+┌─────────────┐    ┌───────────────┐    ┌─────────────────┐
+│   ChatGPT   │    │   Content     │    │   Background    │
+│    Page     │◄──►│    Script     │◄──►│ Service Worker  │
+│ (inject.js) │    │ (content.js)  │    │(service-worker.js)
+└─────────────┘    └───────────────┘    └─────────┬───────┘
+                                                  │
+                                        ┌─────────▼────────┐
+                                        │   Wasm Engine    │
+                                        │ (engine.js       │
+                                        │  + .wasm)        │
+                                        └─────────┬────────┘
+                                                  │
+                                        ┌─────────▼────────┐
+                                        │     Vault        │
+                                        │   (IndexedDB)    │
+                                        └──────────────────┘
 ```
-┌─────────────┐      ┌───────────────┐      ┌─────────────────┐
-│  ChatGPT    │      │  Content      │      │  Background     │
-│  page       │◄────►│  Script       │◄────►│  Service Worker │
-│ (inject.js) │      │ (content.js)  │      │ (service‑worker.js)
-└─────────────┘      └───────────────┘      └────────┬────────┘
-                                                      │
-                                               ┌──────▼──────┐
-                                               │ Wasm Engine │
-                                               │ (engine.js  │
-                                               │ + .wasm)    │
-                                               └─────────────┘
-```
-- inject.js (runs in the page’s main world) monkey‑patches window.fetch to intercept outgoing requests.
 
-- When a message contains a user prompt, it generates a unique ID and dispatches a SCRUB_REQ custom event.
-
-- content.js (isolated world) listens for that event and forwards the text to the background service worker via chrome.runtime.sendMessage.
-
-- service-worker.js loads the Wasm module (engine.js + engine.wasm) and calls its Sanitizer.process() method.
-
-- The redacted text is sent back through the same path, and inject.js replaces the original prompt in the request body.
+### Data Flow:
+- `inject.js` (runs in the page's main world) monkey-patches `window.fetch` to intercept outgoing requests.
+- When a message contains a user prompt, it generates a unique ID and dispatches a `SCRUB_REQ` custom event.
+- `content.js` (isolated world) listens for that event and forwards the text to the background service worker via `chrome.runtime.sendMessage`.
+- `service-worker.js` loads the Wasm module (`engine.js` + `engine.wasm`) and calls its `Sanitizer.process()` method.
+- **Vault & Pre-sanitization**: Before calling Wasm, the service worker replaces known PII with stored placeholders. New PII is detected, stored in IndexedDB, and replaced with fresh placeholders.
+- The redacted text returns through the same path, and `inject.js` replaces the original prompt in the request body.
 
 ## 📁 Project Structure
 
 ```
 Zero-Server-Ai-Privacy-Gateway/
-├── core/                      # C++ Wasm engine source
+├── core/                          # C++ Wasm engine source
 │   ├── CMakeLists.txt
 │   ├── src/
 │   │   ├── sanitizer.h
 │   │   ├── sanitizer.cpp
 │   │   └── main.cpp
-│   └── build/                 # build output (generated)
-├── extension/                  # browser extension
+│   └── build/                     # Build output (generated)
+├── extension/                     # Browser extension
 │   ├── manifest.json
 │   ├── service-worker.js
 │   ├── content/
 │   │   ├── content.js
 │   │   └── inject.js
-│   ├── worker/
-│   │   └── sanitizer.worker.js (unused – kept for reference)
+│   ├── security/
+│   │   ├── vault.js              # IndexedDB storage for mappings
+│   │   └── attestation.js
+│   ├── utils/
+│   │   └── preSanitize.js        # PII detection & placeholder generation
+│   ├── audit/
+│   │   ├── audit.html            # GUI to view stored mappings
+│   │   └── audit.js
 │   ├── assets/
-│   │   ├── engine.js          # generated by Emscripten
-│   │   ├── engine.wasm        # generated by Emscripten
-│   │   ├── attestation.js
-│   │   └── vault.js
-│   └── (other assets)
+│   │   ├── engine.js             # Generated by Emscripten
+│   │   └── engine.wasm           # Generated by Emscripten
+│   └── popup/                    # Extension popup (optional)
+│       ├── popup.html
+│       └── popup.js
 └── README.md
 ```
-🔧 Prerequisites
 
-- Emscripten SDK – to compile the C++ engine to Wasm
-- Google Chrome (or any Chromium‑based browser)
-- Basic familiarity with the command line
+## 🔧 Prerequisites
+
+- **Emscripten SDK** – For compiling the C++ engine to WebAssembly
+- **Google Chrome** (or any Chromium-based browser)
+- Basic command-line familiarity
 
 ## 🏗️ Build the Wasm Engine
 
-Activate Emscripten (adjust path to your installation):
+1. **Activate Emscripten** (adjust path to your installation):
 
-**Linux/macOS:**
-```bash
-source /path/to/emsdk/emsdk_env.sh
-```
+   **Linux/macOS:**
+   ```bash
+   source /path/to/emsdk/emsdk_env.sh
+   ```
 
-**Windows (PowerShell):**
-```powershell
-C:\path\to\emsdk\emsdk_env.ps1
-```
+   **Windows (PowerShell):**
+   ```powershell
+   C:\path\to\emsdk\emsdk_env.ps1
+   ```
 
-Navigate to the core folder:
+2. **Navigate to the core folder:**
+   ```bash
+   cd core
+   ```
 
-```bash
-cd core
-```
+3. **Run the build command:**
+   ```powershell
+   emcc src/sanitizer.cpp src/main.cpp -o ../extension/assets/engine.js `
+     -O3 `
+     -std=c++20 `
+     -msimd128 `
+     -mrelaxed-simd `
+     --bind `
+     -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' `
+     -s MODULARIZE=1 `
+     -s EXPORT_NAME='createEngineModule' `
+     -s ALLOW_MEMORY_GROWTH=1 `
+     -s ENVIRONMENT='web' `
+     -s DYNAMIC_EXECUTION=0
+   ```
 
-Run the build command:
-
-```powershell
-emcc src/sanitizer.cpp src/main.cpp -o ../extension/assets/engine.js `
-  -O3 `
-  -std=c++20 `
-  -msimd128 `
-  -mrelaxed-simd `
-  --bind `
-  -s EXPORTED_RUNTIME_METHODS='["ccall","cwrap"]' `
-  -s MODULARIZE=1 `
-  -s EXPORT_NAME='createEngineModule' `
-  -s ALLOW_MEMORY_GROWTH=1 `
-  -s ENVIRONMENT='web' `
-  -s DYNAMIC_EXECUTION=0
-```
-
-This will generate `engine.js` and `engine.wasm` inside `extension/assets/`.
+   This generates `engine.js` and `engine.wasm` in `extension/assets/`.
 
 ## 🌐 Load the Extension in Chrome
 
-1. Open Chrome and go to `chrome://extensions`
-2. Enable Developer mode (toggle in the top right)
-3. Click "Load unpacked" and select the `extension/` folder (the one containing `manifest.json`)
-4. The extension is now active. Visit ChatGPT or Claude
+1. Open Chrome and navigate to `chrome://extensions`.
+2. Enable **Developer mode** (toggle in the top right).
+3. Click **Load unpacked** and select the `extension/` folder (containing `manifest.json`).
+4. The extension is now active. Visit ChatGPT or Claude.
 
-🧪 Test It
+## 🧪 Test It
 
-1. Type a message containing an email address, e.g.:
+1. Type a message containing PII, e.g.:
    ```
    "Contact me at test@example.com for more info."
    ```
-2. Send the message
-3. The extension will replace the email with `[EMAIL_HIDDEN]` before the request leaves your browser
-4. Verify by opening the browser's developer tools (**F12** → **Network** tab) and inspecting the request payload
+2. Send the message.
+3. The extension replaces the email with `EMAIL_1` (or similar) before the request leaves your browser.
+4. Open Developer Tools (F12 → Network tab) and inspect the request payload – you'll see the placeholder instead of the real email.
 
-⚠️ Known Issues
+## 📋 View Stored Mappings (Audit Page)
 
-- **Extension context invalidated** – If you reload the extension while a ChatGPT/Claude tab is open, the content script loses its connection. A warning appears in the console, but the extension gracefully falls back to the original text. Simply reload the tab to restore full functionality.
+All original PII and their placeholders are stored in IndexedDB. To view them:
 
-- **Pattern limitations** – The phone number and credit card patterns are basic; they may miss edge cases or international formats. Future versions will improve detection.
+1. Find your extension's ID at `chrome://extensions` (e.g., `abcdefghijklmnopqrstuvwxyz123456`).
+2. Open a new tab and go to:
+   ```
+   chrome-extension://<your-extension-id>/audit/audit.html
+   ```
+3. You'll see a table with: **Original (PII)**, **Placeholder**, **Type**, **Timestamp**.
+4. Use **Refresh** to reload, and **Clear All Data** to delete mappings (use cautiously).
 
-🛠️ Future Improvements
+## ⚠️ Known Issues
 
-- Add support for more PII types (addresses, dates, etc.)
-- Implement "smart stubs" – replace names with context‑aware placeholders
-- Provide a cryptographic audit log (attestation) for enterprise compliance
-- Add a local vector database for private RAG (Retrieval‑Augmented Generation)
+- **Extension Context Invalidated** – Reloading the extension while ChatGPT/Claude tabs are open breaks the connection. The extension auto-refreshes the page after a few seconds. If you see "Extension not ready, retrying..." in the console, wait; the page will refresh.
+- **Pattern Limitations** – Some international phone formats or complex addresses may not be detected perfectly. Future versions will improve with a full NER model.
+
+## 🛠️ Future Improvements (Phase 2)
+
+- Add a full Named Entity Recognition (NER) model (e.g., BERT compiled to Wasm) for context-aware name and location redaction.
+- Implement cryptographic attestation – Generate signed audit logs for enterprise compliance.
+- Add a local vector database for private RAG (Retrieval-Augmented Generation) – Query your own documents without leaking data to LLM providers.
+
+---
+
+**Built with ❤️ for privacy-conscious AI users.**
