@@ -55,7 +55,7 @@ std::string Sanitizer::process(const std::string& input) {
 
     // ========== 3. SSN (US) ==========
     std::regex ssn_regex(R"(\b\d{3}-\d{2}-\d{4}\b)");
-    output = std::regex_replace(output, ssn_regex, "[SSN_HIDDEN]");
+    output = std::regex_replace(output, ssn_regex, "SSN_1");
 
     // ========== 4. Credit card numbers (with Luhn validation) ==========
     // Match potential card numbers (13-19 digits, with optional spaces/dashes)
@@ -68,7 +68,7 @@ std::string Sanitizer::process(const std::string& input) {
         result += match.prefix().str();
         std::string candidate = match.str();
         if (isCreditCardNumber(candidate)) {
-            result += "[CREDIT_CARD_HIDDEN]";
+            result += "CARD_1";
         } else {
             result += candidate; // keep as is
         }
@@ -80,10 +80,10 @@ std::string Sanitizer::process(const std::string& input) {
     // ========== 5. IP addresses ==========
     // IPv4
     std::regex ipv4(R"(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b)");
-    output = std::regex_replace(output, ipv4, "[IP_HIDDEN]");
+    output = std::regex_replace(output, ipv4, "IP_1");
     // IPv6 (simplified)
     std::regex ipv6(R"(\b(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\b|\b(?:[0-9a-fA-F]{1,4}:){1,7}:\b)");
-    output = std::regex_replace(output, ipv6, "[IP_HIDDEN]");
+    output = std::regex_replace(output, ipv6, "IP_1");
 
     // ========== 6. MAC addresses ==========
     std::regex mac(R"(\b([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})\b)");
@@ -93,8 +93,8 @@ std::string Sanitizer::process(const std::string& input) {
     // YYYY-MM-DD, MM/DD/YYYY, DD-MM-YYYY, etc.
     std::regex dob1(R"(\b\d{4}[-/]\d{1,2}[-/]\d{1,2}\b)");
     std::regex dob2(R"(\b\d{1,2}[-/]\d{1,2}[-/]\d{4}\b)");
-    output = std::regex_replace(output, dob1, "[DOB_HIDDEN]");
-    output = std::regex_replace(output, dob2, "[DOB_HIDDEN]");
+    output = std::regex_replace(output, dob1, "DOB_1");
+    output = std::regex_replace(output, dob2, "DOB_1");
 
     // ========== 8. Age expressions ==========
     std::regex age(R"(\b\d{1,3}\s*(years? old|yo|y/o)\b)");
@@ -102,11 +102,11 @@ std::string Sanitizer::process(const std::string& input) {
 
     // ========== 9. US street addresses (basic) ==========
     std::regex street(R"(\b\d{1,5}\s+[A-Za-z0-9\s]+(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Lane|Ln|Drive|Dr|Court|Ct|Place|Pl)\b)");
-    output = std::regex_replace(output, street, "[ADDRESS_HIDDEN]");
+    output = std::regex_replace(output, street, "STREET_1");
 
     // ========== 10. City, State, ZIP ==========
     std::regex city_state_zip(R"(\b[A-Z][a-z]+(?:[\s-][A-Z][a-z]+)*,\s*[A-Z]{2}\s*\d{5}(?:-\d{4})?\b)");
-    output = std::regex_replace(output, city_state_zip, "[LOCATION_HIDDEN]");
+    output = std::regex_replace(output, city_state_zip, "LOCATION_1");
 
     // ========== 11. Driver's license (simple pattern) ==========
     std::regex drivers_license(R"(\b[A-Z]{1,2}\d{4,9}\b)");
@@ -114,7 +114,7 @@ std::string Sanitizer::process(const std::string& input) {
 
     // ========== 12. Passport number (US 9-digit) ==========
     std::regex passport(R"(\b\d{9}\b)");
-    output = std::regex_replace(output, passport, "[PASSPORT_HIDDEN]");
+    output = std::regex_replace(output, passport, "PASSPORT_1");
 
     // ========== 13. Bank account / routing numbers (with keywords) ==========
     // Look for "account" or "routing" followed by digits
