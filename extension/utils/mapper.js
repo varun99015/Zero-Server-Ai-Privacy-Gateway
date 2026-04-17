@@ -1,6 +1,6 @@
 
 function replaceWithFake(original, sanitized) {
-    const tokenRegex = /(PHONE_\d+|EMAIL_\d+|NAME_\d+)/g;
+    const tokenRegex = /(PHONE_\d+|EMAIL_\d+|NAME_\d+|SSN_\d+|IP_\d+|DOB_\d+|STREET_\d+|CARD_\d+|PASSPORT_\d+)/g;
 
     let result = sanitized;
     let match;
