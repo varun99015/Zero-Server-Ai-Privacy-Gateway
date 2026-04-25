@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>Zero-Server Gateway</title>
+    <style>
+        body {
+            font-family: sans-serif;
+            min-width: 380px;
+            max-width: 500px;
+            padding: 16px;
+            background: #f9f9f9;
+            color: #222;
+        }
+        h2 {
+            margin: 0 0 12px;
+            font-size: 16px;
+            color: #333;
+        }
+        #loading-msg, #empty-msg {
+            font-size: 13px;
+            color: #888;
+        }
+        .mapping-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: #fff;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 10px;
+            margin-bottom: 6px;
+            font-size: 12px;
+            flex-wrap: wrap;
+        }
+        .type-badge {
+            background: #4f46e5;
+            color: #fff;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 11px;
+            text-transform: uppercase;
+        }
+        .original { color: #c0392b; font-weight: 600; }
+        .arrow { color: #aaa; }
+        .placeholder { color: #27ae60; font-weight: 600; }
+        .timestamp { color: #bbb; font-size: 10px; margin-left: auto; }
+        .error { color: #c0392b; font-size: 13px; }
+    </style>
+</head>
+<body>
+    <h2>🔒 PII Mappings Vault</h2>
+    <p id="loading-msg">Loading...</p>
+    <p id="empty-msg" style="display:none">No PII mappings stored yet.</p>
+    <div id="mappings-container"></div>
+
+    <!-- ✅ Must be a separate JS file (no inline scripts allowed in MV3 extension pages) -->
+    <script src="popup.js"></script>
+</body>
+</html>
