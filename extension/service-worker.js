@@ -1,53 +1,51 @@
 importScripts('assets/engine.js');
-importScripts("utils/fakeGenerator.js");
-importScripts("utils/mapper.js");
-
-let tokenMap = {};
-
-chrome.storage.local.get(["tokenMap"], (res) => {
-    tokenMap = res.tokenMap || {};
-});
+importScripts('security/vault.js');
+importScripts('utils/preSanitize.js');
 
 console.log("Zero-Server Background Service Worker Loaded");
 
 let engineInstance = null;
 
-// Initialize WASM
 createEngineModule({
     locateFile: (path) => chrome.runtime.getURL('assets/' + path)
 }).then(module => {
     engineInstance = module;
     console.log("WASM Ready");
+}).catch(err => {
+    console.error("WASM init error:", err);
 });
 
-chrome.runtime.onMessage.addListener((message, sender, sendResponse) => {
+chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
+    console.log("[SW] Received message:", message);
     if (message.type === "SCRUB") {
         const { text, id } = message;
+        console.log(`[SW] Processing SCRUB for id ${id}, text: "${text}"`);
 
         if (!engineInstance) {
+            console.warn("[SW] WASM engine not ready, sending original text");
             sendResponse({ scrubbedText: text, id });
             return;
         }
 
         try {
-            let scrubbedText = engineInstance.ccall(
+            console.log("[SW] Calling preSanitize...");
+            const preSanitized = await self.preSanitize(text);
+            console.log(`[SW] preSanitize result: "${preSanitized}"`);
+
+            console.log("[SW] Calling WASM process...");
+            const scrubbedText = engineInstance.ccall(
                 "process",
                 "string",
                 ["string"],
-                [text]
+                [preSanitized]
             );
-
-            scrubbedText = replaceWithFake(text, scrubbedText);
-
-            console.log("Original:", text);
-            console.log("Sanitized:", scrubbedText);
+            console.log(`[SW] WASM result: "${scrubbedText}"`);
 
             sendResponse({ scrubbedText, id });
         } catch (err) {
-            console.error("Wasm processing error:", err);
+            console.error("[SW] Error:", err);
             sendResponse({ scrubbedText: text, id });
         }
-
         return true;
     }
 });
