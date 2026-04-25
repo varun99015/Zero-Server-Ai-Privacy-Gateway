@@ -22,7 +22,11 @@ zero-server-ai-gateway/
 │   │   └── vault.js
 │   │
 │   ├── worker/
-│   │    └── sanitizer.worker.js
+│   │   └── sanitizer.worker.js
+│   │
+│   ├── utils/
+│   │   ├── fakeGenerator.js
+│   │   └── mapper.js
 │   │
 │   ├──manifest.json
 │   └──service-worker.js
