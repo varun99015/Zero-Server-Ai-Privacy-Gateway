@@ -78,7 +78,7 @@ async function preSanitize(text) {
         { name: "MEDICAL", regex: /\b(?:member id|policy #|insurance id|medicaid|medicare)[:\s]*([A-Z0-9]{6,12})\b/gi, type: "medical", extractGroup: 1 },
         { name: "VIN", regex: /\b[A-HJ-NPR-Z0-9]{17}\b/g, type: "vin" },
         { name: "COORD", regex: /\b-?\d{1,3}\.\d+[°\s]?[NS],?\s*-?\d{1,3}\.\d+[°\s]?[EW]\b/g, type: "coordinate" },
-        { name: "USERNAME", regex: /@[A-Za-z0-9_]+/g, type: "username" },
+        { name: "USERNAME", regex: /(?:^|\s)@[A-Za-z0-9_]+\b/g, type: "username" },
         { name: "PASSWORD", regex: /\b(?:password|passwd|pwd)[:\s]*[^\s]{4,}\b/gi, type: "password", extractGroup: null },
         { name: "API_KEY", regex: /\b(?:AIza[0-9A-Za-z\-_]{35}|AKIA[0-9A-Z]{16}|ghp_[0-9a-zA-Z]{36}|github_pat_[0-9a-zA-Z]{82})\b/g, type: "api_key" },
         { name: "JWT", regex: /eyJ[a-zA-Z0-9_-]+\.eyJ[a-zA-Z0-9_-]+\.[a-zA-Z0-9_-]+/g, type: "jwt" }
