@@ -6,11 +6,12 @@ console.log("Zero-Server Background Service Worker Loaded");
 
 let engineInstance = null;
 
+// The engine is still initialised (in case you need it later), but we won't use it.
 createEngineModule({
     locateFile: (path) => chrome.runtime.getURL('assets/' + path)
 }).then(module => {
     engineInstance = module;
-    console.log("WASM Ready");
+    console.log("WASM Ready (unused in this version)");
 }).catch(err => {
     console.error("WASM init error:", err);
 });
@@ -21,31 +22,21 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         const { text, id } = message;
         console.log(`[SW] Processing SCRUB for id ${id}, text: "${text}"`);
 
-        if (!engineInstance) {
-            console.warn("[SW] WASM engine not ready, sending original text");
-            sendResponse({ scrubbedText: text, id });
-            return;
-        }
-
+        // Remove the engine‑not‑ready fallback – preSanitize works without it
         try {
             console.log("[SW] Calling preSanitize...");
             const preSanitized = await self.preSanitize(text);
             console.log(`[SW] preSanitize result: "${preSanitized}"`);
 
-            console.log("[SW] Calling WASM process...");
-            const scrubbedText = engineInstance.ccall(
-                "process",
-                "string",
-                ["string"],
-                [preSanitized]
-            );
-            console.log(`[SW] WASM result: "${scrubbedText}"`);
+            // ⛔ Skip the WASM call – it would replace our dummies with [xxx_HIDDEN]
+            // const scrubbedText = engineInstance.ccall(...);
 
-            sendResponse({ scrubbedText, id });
+            // Send the pre‑sanitized text directly
+            sendResponse({ scrubbedText: preSanitized, id });
         } catch (err) {
             console.error("[SW] Error:", err);
             sendResponse({ scrubbedText: text, id });
         }
-        return true;
+        return true; // keep the message channel open for async response
     }
 });

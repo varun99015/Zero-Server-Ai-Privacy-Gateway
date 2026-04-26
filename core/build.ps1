@@ -1,4 +1,4 @@
-cd D:\MY_FILE\COLLEGE\Projects\emsdk
+cd D:\PROJECTs\emsdk
 .\emsdk_env.ps1
 
 cd ..\Zero-Server-Ai-Privacy-Gateway\core

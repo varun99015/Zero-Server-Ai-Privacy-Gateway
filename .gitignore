@@ -37,3 +37,5 @@ __pycache__/
 
 # Emscripten specific
 .emscripten
+
+core/build.ps1
