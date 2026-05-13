@@ -10,10 +10,10 @@ function sendToExtension(message, callback, retries = 10) {
             console.warn(`Extension not ready, retrying... (${retries} attempts left)`);
             setTimeout(() => {
                 sendToExtension(message, callback, retries - 1);
-            }, 500); // longer delay (500ms)
+            }, 500);
         } else {
             console.error("Extension context invalidated – reloading page...");
-            window.location.reload(); // force page reload to re‑inject content script
+            window.location.reload();
         }
         return;
     }
@@ -46,6 +46,9 @@ window.addEventListener('SCRUB_REQ', (e) => {
 });
 
 async function remapVisibleText() {
+    // <-- FIX: exit immediately if extension is disabled
+    if (!chrome.runtime?.id) return;
+
     chrome.runtime.sendMessage(
         { type: "GET_MAPPINGS" },
         (response) => {
@@ -77,32 +80,18 @@ async function remapVisibleText() {
     );
 }
 
-// Run continuously because ChatGPT streams messages dynamically
-setInterval(remapVisibleText, 1500);
+// <-- FIX: stop the interval when extension is disabled
+let remapInterval = setInterval(() => {
+    if (!chrome.runtime?.id) {
+        clearInterval(remapInterval);
+        return;
+    }
+    remapVisibleText();
+}, 1500);
 
-// window.addEventListener('REMAP_REQ', (e) => {
-//     const { text, id } = e.detail;
-
-//     sendToExtension(
-//         {
-//             type: 'REMAP',
-//             text,
-//             id
-//         },
-//         (response) => {
-//             window.dispatchEvent(
-//                 new CustomEvent(`REMAP_RES_${response.id}`, {
-//                     detail: {
-//                         text: response.remappedText
-//                     }
-//                 })
-//             );
-//         }
-//     );
-// });
+// window.addEventListener('REMAP_REQ', ...) - unchanged, leave commented
 
 // 4. Optional: detect extension disconnection and reload
 if (chrome.runtime?.id) {
     chrome.runtime.onConnect.addListener(() => { });
-    // If the extension disconnects, the page will be reloaded by the retry mechanism.
 }
