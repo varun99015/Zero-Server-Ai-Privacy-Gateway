@@ -39,4 +39,38 @@ chrome.runtime.onMessage.addListener(async (message, sender, sendResponse) => {
         }
         return true; // keep the message channel open for async response
     }
+    if (message.type === "GET_MAPPINGS") {
+        try {
+            const mappings = await self.getAllMappings();
+
+            sendResponse({ mappings });
+        } catch (err) {
+            console.error("[SW] GET_MAPPINGS error:", err);
+
+            sendResponse({ mappings: [] });
+        }
+
+        return true;
+    }
+    // if (message.type === "REMAP") {
+    //     const { text, id } = message;
+
+    //     try {
+    //         const remapped = await self.remapResponse(text);
+
+    //         sendResponse({
+    //             remappedText: remapped,
+    //             id
+    //         });
+    //     } catch (err) {
+    //         console.error("[SW] REMAP error:", err);
+
+    //         sendResponse({
+    //             remappedText: text,
+    //             id
+    //         });
+    //     }
+
+    //     return true;
+    // }
 });

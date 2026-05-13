@@ -1,4 +1,4 @@
-(function() {
+(function () {
     const { fetch: originalFetch } = window;
 
     window.fetch = async (...args) => {
@@ -14,7 +14,7 @@
 
                     if (userMessage) {
                         const id = Math.random().toString(36).substring(7);
-                        
+
                         // Ask the Isolated Content Script to process this
                         const scrubbed = await new Promise((resolve) => {
                             window.addEventListener(`SCRUB_RES_${id}`, (e) => resolve(e.detail.text), { once: true });

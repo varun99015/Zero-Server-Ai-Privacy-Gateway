@@ -102,6 +102,30 @@ async function getAllMappings() {
     }
 }
 
+async function getOriginalFromPlaceholder(placeholder) {
+    const db = await openDB();
+
+    const tx = db.transaction(STORE_NAME, "readonly");
+    const store = tx.objectStore(STORE_NAME);
+
+    const all = await new Promise((resolve, reject) => {
+        const req = store.getAll();
+
+        req.onsuccess = () => resolve(req.result);
+        req.onerror = () => reject(req.error);
+    });
+
+    db.close();
+
+    const found = all.find(
+        item => item.placeholder === placeholder
+    );
+
+    return found ? found.original : null;
+}
+
+self.getOriginalFromPlaceholder = getOriginalFromPlaceholder;
+
 // Expose globally
 self.saveMapping = saveMapping;
 self.getPlaceholder = getPlaceholder;

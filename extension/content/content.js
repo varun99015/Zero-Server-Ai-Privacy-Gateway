@@ -45,8 +45,64 @@ window.addEventListener('SCRUB_REQ', (e) => {
     });
 });
 
+async function remapVisibleText() {
+    chrome.runtime.sendMessage(
+        { type: "GET_MAPPINGS" },
+        (response) => {
+            const mappings = response?.mappings || [];
+
+            const walker = document.createTreeWalker(
+                document.body,
+                NodeFilter.SHOW_TEXT
+            );
+
+            let node;
+
+            while ((node = walker.nextNode())) {
+                let text = node.nodeValue;
+
+                for (const { original, placeholder } of mappings) {
+                    if (typeof text === "string" &&
+                        text.includes(placeholder)) {
+
+                        text = text
+                            .split(placeholder)
+                            .join(original);
+                    }
+                }
+
+                node.nodeValue = text;
+            }
+        }
+    );
+}
+
+// Run continuously because ChatGPT streams messages dynamically
+setInterval(remapVisibleText, 1500);
+
+// window.addEventListener('REMAP_REQ', (e) => {
+//     const { text, id } = e.detail;
+
+//     sendToExtension(
+//         {
+//             type: 'REMAP',
+//             text,
+//             id
+//         },
+//         (response) => {
+//             window.dispatchEvent(
+//                 new CustomEvent(`REMAP_RES_${response.id}`, {
+//                     detail: {
+//                         text: response.remappedText
+//                     }
+//                 })
+//             );
+//         }
+//     );
+// });
+
 // 4. Optional: detect extension disconnection and reload
 if (chrome.runtime?.id) {
-    chrome.runtime.onConnect.addListener(() => {});
+    chrome.runtime.onConnect.addListener(() => { });
     // If the extension disconnects, the page will be reloaded by the retry mechanism.
 }
