@@ -35,6 +35,9 @@ function generateDummy(original, type) {
         case 'coordinate': return `${((hash % 180) - 90 + (hash % 1000) / 1000).toFixed(4)} N, ${((hash % 360) - 180 + (hash % 1000) / 1000).toFixed(4)} W`;
         case 'username': return `@user_${hex.slice(0, 6)}`;
         case 'password': return `password: fakePass_${hex.slice(0, 6)}`;
+        case 'name': return `Person_${hex.slice(0, 6)}`;
+        case 'organization': return `Org_${hex.slice(0, 6)}`;
+        case 'location': return `Loc_${hex.slice(0, 6)}`;
         default: return `REDACTED_${hex}`;
     }
 }
@@ -103,6 +106,95 @@ async function preSanitize(text) {
                 console.log(`[PRESANITIZE] Mapped "${original}" -> "${dummy}"`);
             } else {
                 result = replaceAll(result, original, existing);
+            }
+        }
+    }
+
+    // ---------- Heuristic Detection ----------
+    const ignoreWords = new Set([
+        "Computer Science",
+        "Artificial Intelligence",
+        "Machine Learning",
+        "ChatGPT",
+        "Claude",
+        "Google",
+        "Microsoft",
+        "Bangalore",
+        "India"
+    ]);
+
+    const heuristicPatterns = [
+        {
+            regex: /\b(?:my name is|i am|this is)\s+([A-Z][a-z]+(?:\s[A-Zgi][a-z]+)?)\b/gi,
+            type: "name"
+        },
+
+        {
+            regex: /\b(?:work at|working at|employee at)\s+([A-Z][A-Za-z0-9& ]+)/gi,
+            type: "organization"
+        },
+
+        {
+            regex: /\b(?:study at|student at|college is)\s+([A-Z][A-Za-z ]+)/gi,
+            type: "organization"
+        },
+
+        {
+            regex: /\b(?:live in|from)\s+([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\b/gi,
+            type: "location"
+        }
+    ];
+
+    for (const detector of heuristicPatterns) {
+
+        detector.regex.lastIndex = 0;
+
+        let match;
+
+        while ((match = detector.regex.exec(result)) !== null) {
+
+            const original = match[1]?.trim();
+
+            if (!original) continue;
+
+            if (ignoreWords.has(original)) continue;
+
+            // Skip short words
+            if (original.length < 3) continue;
+
+            console.log(`[HEURISTIC] Detected ${detector.type}: "${original}"`);
+
+            const existing =
+                await self.getPlaceholder(original);
+
+            if (!existing) {
+
+                const placeholder =
+                    `${detector.type.toUpperCase()}_${toHex8(hashString(original)).slice(0, 6)}`;
+
+                await self.saveMapping(
+                    original,
+                    placeholder,
+                    detector.type
+                );
+
+                result = replaceAll(
+                    result,
+                    original,
+                    placeholder
+                );
+
+                console.log(
+                    `[HEURISTIC] Replaced "${original}" -> "${placeholder}"`
+                );
+
+            } else {
+
+                result = replaceAll(
+                    result,
+                    original,
+                    existing
+                );
             }
         }
     }
