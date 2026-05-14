@@ -2,6 +2,7 @@
 const s = document.createElement('script');
 s.src = chrome.runtime.getURL('content/inject.js');
 (document.head || document.documentElement).appendChild(s);
+let remapTimeout = null;
 
 // 2. Send message to background with retry and auto‑reload
 function sendToExtension(message, callback, retries = 10) {
@@ -42,6 +43,7 @@ window.addEventListener('SCRUB_REQ', (e) => {
         window.dispatchEvent(new CustomEvent(`SCRUB_RES_${response.id}`, {
             detail: { text: response.scrubbedText }
         }));
+        triggerRemap();
     });
 });
 
@@ -54,14 +56,28 @@ async function remapVisibleText() {
         (response) => {
             const mappings = response?.mappings || [];
 
+            const root = document.querySelector("main");
+            if (!root) return;
+
             const walker = document.createTreeWalker(
-                document.body,
+                root,
                 NodeFilter.SHOW_TEXT
             );
 
             let node;
 
             while ((node = walker.nextNode())) {
+                if (
+                    node.parentElement &&
+                    (
+                        node.parentElement.isContentEditable ||
+                        node.parentElement.closest("textarea") ||
+                        node.parentElement.closest("input")
+                    )
+                ) {
+                    continue;
+                }
+
                 let text = node.nodeValue;
 
                 for (const { original, placeholder } of mappings) {
@@ -74,20 +90,22 @@ async function remapVisibleText() {
                     }
                 }
 
-                node.nodeValue = text;
+                if (text !== node.nodeValue) {
+                    node.nodeValue = text;
+                }
             }
         }
     );
 }
 
-// <-- FIX: stop the interval when extension is disabled
-let remapInterval = setInterval(() => {
-    if (!chrome.runtime?.id) {
-        clearInterval(remapInterval);
-        return;
-    }
-    remapVisibleText();
-}, 1500);
+function triggerRemap() {
+
+    clearTimeout(remapTimeout);
+
+    remapTimeout = setTimeout(() => {
+        remapVisibleText();
+    }, 1500);
+}
 
 // window.addEventListener('REMAP_REQ', ...) - unchanged, leave commented
 
