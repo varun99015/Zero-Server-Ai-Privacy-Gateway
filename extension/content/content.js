@@ -2,7 +2,6 @@
 const s = document.createElement('script');
 s.src = chrome.runtime.getURL('content/inject.js');
 (document.head || document.documentElement).appendChild(s);
-let remapTimeout = null;
 
 // 2. Send message to background with retry and auto‑reload
 function sendToExtension(message, callback, retries = 10) {
@@ -43,7 +42,6 @@ window.addEventListener('SCRUB_REQ', (e) => {
         window.dispatchEvent(new CustomEvent(`SCRUB_RES_${response.id}`, {
             detail: { text: response.scrubbedText }
         }));
-        triggerRemap();
     });
 });
 
@@ -98,18 +96,34 @@ async function remapVisibleText() {
     );
 }
 
-function triggerRemap() {
+let remapDebounce = null;
 
-    clearTimeout(remapTimeout);
+const observer = new MutationObserver(() => {
 
-    remapTimeout = setTimeout(() => {
+    clearTimeout(remapDebounce);
+
+    remapDebounce = setTimeout(() => {
         remapVisibleText();
-    }, 1500);
-}
+    }, 500);
 
-// window.addEventListener('REMAP_REQ', ...) - unchanged, leave commented
+});
 
-// 4. Optional: detect extension disconnection and reload
+const waitForMain = setInterval(() => {
+
+    const main = document.querySelector("main");
+
+    if (!main) return;
+
+    clearInterval(waitForMain);
+
+    observer.observe(main, {
+        childList: true,
+        subtree: true
+    });
+
+}, 1000);
+
+
 if (chrome.runtime?.id) {
     chrome.runtime.onConnect.addListener(() => { });
 }
