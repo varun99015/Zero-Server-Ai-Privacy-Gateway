@@ -111,18 +111,6 @@ async function preSanitize(text) {
     }
 
     // ---------- Heuristic Detection ----------
-    const ignoreWords = new Set([
-        "Computer Science",
-        "Artificial Intelligence",
-        "Machine Learning",
-        "ChatGPT",
-        "Claude",
-        "Google",
-        "Microsoft",
-        "Bangalore",
-        "India"
-    ]);
-
     const triggerWords = [
         "name",
         "employee",
@@ -133,18 +121,6 @@ async function preSanitize(text) {
         "called",
         "works at",
         "from"
-    ];
-
-    const technicalPhrases = [
-        "Computer Science",
-        "Artificial Intelligence",
-        "Machine Learning",
-        "Deep Learning",
-        "Operating System",
-        "Database Management",
-        "Software Engineering",
-        "Data Structures",
-        "Computer Networks"
     ];
 
     const heuristicPatterns = [
@@ -180,21 +156,6 @@ async function preSanitize(text) {
         }
     ];
 
-    const commonIndianNames = new Set([
-        "Rahul",
-        "Suraj",
-        "Varun",
-        "Ananya",
-        "Priya",
-        "Rohit",
-        "Amit",
-        "Kiran",
-        "Arjun",
-        "Sneha",
-        "Pooja",
-        "Vikram"
-    ]);
-
     for (const detector of heuristicPatterns) {
 
         detector.regex.lastIndex = 0;
@@ -220,20 +181,20 @@ async function preSanitize(text) {
                     Math.min(result.length, match.index + 50)
                 ).toLowerCase();
 
-            for (const trigger of triggerWords) {
-                if (contextWindow.includes(trigger)) {
+            for (const trigger of triggerWords)
+                if (contextWindow.includes(trigger))
                     confidence += 0.4;
-                }
-            }
 
             const firstWord = original.split(" ")[0];
 
-            if (commonIndianNames.has(firstWord)) {
+            if (commonIndianNames.has(firstWord))
                 confidence += 0.5;
-            }
 
-            if (technicalPhrases.includes(original))
+            if (technicalPhrases.has(original))
                 continue;
+
+            if (self.learnedPIIWords.has(original))
+                confidence += 0.6;
 
             if (confidence < 0.7)
                 continue;
@@ -253,6 +214,8 @@ async function preSanitize(text) {
                     placeholder,
                     detector.type
                 );
+
+                self.learnedPIIWords.add(original);
 
                 result = replaceAll(
                     result,

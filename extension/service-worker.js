@@ -1,5 +1,12 @@
 importScripts('assets/engine.js');
 importScripts('security/vault.js');
+importScripts(
+    'data/ignoreWords.js',
+    'data/commonNames.js',
+    'data/technicalPhrases.js',
+    'data/blockedPhrases.js',
+    'data/learnedWords.js'
+);
 importScripts('utils/preSanitize.js');
 
 console.log("Zero-Server Background Service Worker Loaded");
