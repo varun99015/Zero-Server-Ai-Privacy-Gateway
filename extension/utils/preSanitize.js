@@ -123,27 +123,77 @@ async function preSanitize(text) {
         "India"
     ]);
 
+    const triggerWords = [
+        "name",
+        "employee",
+        "manager",
+        "student",
+        "contact",
+        "friend",
+        "called",
+        "works at",
+        "from"
+    ];
+
+    const technicalPhrases = [
+        "Computer Science",
+        "Artificial Intelligence",
+        "Machine Learning",
+        "Deep Learning",
+        "Operating System",
+        "Database Management",
+        "Software Engineering",
+        "Data Structures",
+        "Computer Networks"
+    ];
+
     const heuristicPatterns = [
+
         {
-            regex: /\b(?:my name is|i am|this is)\s+([A-Z][a-z]+(?:\s[A-Zgi][a-z]+)?)\b/gi,
-            type: "name"
+            regex: /\b(?:my name is|i am|this is)\s+([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\b/gi,
+            type: "name",
+            confidence: 0.9
         },
 
         {
-            regex: /\b(?:work at|working at|employee at)\s+([A-Z][A-Za-z0-9& ]+)/gi,
-            type: "organization"
+            regex: /\b(?:work at|working at|employee at)\s+([A-Z][A-Za-z0-9& ]{2,40}?)(?=\s|$|\.|,)/gi,
+            type: "organization",
+            confidence: 0.8
         },
 
         {
             regex: /\b(?:study at|student at|college is)\s+([A-Z][A-Za-z ]+)/gi,
-            type: "organization"
+            type: "organization",
+            confidence: 0.8
         },
 
         {
             regex: /\b(?:live in|from)\s+([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\b/gi,
-            type: "location"
+            type: "location",
+            confidence: 0.7
+        },
+
+        {
+            regex: /\b([A-Z][a-z]{2,}(?:\s[A-Z][a-z]{2,}){1,2})\b/g,
+            type: "name",
+            confidence: 0.4
         }
     ];
+
+    const commonIndianNames = new Set([
+        "Rahul",
+        "Suraj",
+        "Varun",
+        "Ananya",
+        "Priya",
+        "Rohit",
+        "Amit",
+        "Kiran",
+        "Arjun",
+        "Sneha",
+        "Pooja",
+        "Vikram"
+    ]);
 
     for (const detector of heuristicPatterns) {
 
@@ -161,6 +211,32 @@ async function preSanitize(text) {
 
             // Skip short words
             if (original.length < 3) continue;
+
+            let confidence = detector.confidence || 0;
+
+            const contextWindow =
+                result.substring(
+                    Math.max(0, match.index - 30),
+                    Math.min(result.length, match.index + 50)
+                ).toLowerCase();
+
+            for (const trigger of triggerWords) {
+                if (contextWindow.includes(trigger)) {
+                    confidence += 0.4;
+                }
+            }
+
+            const firstWord = original.split(" ")[0];
+
+            if (commonIndianNames.has(firstWord)) {
+                confidence += 0.5;
+            }
+
+            if (technicalPhrases.includes(original))
+                continue;
+
+            if (confidence < 0.7)
+                continue;
 
             console.log(`[HEURISTIC] Detected ${detector.type}: "${original}"`);
 
