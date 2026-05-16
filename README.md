@@ -66,7 +66,14 @@ Zero-Server-Ai-Privacy-Gateway/
 │   │   └── audit.js
 │   ├── content/
 │   │   ├── content.js
+│   │   ├── feedbackPopup.js
 │   │   └── inject.js
+│   ├── data/
+│   │   ├── blockedPhrases.js
+│   │   ├── commonNames.js
+│   │   ├── ignoreWords.js
+│   │   ├── learnedWords.js
+│   │   └── technicalPhrases.js  
 │   ├── popup/                    # Extension popup (optional)
 │   │   ├── popup.html
 │   │   └── popup.js
@@ -96,7 +103,9 @@ Zero-Server-Ai-Privacy-Gateway/
 
 2. go to core folder
 
-3. run
+3. change the path to your current path
+
+4. run
 ```
 ./build.ps1
 ``````
