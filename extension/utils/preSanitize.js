@@ -35,6 +35,9 @@ function generateDummy(original, type) {
         case 'coordinate': return `${((hash % 180) - 90 + (hash % 1000) / 1000).toFixed(4)} N, ${((hash % 360) - 180 + (hash % 1000) / 1000).toFixed(4)} W`;
         case 'username': return `@user_${hex.slice(0, 6)}`;
         case 'password': return `password: fakePass_${hex.slice(0, 6)}`;
+        case 'name': return `Person_${hex.slice(0, 6)}`;
+        case 'organization': return `Org_${hex.slice(0, 6)}`;
+        case 'location': return `Loc_${hex.slice(0, 6)}`;
         default: return `REDACTED_${hex}`;
     }
 }
@@ -103,6 +106,134 @@ async function preSanitize(text) {
                 console.log(`[PRESANITIZE] Mapped "${original}" -> "${dummy}"`);
             } else {
                 result = replaceAll(result, original, existing);
+            }
+        }
+    }
+
+    // ---------- Heuristic Detection ----------
+    const triggerWords = [
+        "name",
+        "employee",
+        "manager",
+        "student",
+        "contact",
+        "friend",
+        "called",
+        "works at",
+        "from"
+    ];
+
+    const heuristicPatterns = [
+
+        {
+            regex: /\b(?:my name is|i am|this is)\s+([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\b/gi,
+            type: "name",
+            confidence: 0.9
+        },
+
+        {
+            regex: /\b(?:work at|working at|employee at)\s+([A-Z][A-Za-z0-9& ]{2,40}?)(?=\s|$|\.|,)/gi,
+            type: "organization",
+            confidence: 0.8
+        },
+
+        {
+            regex: /\b(?:study at|student at|college is)\s+([A-Z][A-Za-z ]+)/gi,
+            type: "organization",
+            confidence: 0.8
+        },
+
+        {
+            regex: /\b(?:live in|from)\s+([A-Z][a-z]+(?:\s[A-Z][a-z]+)?)\b/gi,
+            type: "location",
+            confidence: 0.7
+        },
+
+        {
+            regex: /\b([A-Z][a-z]{2,}(?:\s[A-Z][a-z]{2,}){1,2})\b/g,
+            type: "name",
+            confidence: 0.4
+        }
+    ];
+
+    for (const detector of heuristicPatterns) {
+
+        detector.regex.lastIndex = 0;
+
+        let match;
+
+        while ((match = detector.regex.exec(result)) !== null) {
+
+            const original = match[1]?.trim();
+
+            if (!original) continue;
+
+            if (ignoreWords.has(original)) continue;
+
+            // Skip short words
+            if (original.length < 3) continue;
+
+            let confidence = detector.confidence || 0;
+
+            const contextWindow =
+                result.substring(
+                    Math.max(0, match.index - 30),
+                    Math.min(result.length, match.index + 50)
+                ).toLowerCase();
+
+            for (const trigger of triggerWords)
+                if (contextWindow.includes(trigger))
+                    confidence += 0.4;
+
+            const firstWord = original.split(" ")[0];
+
+            if (commonIndianNames.has(firstWord))
+                confidence += 0.5;
+
+            if (technicalPhrases.has(original))
+                continue;
+
+            if (self.learnedPIIWords.has(original))
+                confidence += 0.6;
+
+            if (confidence < 0.7)
+                continue;
+
+            console.log(`[HEURISTIC] Detected ${detector.type}: "${original}"`);
+
+            const existing =
+                await self.getPlaceholder(original);
+
+            if (!existing) {
+
+                const placeholder =
+                    `${detector.type.toUpperCase()}_${toHex8(hashString(original)).slice(0, 6)}`;
+
+                await self.saveMapping(
+                    original,
+                    placeholder,
+                    detector.type
+                );
+
+                self.learnedPIIWords.add(original);
+
+                result = replaceAll(
+                    result,
+                    original,
+                    placeholder
+                );
+
+                console.log(
+                    `[HEURISTIC] Replaced "${original}" -> "${placeholder}"`
+                );
+
+            } else {
+
+                result = replaceAll(
+                    result,
+                    original,
+                    existing
+                );
             }
         }
     }
