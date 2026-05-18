@@ -153,6 +153,31 @@ async function preSanitize(text) {
             regex: /\b([A-Z][a-z]{2,}(?:\s[A-Z][a-z]{2,}){1,2})\b/g,
             type: "name",
             confidence: 0.4
+        },
+        {
+            name: "AWS_SECRET",
+            regex: /\bAKIA[0-9A-Z]{16}\b/g,
+            type: "cloud_secret"
+        },
+        {
+            name: "OPENAI_KEY",
+            regex: /\bsk-[A-Za-z0-9]{20,}\b/g,
+            type: "api_key"
+        },
+        {
+            name: "MONGO_URI",
+            regex: /mongodb\+srv:\/\/[^\s]+/g,
+            type: "database_secret"
+        },
+        {
+            name: "SLACK_TOKEN",
+            regex: /\bxox[baprs]-[A-Za-z0-9-]+\b/g,
+            type: "api_key"
+        },
+        {
+            name: "EMPLOYEE_ID",
+            regex: /\bEMP\d{4,10}\b/g,
+            type: "employee_id"
         }
     ];
 
