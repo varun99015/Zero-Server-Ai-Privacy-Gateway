@@ -8,6 +8,7 @@ importScripts(
     'data/learnedWords.js'
 );
 importScripts('utils/preSanitize.js');
+importScripts('utils/benchmark.js');
 
 console.log("Zero-Server Background Service Worker Loaded");
 
