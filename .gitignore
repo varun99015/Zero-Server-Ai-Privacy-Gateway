@@ -39,3 +39,4 @@ __pycache__/
 .emscripten
 
 core/build.ps1
+testing.js
