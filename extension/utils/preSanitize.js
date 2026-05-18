@@ -193,7 +193,7 @@ async function preSanitize(text) {
 
             if (!original) continue;
 
-            if (ignoreWords.has(original)) continue;
+            if (self.ignoreWords.has(original)) continue;
 
             // Skip short words
             if (original.length < 3) continue;
@@ -212,10 +212,10 @@ async function preSanitize(text) {
 
             const firstWord = original.split(" ")[0];
 
-            if (commonIndianNames.has(firstWord))
+            if (self.commonIndianNames.has(firstWord))
                 confidence += 0.5;
 
-            if (technicalPhrases.has(original))
+            if (self.technicalPhrases.has(original))
                 continue;
 
             if (self.learnedPIIWords.has(original))
