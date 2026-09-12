@@ -1,24 +1,18 @@
-cd D:\PROJECTs\emsdk
-.\emsdk_env.ps1
+Write-Host "Building WASM with bindings..."
 
-cd ..\Zero-Server-Ai-Privacy-Gateway\core
+em++ src/sanitizer.cpp `
+    -o ../extension/assets/engine.js `
+    -s WASM=1 `
+    -s MODULARIZE=1 `
+    -s EXPORT_NAME="createEngineModule" `
+    -s ALLOW_MEMORY_GROWTH=1 `
+    -s EXPORTED_RUNTIME_METHODS="['ccall','cwrap']" `
+    --bind `
+    -O3
 
-emcc src/sanitizer.cpp `
-  -o ../extension/assets/engine.js `
-  -s WASM=1 `
-  -s MODULARIZE=1 `
-  -s EXPORT_NAME="createEngineModule" `
-  -s EXPORTED_FUNCTIONS='["_process"]' `
-  -s EXPORTED_RUNTIME_METHODS='["ccall"]' `
-  -s ALLOW_MEMORY_GROWTH=1 `
-  -s ENVIRONMENT='web,worker' `
-  -O3
+if ($LASTEXITCODE -ne 0) {
+    Write-Host "BUILD FAILED" -ForegroundColor Red
+    exit 1
+}
 
-Write-Host "Build complete!"
-
-
-
-# Now build with ONE command
-# From core/:
-
-# .\build.ps1
+Write-Host "Build complete!" -ForegroundColor Green

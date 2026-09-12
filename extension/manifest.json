@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Zero-Server AI Privacy Gateway",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "permissions": [
     "storage"
   ],
@@ -11,6 +11,10 @@
   ],
   "background": {
     "service_worker": "service-worker.js"
+  },
+  "action": {
+    "default_popup": "popup/popup.html",
+    "default_title": "Zero-Server AI Privacy Gateway"
   },
   "content_scripts": [
     {

@@ -1,6 +1,8 @@
 // utils/preSanitize.js
 // Combined dummyGenerator + preSanitize – no ES imports needed
 
+const DEBUG = false;
+
 // ---------- Dummy Generator (inlined) ----------
 function hashString(str) {
     let hash = 5381;
@@ -13,6 +15,25 @@ function hashString(str) {
 function toHex8(num) {
     return num.toString(16).padStart(8, '0').substring(0, 8);
 }
+
+// ---------- Luhn validation ----------
+function luhnCheck(numStr) {
+    const digits = numStr.replace(/\D/g, '');
+    if (digits.length < 13 || digits.length > 19) return false;
+    let sum = 0;
+    let alternate = false;
+    for (let i = digits.length - 1; i >= 0; i--) {
+        let n = parseInt(digits[i], 10);
+        if (alternate) {
+            n *= 2;
+            if (n > 9) n -= 9;
+        }
+        sum += n;
+        alternate = !alternate;
+    }
+    return sum % 10 === 0;
+}
+
 function generateDummy(original, type) {
     const hash = hashString(original);
     const hex = toHex8(hash);
@@ -43,24 +64,24 @@ function generateDummy(original, type) {
 }
 
 // ---------- PreSanitize ----------
-console.log("[PRESANITIZE] Script loaded");
+if (DEBUG) console.log("[PRESANITIZE] Script loaded");
 
 function replaceAll(text, search, replace) {
     return text.split(search).join(replace);
 }
 
 async function preSanitize(text) {
-    console.log(`[PRESANITIZE] preSanitize called with text length ${text.length}`);
+    if (DEBUG) console.log(`[PRESANITIZE] preSanitize called with text length ${text.length}`);
 
     let result = text;
 
     // Replace already known PII from vault
     const knownMappings = await self.getAllMappings();
-    console.log(`[PRESANITIZE] Replacing ${knownMappings.length} known mappings`);
+    if (DEBUG) console.log(`[PRESANITIZE] Replacing ${knownMappings.length} known mappings`);
     for (const { original, placeholder } of knownMappings) {
         if (result.includes(original)) {
             result = replaceAll(result, original, placeholder);
-            console.log(`[PRESANITIZE] Replaced known "${original}" -> "${placeholder}"`);
+            if (DEBUG) console.log(`[PRESANITIZE] Replaced known "${original}" -> "${placeholder}"`);
         }
     }
 
@@ -68,18 +89,18 @@ async function preSanitize(text) {
         { name: "EMAIL", regex: /[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/g, type: "email" },
         { name: "PHONE", regex: /\b(?:\+?1[ .-]?)?\(?[0-9]{3}\)?[ .-]?[0-9]{3}[ .-]?[0-9]{4}\b|\+\d{1,3}[ .-]?\d{1,4}[ .-]?\d{1,4}[ .-]?\d{1,9}\b/g, type: "phone" },
         { name: "SSN", regex: /\b\d{3}-\d{2}-\d{4}\b/g, type: "ssn" },
-        { name: "CREDIT_CARD", regex: /\b(?:\d[ -]*?){13,19}\b/g, type: "credit_card" },
+        { name: "CREDIT_CARD", regex: /\b(?:\d[ -]*?){13,19}\b/g, type: "credit_card", validate: luhnCheck },
         { name: "IP", regex: /\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b|\b(?:[0-9a-fA-F]{1,4}:){7}[0-9a-fA-F]{1,4}\b|\b(?:[0-9a-fA-F]{1,4}:){1,7}:\b/g, type: "ip" },
         { name: "MAC", regex: /\b([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})\b/g, type: "mac" },
         { name: "DOB", regex: /\b\d{4}[-/]\d{1,2}[-/]\d{1,2}\b|\b\d{1,2}[-/]\d{1,2}[-/]\d{4}\b/g, type: "dob" },
         { name: "AGE", regex: /\b\d{1,3}\s*(years? old|yo|y\/o)\b/g, type: "age" },
         { name: "ADDRESS", regex: /\b\d{1,5}\s+[A-Za-z0-9\s]+(?:Street|St|Avenue|Ave|Road|Rd|Boulevard|Blvd|Lane|Ln|Drive|Dr|Court|Ct|Place|Pl)\b/g, type: "address" },
         { name: "LOCATION", regex: /\b[A-Z][a-z]+(?:[\s-][A-Z][a-z]+)*,\s*[A-Z]{2}\s*\d{5}(?:-\d{4})?\b/g, type: "location" },
-        { name: "DL", regex: /\b[A-Z]{1,2}\d{4,9}\b/g, type: "drivers_license" },
-        { name: "PASSPORT", regex: /\b\d{9}\b/g, type: "passport" },
         { name: "BANK", regex: /\b(?:account|acct|routing)[:\s]*(\d{9,14})\b/gi, type: "bank", extractGroup: 1 },
         { name: "MEDICAL", regex: /\b(?:member id|policy #|insurance id|medicaid|medicare)[:\s]*([A-Z0-9]{6,12})\b/gi, type: "medical", extractGroup: 1 },
-        { name: "VIN", regex: /\b[A-HJ-NPR-Z0-9]{17}\b/g, type: "vin" },
+        { name: "PASSPORT", regex: /\bpassport\s*(?:no\.?|number|#)?[:\s]*([A-Z0-9]{6,9})\b/gi, type: "passport", extractGroup: 1 },
+        { name: "DL", regex: /\b(?:driver'?s?\s*licen[sc]e|DL)\s*(?:no\.?|#)?[:\s]*([A-Z]{1,2}\d{4,9})\b/gi, type: "drivers_license", extractGroup: 1 },
+        { name: "VIN", regex: /\bVIN\s*(?:no\.?|#)?[:\s]*([A-HJ-NPR-Z0-9]{17})\b/gi, type: "vin", extractGroup: 1 },
         { name: "COORD", regex: /\b-?\d{1,3}\.\d+[°\s]?[NS],?\s*-?\d{1,3}\.\d+[°\s]?[EW]\b/g, type: "coordinate" },
         { name: "USERNAME", regex: /(?:^|\s)@[A-Za-z0-9_]+\b/g, type: "username" },
         { name: "PASSWORD", regex: /\b(?:password|passwd|pwd)[:\s]*[^\s]{4,}\b/gi, type: "password", extractGroup: null },
@@ -95,15 +116,18 @@ async function preSanitize(text) {
             if (detector.extractGroup) {
                 original = match[detector.extractGroup] || original;
             }
-            console.log(`[PRESANITIZE] Detected ${detector.name}: "${original}"`);
 
+            // NEW: skip candidates that fail validation (e.g. bad Luhn checksum)
+            if (detector.validate && !detector.validate(original)) {
+                continue;
+            }
+
+            if (DEBUG) console.log(`[PRESANITIZE] Detected ${detector.name}: "${original}"`);
             const existing = await self.getPlaceholder(original);
             if (!existing) {
                 const dummy = generateDummy(original, detector.type);
-                const placeholder = dummy;
-                await self.saveMapping(original, placeholder, detector.type);
-                result = replaceAll(result, original, placeholder);
-                console.log(`[PRESANITIZE] Mapped "${original}" -> "${dummy}"`);
+                await self.saveMapping(original, dummy, detector.type);
+                result = replaceAll(result, original, dummy);
             } else {
                 result = replaceAll(result, original, existing);
             }
@@ -152,7 +176,7 @@ async function preSanitize(text) {
         {
             regex: /\b([A-Z][a-z]{2,}(?:\s[A-Z][a-z]{2,}){1,2})\b/g,
             type: "name",
-            confidence: 0.4
+            confidence: 0.2
         },
         {
             name: "AWS_SECRET",
@@ -224,7 +248,7 @@ async function preSanitize(text) {
             if (confidence < 0.7)
                 continue;
 
-            console.log(`[HEURISTIC] Detected ${detector.type}: "${original}"`);
+            if (DEBUG) console.log(`[HEURISTIC] Detected ${detector.type}: "${original}"`);
 
             const existing =
                 await self.getPlaceholder(original);
@@ -248,7 +272,7 @@ async function preSanitize(text) {
                     placeholder
                 );
 
-                console.log(
+                if (DEBUG) console.log(
                     `[HEURISTIC] Replaced "${original}" -> "${placeholder}"`
                 );
 
@@ -263,9 +287,9 @@ async function preSanitize(text) {
         }
     }
 
-    console.log(`[PRESANITIZE] Final result: "${result}"`);
+    if (DEBUG) console.log(`[PRESANITIZE] Final result: "${result}"`);
     return result;
 }
 
 self.preSanitize = preSanitize;
-console.log("[PRESANITIZE] Exposed preSanitize function");
+if (DEBUG) console.log("[PRESANITIZE] Exposed preSanitize function");

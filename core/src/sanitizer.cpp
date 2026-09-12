@@ -37,6 +37,28 @@ bool Sanitizer::isCreditCardNumber(const std::string& s) {
     return (digits.length() >= 13 && digits.length() <= 19) && luhnCheck(s);
 }
 
+std::string Sanitizer::detect(const std::string& input) {
+    std::string out;
+    auto collect = [&](const std::regex& re, const std::string& type) {
+        auto begin = std::sregex_iterator(input.begin(), input.end(), re);
+        auto end = std::sregex_iterator();
+        for (auto it = begin; it != end; ++it) {
+            std::string value = it->str();
+            if (type == "credit_card" && !isCreditCardNumber(value)) continue;
+            out += type + "\x01" + value + "\x02";
+        }
+    };
+
+    collect(std::regex(R"([a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,})"), "email");
+    collect(std::regex(R"(\b(?:\+?1[ .-]?)?\(?[0-9]{3}\)?[ .-]?[0-9]{3}[ .-]?[0-9]{4}\b)"), "phone");
+    collect(std::regex(R"(\b\d{3}-\d{2}-\d{4}\b)"), "ssn");
+    collect(std::regex(R"(\b(?:\d[ -]*?){13,19}\b)"), "credit_card");
+    collect(std::regex(R"(\b(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\b)"), "ip");
+    collect(std::regex(R"(\b([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})\b)"), "mac");
+
+    return out;
+}
+
 std::string Sanitizer::process(const std::string& input) {
     std::string output = input;
 
@@ -146,14 +168,22 @@ std::string Sanitizer::process(const std::string& input) {
 
 extern "C" {
 
-EMSCRIPTEN_KEEPALIVE
-const char* process(const char* input) {
-    static std::string result;
+    EMSCRIPTEN_KEEPALIVE
+    const char* process(const char* input) {
+        static std::string result;
 
-    Sanitizer s;
-    result = s.process(std::string(input));
+        Sanitizer s;
+        result = s.process(std::string(input));
 
-    return result.c_str();
-}
+        return result.c_str();
+    }
+
+    EMSCRIPTEN_KEEPALIVE
+    const char* detect(const char* input) {
+        static std::string result;
+        Sanitizer s;
+        result = s.detect(std::string(input));
+        return result.c_str();
+    }
 
 }
