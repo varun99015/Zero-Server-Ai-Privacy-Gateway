@@ -1,7 +1,7 @@
 // utils/preSanitize.js
 // Combined dummyGenerator + preSanitize – no ES imports needed
 
-const DEBUG = false;
+const DEBUG = true;
 
 // ---------- Dummy Generator (inlined) ----------
 function hashString(str) {

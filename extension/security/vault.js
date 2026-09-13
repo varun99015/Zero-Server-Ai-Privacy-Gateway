@@ -2,7 +2,7 @@
 const DB_NAME = "ZeroServerVault";
 const STORE_NAME = "piiMappings";
 const DB_VERSION = 2;
-const V_DEBUG = false;
+const V_DEBUG = true;
 
 if (V_DEBUG) console.log("[VAULT] Script loaded");
 
