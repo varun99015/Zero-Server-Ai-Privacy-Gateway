@@ -1,7 +1,7 @@
 // utils/preSanitize.js
 // Combined dummyGenerator + preSanitize – no ES imports needed
 
-const DEBUG = true;
+const DEBUG = true; // Set to false to disable debug logging
 
 // ---------- Dummy Generator (inlined) ----------
 function hashString(str) {

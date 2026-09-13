@@ -2,7 +2,7 @@
 const DB_NAME = "ZeroServerVault";
 const STORE_NAME = "piiMappings";
 const DB_VERSION = 2;
-const V_DEBUG = true;
+const V_DEBUG = true; // Set to false to disable debug logging
 
 if (V_DEBUG) console.log("[VAULT] Script loaded");
 
