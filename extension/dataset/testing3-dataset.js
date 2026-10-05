@@ -1,0 +1,31171 @@
+const testDataset = [
+  {
+    "id": 1,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 3,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 4,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 5,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 6,
+    "split": "test",
+    "text": "pwd=Qwerty7898#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Qwerty7898#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 7,
+    "split": "test",
+    "text": "Driver license: A264755210",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A264755210"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 8,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 9,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 10,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 11,
+    "split": "test",
+    "text": "The node is reachable at 70b2:bc1b:2af9:0186:85ce:73c7:7cfb:8437.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "70b2:bc1b:2af9:0186:85ce:73c7:7cfb:8437"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 12,
+    "split": "challenge",
+    "text": "User supplied this message: Server IP is 147.237.136.225. Card number: 4828-0360-3465-6658 IPv6 address: 9422:92e2:42d7:99c1:cbdf:3ed9:bc36:ea27",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "147.237.136.225"
+      },
+      {
+        "type": "credit_card",
+        "value": "4828-0360-3465-6658"
+      },
+      {
+        "type": "ipv6",
+        "value": "9422:92e2:42d7:99c1:cbdf:3ed9:bc36:ea27"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 13,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 14,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 15,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 16,
+    "split": "test",
+    "text": "The patient is 88 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "88 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 17,
+    "split": "test",
+    "text": "password: Rocket5277!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Rocket5277!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 18,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 19,
+    "split": "test",
+    "text": "Date of birth: 1997-03-11",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1997-03-11"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 20,
+    "split": "test",
+    "text": "password: Coffee2982!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Coffee2982!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 21,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 22,
+    "split": "test",
+    "text": "Current coordinates: 64.8465°N, 106.9384°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "64.8465°N, 106.9384°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 23,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 24,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 25,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 26,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Bank account number 4789248580921 is confidential. My social handle is @suraj_4436. The patient is 46 years old.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_4436"
+      },
+      {
+        "type": "age",
+        "value": "46 years old"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 27,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 28,
+    "split": "test",
+    "text": "Date of birth: 06/18/1991",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "06/18/1991"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 29,
+    "split": "test",
+    "text": "The delivery destination is Austin, TX 78701.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 30,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 31,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 32,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 33,
+    "split": "test",
+    "text": "Ship the package to 7383 Oak Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7383 Oak Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 34,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 35,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 36,
+    "split": "test",
+    "text": "Travel document 522548116 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "522548116"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 37,
+    "split": "test",
+    "text": "Office location: Denver, CO 80202",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 38,
+    "split": "test",
+    "text": "Patient was born on 03/12/1983.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "03/12/1983"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 39,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 40,
+    "split": "test",
+    "text": "Please send the report to arjun.singh@example.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "arjun.singh@example.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 41,
+    "split": "test",
+    "text": "Ship the package to 5446 Oak Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "5446 Oak Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 42,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 43,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 44,
+    "split": "test",
+    "text": "Policy #: M28593510",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: M28593510"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 45,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 46,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 47,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 48,
+    "split": "challenge",
+    "text": "Patient was born on 02/21/1964.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "02/21/1964"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 49,
+    "split": "challenge",
+    "text": "Internal test prompt: The patient is 44 years old. DL number is CA507169118.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "age",
+        "value": "44 years old"
+      },
+      {
+        "type": "driver_license",
+        "value": "CA507169118"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 50,
+    "split": "challenge",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 51,
+    "split": "challenge",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 52,
+    "split": "test",
+    "text": "Member ID: INS52039752",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: INS52039752"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 53,
+    "split": "test",
+    "text": "Travel document 685973925 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "685973925"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 54,
+    "split": "test",
+    "text": "Office location: Boston, MA 02108",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 55,
+    "split": "test",
+    "text": "Deliver to 7742 Church Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7742 Church Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 56,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 57,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 58,
+    "split": "test",
+    "text": "Contact me at priya.iyer51@outlook.com for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "priya.iyer51@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 59,
+    "split": "challenge",
+    "text": "Customer record: Do not expose thomas.karan@outlook.com to third parties. pwd=Secure240# Current coordinates: -3.5196°N, 98.9076°E The patient is 55 years old.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "email",
+        "value": "thomas.karan@outlook.com"
+      },
+      {
+        "type": "password",
+        "value": "pwd=Secure240#"
+      },
+      {
+        "type": "coordinates",
+        "value": "3.5196°N, 98.9076°E"
+      },
+      {
+        "type": "age",
+        "value": "55 years old"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 60,
+    "split": "test",
+    "text": "The patient is 97 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "97 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 61,
+    "split": "test",
+    "text": "Ship the package to 9622 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "9622 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 62,
+    "split": "challenge",
+    "text": "MAC address: d1:96:50:95:63:af",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "d1:96:50:95:63:af"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 63,
+    "split": "challenge",
+    "text": "Home address: 1844 MG Road",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "1844 MG Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 64,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 65,
+    "split": "test",
+    "text": "Device identifier is e5-31-8f-36-59-3e.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "e5-31-8f-36-59-3e"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 66,
+    "split": "test",
+    "text": "Do not share SSN 748-86-1775.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "748-86-1775"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 67,
+    "split": "test",
+    "text": "I currently live near San Jose, CA 95131.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 68,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 69,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 70,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 71,
+    "split": "test",
+    "text": "password: Coffee6983!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Coffee6983!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 72,
+    "split": "challenge",
+    "text": "Internal test prompt: Travel document 648261136 is confidential. The patient is 27 years old. DOB is 03/26/1997. The node is reachable at d3e6:d814:e021:ab0f:7ece:f97a:ea60:7173.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "648261136"
+      },
+      {
+        "type": "age",
+        "value": "27 years old"
+      },
+      {
+        "type": "dob",
+        "value": "03/26/1997"
+      },
+      {
+        "type": "ipv6",
+        "value": "d3e6:d814:e021:ab0f:7ece:f97a:ea60:7173"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 73,
+    "split": "test",
+    "text": "Device identifier is ab-46-f1-eb-87-6e.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "ab-46-f1-eb-87-6e"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 74,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 75,
+    "split": "test",
+    "text": "Phone number = +91 72338 29741",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 72338 29741"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 76,
+    "split": "challenge",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 77,
+    "split": "test",
+    "text": "DOB is 1997-08-12.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1997-08-12"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 78,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 79,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 80,
+    "split": "challenge",
+    "text": "IPv6 address: 78d6:dfdc:73a7:a09d:6477:4b3d:90a2:d9f2",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "78d6:dfdc:73a7:a09d:6477:4b3d:90a2:d9f2"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 81,
+    "split": "challenge",
+    "text": "User supplied this message: Card number: 4509-5115-3315-1811 Insurance ID POL16841218 belongs to the patient. Contact me at maya.miller@mail.org for the project.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4509-5115-3315-1811"
+      },
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL16841218"
+      },
+      {
+        "type": "email",
+        "value": "maya.miller@mail.org"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 82,
+    "split": "test",
+    "text": "The delivery destination is Chicago, IL 60601.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 83,
+    "split": "test",
+    "text": "Home address: 367 MG Road",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "367 MG Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 84,
+    "split": "challenge",
+    "text": "VIN RBTD922Z6NBWWT9C4 is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "RBTD922Z6NBWWT9C4"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 85,
+    "split": "challenge",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 86,
+    "split": "test",
+    "text": "password: Rocket3546!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Rocket3546!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 87,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 88,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 89,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 90,
+    "split": "test",
+    "text": "Vehicle VIN: FP82SNRZ4F6NDTJ0J",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "FP82SNRZ4F6NDTJ0J"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 91,
+    "split": "challenge",
+    "text": "Private support note: MAC address: 00:b6:55:64:d2:bd Current coordinates: 38.1546°N, -36.4704°E My social handle is @suraj_8462. I currently live near Denver, CO 80202.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "00:b6:55:64:d2:bd"
+      },
+      {
+        "type": "coordinates",
+        "value": "38.1546°N, -36.4704°E"
+      },
+      {
+        "type": "username",
+        "value": "@suraj_8462"
+      },
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 92,
+    "split": "challenge",
+    "text": "Payment card 5664 9622 2962 3431 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5664 9622 2962 3431"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 93,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 94,
+    "split": "challenge",
+    "text": "Private support note: Patient was born on 1983-03-31. Call me at (362) 665-2549. Server IP is 46.30.164.42. The node is reachable at 385f:8811:8f7a:6ed2:b3dd:0eb2:2c25:1b93.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1983-03-31"
+      },
+      {
+        "type": "phone",
+        "value": "362) 665-2549"
+      },
+      {
+        "type": "ipv4",
+        "value": "46.30.164.42"
+      },
+      {
+        "type": "ipv6",
+        "value": "385f:8811:8f7a:6ed2:b3dd:0eb2:2c25:1b93"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 95,
+    "split": "challenge",
+    "text": "Deliver to 437 Church Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "437 Church Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 96,
+    "split": "test",
+    "text": "Location pin is -1.4854°N, -72.6288°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "1.4854°N, -72.6288°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 97,
+    "split": "challenge",
+    "text": "Current coordinates: -46.0559°N, 124.5165°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "46.0559°N, 124.5165°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 98,
+    "split": "test",
+    "text": "VIN 0T8TUZWSEH73UZYPK is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "0T8TUZWSEH73UZYPK"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 99,
+    "split": "test",
+    "text": "Username: @rahul_3682",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@rahul_3682"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 100,
+    "split": "test",
+    "text": "The patient is 70 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "70 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 101,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 102,
+    "split": "test",
+    "text": "The node is reachable at ce71:8ef6:23e1:88a9:ccb9:c874:e3e8:aa36.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "ce71:8ef6:23e1:88a9:ccb9:c874:e3e8:aa36"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 103,
+    "split": "test",
+    "text": "IPv6 address: 8ac0:4d1d:1298:0cf5:02c0:74f0:9d9c:b993",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "8ac0:4d1d:1298:0cf5:02c0:74f0:9d9c:b993"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 104,
+    "split": "challenge",
+    "text": "User supplied this message: Payment card 6169-0361-9373-4793 is on file. Location pin is -86.1842°N, -158.6581°E. Emergency contact: +91 91229 84952",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6169-0361-9373-4793"
+      },
+      {
+        "type": "coordinates",
+        "value": "86.1842°N, -158.6581°E"
+      },
+      {
+        "type": "phone",
+        "value": "+91 91229 84952"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 105,
+    "split": "test",
+    "text": "Vehicle VIN: YC8P27L63HHH37UKJ",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "YC8P27L63HHH37UKJ"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 106,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 107,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 108,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 109,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 110,
+    "split": "test",
+    "text": "Call me at +61 465 453 856.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+61 465 453 856"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 111,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Acct 25788716654142 DOB is 1985-11-26. Travel document 314036810 is confidential. Device identifier is 0f-c4-46-14-97-ec.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 25788716654142"
+      },
+      {
+        "type": "dob",
+        "value": "1985-11-26"
+      },
+      {
+        "type": "passport",
+        "value": "314036810"
+      },
+      {
+        "type": "mac",
+        "value": "0f-c4-46-14-97-ec"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 112,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 113,
+    "split": "challenge",
+    "text": "Internal test prompt: The delivery destination is Austin, TX 78701. MAC address: 2a:4b:e9:cb:51:f0 Patient was born on 03/08/1981. Routing 249028085",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      },
+      {
+        "type": "mac",
+        "value": "2a:4b:e9:cb:51:f0"
+      },
+      {
+        "type": "dob",
+        "value": "03/08/1981"
+      },
+      {
+        "type": "bank_account",
+        "value": "Routing 249028085"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 114,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 115,
+    "split": "test",
+    "text": "Location pin is 69.7406°N, 120.9090°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "69.7406°N, 120.9090°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 116,
+    "split": "test",
+    "text": "Routing 119330299",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 119330299"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 117,
+    "split": "test",
+    "text": "The patient is 62 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "62 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 118,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 119,
+    "split": "test",
+    "text": "Medicare POL44861547",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare POL44861547"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 120,
+    "split": "test",
+    "text": "Home address: 2040 Tech Park Avenue",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "2040 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 121,
+    "split": "challenge",
+    "text": "The node is reachable at 37da:0909:fbcf:cf8c:7b37:34ee:cd5e:4141.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "37da:0909:fbcf:cf8c:7b37:34ee:cd5e:4141"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 122,
+    "split": "test",
+    "text": "Driver license: B481062912",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B481062912"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 123,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 124,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 125,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 126,
+    "split": "test",
+    "text": "Contact @priya_1809 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_1809"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 127,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 128,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 129,
+    "split": "test",
+    "text": "The delivery destination is Seattle, WA 98101.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 130,
+    "split": "test",
+    "text": "Patient was born on 01/03/1987.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "01/03/1987"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 131,
+    "split": "test",
+    "text": "Server IP is 33.76.141.228.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "33.76.141.228"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 132,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 133,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 134,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 135,
+    "split": "test",
+    "text": "Reach the customer on +44 7914 575826.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+44 7914 575826"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 136,
+    "split": "test",
+    "text": "DOB is 08/22/1993.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "08/22/1993"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 137,
+    "split": "challenge",
+    "text": "passwd Orange2287$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange2287$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 138,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 139,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 140,
+    "split": "challenge",
+    "text": "DOB is 06/27/2005.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "06/27/2005"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 141,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 142,
+    "split": "test",
+    "text": "DL number is TX276002734.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX276002734"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 143,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 144,
+    "split": "challenge",
+    "text": "DOB is 08/22/1998.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "08/22/1998"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 145,
+    "split": "test",
+    "text": "Driver license: NY388600760",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "NY388600760"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 146,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 147,
+    "split": "test",
+    "text": "Routing 194367532",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 194367532"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 148,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 149,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 150,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 151,
+    "split": "test",
+    "text": "Medicare M90328234",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare M90328234"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 152,
+    "split": "test",
+    "text": "SSN on file: 137-42-3894",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "137-42-3894"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 153,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 154,
+    "split": "challenge",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 155,
+    "split": "test",
+    "text": "Please send the report to priya+work@gmail.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "priya+work@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 156,
+    "split": "test",
+    "text": "SSN on file: 218-77-3475",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "218-77-3475"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 157,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 158,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 159,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 160,
+    "split": "test",
+    "text": "Medicare POL42919336",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare POL42919336"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 161,
+    "split": "test",
+    "text": "Driver license: TX733562365",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX733562365"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 162,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 163,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 164,
+    "split": "challenge",
+    "text": "Private support note: Location pin is -71.5254°N, 87.7037°E. I currently live near Chicago, IL 60601. Server IP is 137.155.56.136.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "71.5254°N, 87.7037°E"
+      },
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      },
+      {
+        "type": "ipv4",
+        "value": "137.155.56.136"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 165,
+    "split": "test",
+    "text": "Ship the package to 3481 Main Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "3481 Main Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 166,
+    "split": "test",
+    "text": "Charge the purchase to 6019-4409-7040-6702.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6019-4409-7040-6702"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 167,
+    "split": "challenge",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 168,
+    "split": "test",
+    "text": "DL number is TX94049225.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX94049225"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 169,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 170,
+    "split": "test",
+    "text": "Ship the package to 9810 Oak Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "9810 Oak Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 171,
+    "split": "challenge",
+    "text": "Policy #: INS62095989",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS62095989"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 172,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 173,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 174,
+    "split": "test",
+    "text": "Allowlist 75.116.70.107 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "75.116.70.107"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 175,
+    "split": "test",
+    "text": "Do not expose aisha.sharma73@company.co.uk to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "aisha.sharma73@company.co.uk"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 176,
+    "split": "challenge",
+    "text": "Private support note: Username: @dev_7001 Travel document 207930659 is confidential. Policy #: POL12654943 pwd=Delta2759#",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_7001"
+      },
+      {
+        "type": "passport",
+        "value": "207930659"
+      },
+      {
+        "type": "medical_id",
+        "value": "Policy #: POL12654943"
+      },
+      {
+        "type": "password",
+        "value": "pwd=Delta2759#"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 177,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 178,
+    "split": "test",
+    "text": "Allowlist 87.208.189.43 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "87.208.189.43"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 179,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 180,
+    "split": "challenge",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 181,
+    "split": "test",
+    "text": "Location pin is -59.7333°N, -125.9461°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "59.7333°N, -125.9461°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 182,
+    "split": "test",
+    "text": "Passport number: 389206252",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "389206252"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 183,
+    "split": "test",
+    "text": "Medicare POL3529277",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare POL3529277"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 184,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 185,
+    "split": "challenge",
+    "text": "User supplied this message: Home address: 4835 Tech Park Avenue password: Coffee8886!",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "address",
+        "value": "4835 Tech Park Avenue"
+      },
+      {
+        "type": "password",
+        "value": "password: Coffee8886!"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 186,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 187,
+    "split": "challenge",
+    "text": "Policy #: M44547842",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: M44547842"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 188,
+    "split": "challenge",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 189,
+    "split": "test",
+    "text": "IPv6 address: 4013:ccaa:2bde:dabb:cf9e:0102:2938:bb9a",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "4013:ccaa:2bde:dabb:cf9e:0102:2938:bb9a"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 190,
+    "split": "challenge",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 191,
+    "split": "test",
+    "text": "VIN KX5HDYCVFRNN53M3Z is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "KX5HDYCVFRNN53M3Z"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 192,
+    "split": "test",
+    "text": "Office location: Chicago, IL 60601",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 193,
+    "split": "challenge",
+    "text": "Travel document 606861043 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "606861043"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 194,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 195,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 196,
+    "split": "test",
+    "text": "Date of birth: 2002-10-15",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "2002-10-15"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 197,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 198,
+    "split": "test",
+    "text": "Vehicle VIN: R73VMYJJZRLV1S6MV",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "R73VMYJJZRLV1S6MV"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 199,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 200,
+    "split": "test",
+    "text": "The node is reachable at 14bc:400d:d617:b4dd:55d2:131d:f5d0:8299.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "14bc:400d:d617:b4dd:55d2:131d:f5d0:8299"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 201,
+    "split": "challenge",
+    "text": "password: Coffee4624!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Coffee4624!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 202,
+    "split": "test",
+    "text": "VIN 1VBBELR8SAS6X4D7C is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "1VBBELR8SAS6X4D7C"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 203,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 204,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 205,
+    "split": "test",
+    "text": "The applicant's SSN is 870-97-7617.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "870-97-7617"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 206,
+    "split": "test",
+    "text": "Passport number: 953707752",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "953707752"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 207,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 208,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 209,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 210,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 211,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 212,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 213,
+    "split": "challenge",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 214,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 215,
+    "split": "test",
+    "text": "password: Rocket1063!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Rocket1063!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 216,
+    "split": "test",
+    "text": "Please send the report to aisha.miller5@outlook.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "aisha.miller5@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 217,
+    "split": "challenge",
+    "text": "Contact @dev_2656 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_2656"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 218,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 219,
+    "split": "challenge",
+    "text": "Do not share SSN 377-14-6503.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "377-14-6503"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 220,
+    "split": "challenge",
+    "text": "Vehicle VIN: LGNZVY9MSBF4KH7FR",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "LGNZVY9MSBF4KH7FR"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 221,
+    "split": "test",
+    "text": "Account: 8713234279785",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 8713234279785"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 222,
+    "split": "test",
+    "text": "VIN WBJ6XTTC4R388TUUA is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "WBJ6XTTC4R388TUUA"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 223,
+    "split": "challenge",
+    "text": "MAC address: 89-fe-0e-69-d6-6d",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "89-fe-0e-69-d6-6d"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 224,
+    "split": "test",
+    "text": "Office location: Boston, MA 02108",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 225,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 226,
+    "split": "challenge",
+    "text": "Insurance ID M11708248 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID M11708248"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 227,
+    "split": "test",
+    "text": "The node is reachable at bdbd:10d1:8260:8806:69c2:c1b1:151c:e072.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "bdbd:10d1:8260:8806:69c2:c1b1:151c:e072"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 228,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 229,
+    "split": "challenge",
+    "text": "Medicare M40622373",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare M40622373"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 230,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 231,
+    "split": "test",
+    "text": "Policy #: POL64485469",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: POL64485469"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 232,
+    "split": "test",
+    "text": "Contact @admin_4856 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@admin_4856"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 233,
+    "split": "challenge",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 234,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 235,
+    "split": "challenge",
+    "text": "Patient was born on 1964-04-11.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1964-04-11"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 236,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 237,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 238,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 239,
+    "split": "challenge",
+    "text": "Location pin is -76.6321°N, -38.1086°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "76.6321°N, -38.1086°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 240,
+    "split": "test",
+    "text": "password: Nimbus1315!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Nimbus1315!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 241,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 242,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Date of birth: 10/01/1961 Account: 86663668458155",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "10/01/1961"
+      },
+      {
+        "type": "bank_account",
+        "value": "Account: 86663668458155"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 243,
+    "split": "test",
+    "text": "Location pin is -30.9844°N, -92.6806°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "30.9844°N, -92.6806°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 244,
+    "split": "test",
+    "text": "Policy #: POL35426302",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: POL35426302"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 245,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 246,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 247,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 248,
+    "split": "challenge",
+    "text": "Internal test prompt: My personal email is priya.brown61@company.co.uk. passwd Green3475$ Emergency contact: (560) 898-6620",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "email",
+        "value": "priya.brown61@company.co.uk"
+      },
+      {
+        "type": "password",
+        "value": "passwd Green3475$"
+      },
+      {
+        "type": "phone",
+        "value": "560) 898-6620"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 249,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 250,
+    "split": "test",
+    "text": "Location pin is -74.4369°N, 81.2997°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "74.4369°N, 81.2997°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 251,
+    "split": "challenge",
+    "text": "The node is reachable at 1649:77f2:2e17:62ae:dfd9:d835:893b:955a.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "1649:77f2:2e17:62ae:dfd9:d835:893b:955a"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 252,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 253,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 254,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Policy #: M34488703 Patient was born on 1999-04-02. Please send the report to vikram_165@university.edu.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: M34488703"
+      },
+      {
+        "type": "dob",
+        "value": "1999-04-02"
+      },
+      {
+        "type": "email",
+        "value": "vikram_165@university.edu"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 255,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 256,
+    "split": "test",
+    "text": "pwd=Qwerty1095#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Qwerty1095#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 257,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 258,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 259,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 260,
+    "split": "challenge",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 261,
+    "split": "challenge",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 262,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 263,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 264,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 265,
+    "split": "test",
+    "text": "The patient is 69 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "69 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 266,
+    "split": "test",
+    "text": "The patient is 43 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "43 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 267,
+    "split": "test",
+    "text": "DOB is 2002-05-18.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "2002-05-18"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 268,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 269,
+    "split": "test",
+    "text": "Device identifier is 81-6c-b5-be-eb-48.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "81-6c-b5-be-eb-48"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 270,
+    "split": "challenge",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 271,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 272,
+    "split": "challenge",
+    "text": "Client connected from 169.252.202.81.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "169.252.202.81"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 273,
+    "split": "challenge",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 274,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 275,
+    "split": "challenge",
+    "text": "Vehicle VIN: GL1AHR5TV7LWT58FU",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "GL1AHR5TV7LWT58FU"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 276,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 277,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 278,
+    "split": "challenge",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 279,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 280,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 281,
+    "split": "test",
+    "text": "Account email: priya.miller34@outlook.com",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "priya.miller34@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 282,
+    "split": "challenge",
+    "text": "The node is reachable at 335c:0efe:0c57:d52c:95e5:4a5f:44b7:60bd.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "335c:0efe:0c57:d52c:95e5:4a5f:44b7:60bd"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 283,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 284,
+    "split": "test",
+    "text": "Date of birth: 09/23/1978",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "09/23/1978"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 285,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 286,
+    "split": "test",
+    "text": "Routing 301534265",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 301534265"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 287,
+    "split": "test",
+    "text": "password: Tiger1545!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Tiger1545!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 288,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 289,
+    "split": "challenge",
+    "text": "I currently live near Boston, MA 02108.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 290,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 291,
+    "split": "challenge",
+    "text": "Internal test prompt: Member ID: POL55463452 My social handle is @arjun_1386. DL number is NY151802170.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: POL55463452"
+      },
+      {
+        "type": "username",
+        "value": "@arjun_1386"
+      },
+      {
+        "type": "driver_license",
+        "value": "NY151802170"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 292,
+    "split": "challenge",
+    "text": "Private support note: Policy #: M5085287 Do not share SSN 589-39-5146. Routing 29869929",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: M5085287"
+      },
+      {
+        "type": "ssn",
+        "value": "589-39-5146"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 293,
+    "split": "test",
+    "text": "The node is reachable at 372a:ab21:777f:bd2c:3331:76d4:3af8:481f.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "372a:ab21:777f:bd2c:3331:76d4:3af8:481f"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 294,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 295,
+    "split": "challenge",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 296,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 297,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 298,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 299,
+    "split": "test",
+    "text": "Deliver to 2272 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "2272 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 300,
+    "split": "test",
+    "text": "pwd=Secure9569#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Secure9569#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 301,
+    "split": "test",
+    "text": "Ship the package to 4952 Park Avenue.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "4952 Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 302,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 303,
+    "split": "test",
+    "text": "Reach the customer on +1 915 618 8513.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+1 915 618 8513"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 304,
+    "split": "test",
+    "text": "The patient is 75 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "75 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 305,
+    "split": "challenge",
+    "text": "Patient was born on 1971-01-15.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1971-01-15"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 306,
+    "split": "test",
+    "text": "The delivery destination is Seattle, WA 98101.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 307,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 308,
+    "split": "challenge",
+    "text": "User supplied this message: Do not share SSN 128-42-7159. pwd=Secure1053#",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "128-42-7159"
+      },
+      {
+        "type": "password",
+        "value": "pwd=Secure1053#"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 309,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 310,
+    "split": "test",
+    "text": "VIN 0M3MLPAZHASC7MH24 is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "0M3MLPAZHASC7MH24"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 311,
+    "split": "challenge",
+    "text": "Customer record: Account: 99985592221347 Emergency contact: (521) 308-5758",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 99985592221347"
+      },
+      {
+        "type": "phone",
+        "value": "521) 308-5758"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 312,
+    "split": "test",
+    "text": "IPv6 address: 6f70:9807:4c7f:4e86:37b3:ec7e:f464:a208",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "6f70:9807:4c7f:4e86:37b3:ec7e:f464:a208"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 313,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 314,
+    "split": "test",
+    "text": "Deliver to 8944 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "8944 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 315,
+    "split": "test",
+    "text": "passwd Green1867$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Green1867$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 316,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 317,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 318,
+    "split": "test",
+    "text": "The patient is 64 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "64 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 319,
+    "split": "test",
+    "text": "MAC address: e5:d7:25:64:fd:16",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "e5:d7:25:64:fd:16"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 320,
+    "split": "challenge",
+    "text": "Internal test prompt: Passport number: 866153969 VIN XNFH1C8BFSVG6ZC9U is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "866153969"
+      },
+      {
+        "type": "vin",
+        "value": "XNFH1C8BFSVG6ZC9U"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 321,
+    "split": "challenge",
+    "text": "User supplied this message: The patient is 41 years old. My social handle is @dev_5347. Vehicle VIN: V79H67EMF0XJ5DHB2",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "age",
+        "value": "41 years old"
+      },
+      {
+        "type": "username",
+        "value": "@dev_5347"
+      },
+      {
+        "type": "vin",
+        "value": "V79H67EMF0XJ5DHB2"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 322,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 323,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 324,
+    "split": "challenge",
+    "text": "Travel document 686593663 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "686593663"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 325,
+    "split": "challenge",
+    "text": "User supplied this message: Routing 835130981 IPv6 address: 111f:49a9:f195:0d57:0a74:863c:05c9:547b Passport number: 724613539",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 835130981"
+      },
+      {
+        "type": "ipv6",
+        "value": "111f:49a9:f195:0d57:0a74:863c:05c9:547b"
+      },
+      {
+        "type": "passport",
+        "value": "724613539"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 326,
+    "split": "test",
+    "text": "Insurance ID POL57311735 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL57311735"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 327,
+    "split": "challenge",
+    "text": "Passport number: 923748940",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "923748940"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 328,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 329,
+    "split": "test",
+    "text": "Contact @arjun_8847 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_8847"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 330,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 331,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 332,
+    "split": "test",
+    "text": "Do not share SSN 626-33-9077.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "626-33-9077"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 333,
+    "split": "challenge",
+    "text": "Passport number: 416532138",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "416532138"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 334,
+    "split": "challenge",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 335,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 336,
+    "split": "challenge",
+    "text": "Private support note: Server IP is 66.149.175.189. Passport number: 777485746",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "66.149.175.189"
+      },
+      {
+        "type": "passport",
+        "value": "777485746"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 337,
+    "split": "test",
+    "text": "Policy #: INS85678266",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS85678266"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 338,
+    "split": "test",
+    "text": "The patient is 29 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "29 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 339,
+    "split": "challenge",
+    "text": "Do not expose vikram_357@university.edu to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "vikram_357@university.edu"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 340,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 341,
+    "split": "test",
+    "text": "Payment card 6707740044255093 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6707740044255093"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 342,
+    "split": "test",
+    "text": "Driver license: CA759390426",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA759390426"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 343,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 344,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 345,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 346,
+    "split": "challenge",
+    "text": "The node is reachable at e632:feb7:874c:3d97:ec9f:1125:c167:5554.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "e632:feb7:874c:3d97:ec9f:1125:c167:5554"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 347,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 348,
+    "split": "test",
+    "text": "Contact me at vikram_259@outlook.com for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "vikram_259@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 349,
+    "split": "challenge",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 350,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 351,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 352,
+    "split": "test",
+    "text": "The patient is 14 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "14 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 353,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 354,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 355,
+    "split": "challenge",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 356,
+    "split": "test",
+    "text": "passwd Blue9817$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Blue9817$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 357,
+    "split": "test",
+    "text": "Contact @rahul_664 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@rahul_664"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 358,
+    "split": "challenge",
+    "text": "Server IP is 138.23.88.187.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "138.23.88.187"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 359,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 360,
+    "split": "test",
+    "text": "Deliver to 7372 Market Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7372 Market Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 361,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 362,
+    "split": "test",
+    "text": "IPv6 address: 2426:ce6e:c7ef:cef1:15e9:97e7:aa93:faec",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "2426:ce6e:c7ef:cef1:15e9:97e7:aa93:faec"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 363,
+    "split": "test",
+    "text": "Policy #: POL14789553",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: POL14789553"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 364,
+    "split": "test",
+    "text": "Home address: 7235 Lake View Road",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7235 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 365,
+    "split": "challenge",
+    "text": "Internal test prompt: SSN on file: 731-55-3428 Current coordinates: -1.0330°N, 36.6714°E Acct 38759374298795 Server IP is 21.125.238.77.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "731-55-3428"
+      },
+      {
+        "type": "coordinates",
+        "value": "1.0330°N, 36.6714°E"
+      },
+      {
+        "type": "bank_account",
+        "value": "Acct 38759374298795"
+      },
+      {
+        "type": "ipv4",
+        "value": "21.125.238.77"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 366,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Charge the purchase to 6507 8984 6701 5873. Do not share SSN 785-14-8429. Emergency contact: +91 81251 33236 Allowlist 121.144.19.18 for this test.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6507 8984 6701 5873"
+      },
+      {
+        "type": "ssn",
+        "value": "785-14-8429"
+      },
+      {
+        "type": "phone",
+        "value": "+91 81251 33236"
+      },
+      {
+        "type": "ipv4",
+        "value": "121.144.19.18"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 367,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 368,
+    "split": "challenge",
+    "text": "Customer record: DOB is 1996-05-27. Device identifier is 77-4c-43-e2-56-29.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1996-05-27"
+      },
+      {
+        "type": "mac",
+        "value": "77-4c-43-e2-56-29"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 369,
+    "split": "test",
+    "text": "VIN CXALFPDY8GFYUGRA7 is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "CXALFPDY8GFYUGRA7"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 370,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 371,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 372,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 373,
+    "split": "test",
+    "text": "Travel document 715394221 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "715394221"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 374,
+    "split": "challenge",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 375,
+    "split": "test",
+    "text": "DOB is 01/01/1968.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "01/01/1968"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 376,
+    "split": "challenge",
+    "text": "Device identifier is ee:2a:a5:b6:f3:ad.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "ee:2a:a5:b6:f3:ad"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 377,
+    "split": "challenge",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 378,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 379,
+    "split": "challenge",
+    "text": "IPv6 address: 000d:cc6e:0c1d:c68d:9d8e:ebe7:7c88:a7b1",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "000d:cc6e:0c1d:c68d:9d8e:ebe7:7c88:a7b1"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 380,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 381,
+    "split": "test",
+    "text": "Policy #: M45832688",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: M45832688"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 382,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 383,
+    "split": "test",
+    "text": "I currently live near Austin, TX 78701.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 384,
+    "split": "test",
+    "text": "Charge the purchase to 6713599739716195.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6713599739716195"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 385,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 386,
+    "split": "challenge",
+    "text": "Card number: 5687 6577 9645 8616",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5687 6577 9645 8616"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 387,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 388,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 389,
+    "split": "challenge",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 390,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 391,
+    "split": "test",
+    "text": "Current coordinates: 81.8532°N, -61.1390°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "81.8532°N, -61.1390°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 392,
+    "split": "test",
+    "text": "The node is reachable at 3d8d:debe:be6f:46f3:5a34:3e4a:0c65:7d5d.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "3d8d:debe:be6f:46f3:5a34:3e4a:0c65:7d5d"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 393,
+    "split": "challenge",
+    "text": "Deliver to 4730 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "4730 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 394,
+    "split": "challenge",
+    "text": "Username: @suraj_2896",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_2896"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 395,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 396,
+    "split": "test",
+    "text": "DL number is A352541254.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A352541254"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 397,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 398,
+    "split": "test",
+    "text": "Payment card 6026655584834871 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6026655584834871"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 399,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 400,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 401,
+    "split": "test",
+    "text": "Passport number: 277852222",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "277852222"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 402,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 403,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 404,
+    "split": "test",
+    "text": "Location pin is 16.5379°N, -39.9505°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "16.5379°N, -39.9505°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 405,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 406,
+    "split": "challenge",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 407,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 408,
+    "split": "test",
+    "text": "Driver license: NY433303604",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "NY433303604"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 409,
+    "split": "test",
+    "text": "Vehicle VIN: 6S6K78D0UAUS7XAZT",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "6S6K78D0UAUS7XAZT"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 410,
+    "split": "challenge",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 411,
+    "split": "test",
+    "text": "IPv6 address: 579b:9701:f4cc:6509:39df:2ae2:e6b8:3ddb",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "579b:9701:f4cc:6509:39df:2ae2:e6b8:3ddb"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 412,
+    "split": "challenge",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 413,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 414,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 415,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 416,
+    "split": "test",
+    "text": "Travel document 183447811 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "183447811"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 417,
+    "split": "test",
+    "text": "The node is reachable at 5adf:d548:4618:5058:47e2:bb93:b8d3:77ac.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "5adf:d548:4618:5058:47e2:bb93:b8d3:77ac"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 418,
+    "split": "test",
+    "text": "Date of birth: 1982-10-29",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1982-10-29"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 419,
+    "split": "test",
+    "text": "Device identifier is 30:58:16:e7:79:45.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "30:58:16:e7:79:45"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 420,
+    "split": "test",
+    "text": "Routing 11921149",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 421,
+    "split": "challenge",
+    "text": "Driver license: CA770945014",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA770945014"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 422,
+    "split": "test",
+    "text": "Bank account number 27696392648373 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 423,
+    "split": "test",
+    "text": "Vehicle VIN: PBWVHR7JBKERN3KU8",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "PBWVHR7JBKERN3KU8"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 424,
+    "split": "challenge",
+    "text": "Customer record: Do not share SSN 394-41-9189. Do not expose sharma.daniel@company.co.uk to third parties. MAC address: 51:8a:26:07:80:11",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "394-41-9189"
+      },
+      {
+        "type": "email",
+        "value": "sharma.daniel@company.co.uk"
+      },
+      {
+        "type": "mac",
+        "value": "51:8a:26:07:80:11"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 425,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 426,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 427,
+    "split": "challenge",
+    "text": "Account: 41859239738647",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 41859239738647"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 428,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 429,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 430,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 431,
+    "split": "test",
+    "text": "Contact @priya_2479 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_2479"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 432,
+    "split": "challenge",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 433,
+    "split": "test",
+    "text": "Phone number = +44 7488 388072",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+44 7488 388072"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 434,
+    "split": "challenge",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 435,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 436,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 437,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 438,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 439,
+    "split": "challenge",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 440,
+    "split": "test",
+    "text": "My social handle is @priya_2822.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_2822"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 441,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 442,
+    "split": "challenge",
+    "text": "Device identifier is f0:ac:3e:dd:3a:ba.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "f0:ac:3e:dd:3a:ba"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 443,
+    "split": "test",
+    "text": "Server IP is 126.138.30.13.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "126.138.30.13"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 444,
+    "split": "challenge",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 445,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 446,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 447,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 448,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 449,
+    "split": "test",
+    "text": "Vehicle VIN: 9LJWTR6KM969VW0AY",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "9LJWTR6KM969VW0AY"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 450,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 451,
+    "split": "test",
+    "text": "Card number: 6660 1834 7891 8107",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6660 1834 7891 8107"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 452,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 453,
+    "split": "challenge",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 454,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 455,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 456,
+    "split": "test",
+    "text": "Charge the purchase to 4158423492030610.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4158423492030610"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 457,
+    "split": "test",
+    "text": "Reach the customer on (443) 336-2242.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "443) 336-2242"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 458,
+    "split": "challenge",
+    "text": "Charge the purchase to 4855-6183-1143-1297.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4855-6183-1143-1297"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 459,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 460,
+    "split": "test",
+    "text": "Driver license: A365158218",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A365158218"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 461,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 462,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 463,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 464,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 465,
+    "split": "test",
+    "text": "The patient is 95 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "95 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 466,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 467,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 468,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 469,
+    "split": "challenge",
+    "text": "My personal email is iyer.john@mail.org.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "iyer.john@mail.org"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 470,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 471,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 472,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 473,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 474,
+    "split": "test",
+    "text": "My social handle is @priya_6259.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_6259"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 475,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 476,
+    "split": "test",
+    "text": "IPv6 address: 9825:e17a:9315:2efa:fe80:33cd:9080:b28f",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "9825:e17a:9315:2efa:fe80:33cd:9080:b28f"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 477,
+    "split": "test",
+    "text": "Username: @dev_7492",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_7492"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 478,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 479,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 480,
+    "split": "test",
+    "text": "My social handle is @rahul_1075.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@rahul_1075"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 481,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 482,
+    "split": "test",
+    "text": "IPv6 address: 6b87:dce4:8704:00ed:e547:5496:08fa:1d6f",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "6b87:dce4:8704:00ed:e547:5496:08fa:1d6f"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 483,
+    "split": "challenge",
+    "text": "User supplied this message: The delivery destination is Boston, MA 02108. DL number is CA462286621. Device identifier is bb:cf:59:e7:d1:cc. passwd Green9978$",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      },
+      {
+        "type": "driver_license",
+        "value": "CA462286621"
+      },
+      {
+        "type": "mac",
+        "value": "bb:cf:59:e7:d1:cc"
+      },
+      {
+        "type": "password",
+        "value": "passwd Green9978$"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 484,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 485,
+    "split": "challenge",
+    "text": "Reach the customer on (847) 817-1173.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "847) 817-1173"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 486,
+    "split": "challenge",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 487,
+    "split": "test",
+    "text": "Acct 40000231470284",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 40000231470284"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 488,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 489,
+    "split": "challenge",
+    "text": "Account email: john_232@gmail.com",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "john_232@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 490,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 491,
+    "split": "challenge",
+    "text": "DOB is 03/12/1988.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "03/12/1988"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 492,
+    "split": "challenge",
+    "text": "Office location: Boston, MA 02108",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 493,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 494,
+    "split": "test",
+    "text": "Do not share SSN 267-98-3110.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "267-98-3110"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 495,
+    "split": "challenge",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 496,
+    "split": "test",
+    "text": "Patient was born on 11/08/1970.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "11/08/1970"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 497,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 498,
+    "split": "test",
+    "text": "Bank account number 85283116160099 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 499,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 500,
+    "split": "test",
+    "text": "Phone number = (363) 991-8466",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "363) 991-8466"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 501,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 502,
+    "split": "challenge",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 503,
+    "split": "test",
+    "text": "Username: @arjun_7073",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_7073"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 504,
+    "split": "test",
+    "text": "Account: 97259948232314",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 97259948232314"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 505,
+    "split": "test",
+    "text": "Call me at +91 83533 54550.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 83533 54550"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 506,
+    "split": "test",
+    "text": "Date of birth: 02/28/1988",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "02/28/1988"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 507,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 508,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 509,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 510,
+    "split": "test",
+    "text": "The applicant's SSN is 694-26-2663.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "694-26-2663"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 511,
+    "split": "challenge",
+    "text": "My social handle is @dev_3605.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_3605"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 512,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 513,
+    "split": "test",
+    "text": "The patient is 82 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "82 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 514,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 515,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 516,
+    "split": "challenge",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 517,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 518,
+    "split": "challenge",
+    "text": "Charge the purchase to 6690-6166-8342-6659.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6690-6166-8342-6659"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 519,
+    "split": "test",
+    "text": "Server IP is 176.60.41.49.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "176.60.41.49"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 520,
+    "split": "challenge",
+    "text": "Server IP is 136.84.166.26.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "136.84.166.26"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 521,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 522,
+    "split": "test",
+    "text": "MAC address: d7-bd-f8-99-7b-9a",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "d7-bd-f8-99-7b-9a"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 523,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 524,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Charge the purchase to 5777-5152-0450-0372. The patient is 20 years old. Deliver to 4267 Main Road. DOB is 1961-01-19.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5777-5152-0450-0372"
+      },
+      {
+        "type": "age",
+        "value": "20 years old"
+      },
+      {
+        "type": "address",
+        "value": "4267 Main Road"
+      },
+      {
+        "type": "dob",
+        "value": "1961-01-19"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 525,
+    "split": "test",
+    "text": "MAC address: 08-46-e5-ef-c8-18",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "08-46-e5-ef-c8-18"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 526,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 527,
+    "split": "challenge",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 528,
+    "split": "test",
+    "text": "The delivery destination is Austin, TX 78701.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 529,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 530,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 531,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 532,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 533,
+    "split": "test",
+    "text": "Location pin is -62.2287°N, -168.4580°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "62.2287°N, -168.4580°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 534,
+    "split": "challenge",
+    "text": "Location pin is -58.2430°N, 28.1116°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "58.2430°N, 28.1116°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 535,
+    "split": "challenge",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 536,
+    "split": "challenge",
+    "text": "Internal test prompt: pwd=Alpha7666# Bank account number 11766045415384 is confidential.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Alpha7666#"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 537,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 538,
+    "split": "challenge",
+    "text": "password: Tiger567!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Tiger567!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 539,
+    "split": "test",
+    "text": "Travel document 338773042 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "338773042"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 540,
+    "split": "test",
+    "text": "The delivery destination is Boston, MA 02108.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 541,
+    "split": "test",
+    "text": "Do not share SSN 621-61-6595.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "621-61-6595"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 542,
+    "split": "test",
+    "text": "Location pin is 30.0435°N, 94.4748°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "30.0435°N, 94.4748°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 543,
+    "split": "challenge",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 544,
+    "split": "test",
+    "text": "MAC address: a3:60:5f:1f:a8:6c",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "a3:60:5f:1f:a8:6c"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 545,
+    "split": "test",
+    "text": "Allowlist 207.195.254.113 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "207.195.254.113"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 546,
+    "split": "test",
+    "text": "Device identifier is d9-fb-9f-27-b7-09.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "d9-fb-9f-27-b7-09"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 547,
+    "split": "challenge",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 548,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 549,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 550,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 551,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 552,
+    "split": "test",
+    "text": "Emergency contact: (466) 830-5043",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "466) 830-5043"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 553,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 554,
+    "split": "test",
+    "text": "I currently live near Boston, MA 02108.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 555,
+    "split": "test",
+    "text": "Routing 729875029",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 729875029"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 556,
+    "split": "test",
+    "text": "Ship the package to 7845 Park Avenue.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7845 Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 557,
+    "split": "test",
+    "text": "Payment card 5846 6407 3436 4664 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5846 6407 3436 4664"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 558,
+    "split": "test",
+    "text": "The applicant's SSN is 524-46-9137.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "524-46-9137"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 559,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 560,
+    "split": "challenge",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 561,
+    "split": "test",
+    "text": "Please send the report to daniel+work@example.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "daniel+work@example.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 562,
+    "split": "test",
+    "text": "MAC address: 77-51-de-e7-ba-cb",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "77-51-de-e7-ba-cb"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 563,
+    "split": "test",
+    "text": "Account: 45240500567130",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 45240500567130"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 564,
+    "split": "challenge",
+    "text": "Insurance ID INS54970022 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID INS54970022"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 565,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 566,
+    "split": "test",
+    "text": "The applicant's SSN is 404-80-4843.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "404-80-4843"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 567,
+    "split": "test",
+    "text": "Card number: 4432782417076182",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4432782417076182"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 568,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 569,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 570,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 571,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 572,
+    "split": "test",
+    "text": "Do not share SSN 725-60-8758.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "725-60-8758"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 573,
+    "split": "test",
+    "text": "Please send the report to maya+work@gmail.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "maya+work@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 574,
+    "split": "test",
+    "text": "Server IP is 209.152.189.132.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "209.152.189.132"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 575,
+    "split": "challenge",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 576,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 577,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 578,
+    "split": "challenge",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 579,
+    "split": "challenge",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 580,
+    "split": "test",
+    "text": "passwd Green6247$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Green6247$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 581,
+    "split": "test",
+    "text": "Office location: San Jose, CA 95131",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 582,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 583,
+    "split": "test",
+    "text": "The patient is 2 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "2 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 584,
+    "split": "challenge",
+    "text": "Customer record: Insurance ID M20084002 belongs to the patient. Driver license: CA80062482",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID M20084002"
+      },
+      {
+        "type": "driver_license",
+        "value": "CA80062482"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 585,
+    "split": "challenge",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 586,
+    "split": "challenge",
+    "text": "Office location: Austin, TX 78701",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 587,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 588,
+    "split": "test",
+    "text": "VIN 5CYMG8D57SF4XAN1B is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "5CYMG8D57SF4XAN1B"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 589,
+    "split": "test",
+    "text": "My social handle is @dev_5338.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_5338"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 590,
+    "split": "challenge",
+    "text": "The patient is 3 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "3 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 591,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 592,
+    "split": "challenge",
+    "text": "Do not expose neha.thomas@gmail.com to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "neha.thomas@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 593,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 594,
+    "split": "test",
+    "text": "DOB is 01/15/2004.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "01/15/2004"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 595,
+    "split": "challenge",
+    "text": "Customer record: Contact @priya_9376 on the platform. Call me at +61 401 271 279. Please send the report to ananya+work@company.co.uk. MAC address: 0f:38:05:bd:b9:ee",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_9376"
+      },
+      {
+        "type": "phone",
+        "value": "+61 401 271 279"
+      },
+      {
+        "type": "email",
+        "value": "ananya+work@company.co.uk"
+      },
+      {
+        "type": "mac",
+        "value": "0f:38:05:bd:b9:ee"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 596,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 597,
+    "split": "test",
+    "text": "The delivery destination is Austin, TX 78701.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 598,
+    "split": "challenge",
+    "text": "Internal test prompt: The patient is 57 years old. My social handle is @priya_2033.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "age",
+        "value": "57 years old"
+      },
+      {
+        "type": "username",
+        "value": "@priya_2033"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 599,
+    "split": "challenge",
+    "text": "Card number: 6062836835645986",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6062836835645986"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 600,
+    "split": "test",
+    "text": "DL number is A507888207.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A507888207"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 601,
+    "split": "test",
+    "text": "password: Tiger8576!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Tiger8576!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 602,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 603,
+    "split": "challenge",
+    "text": "User supplied this message: passwd Blue6931$ Acct 20511042746438 Driver license: TX278508345",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Blue6931$"
+      },
+      {
+        "type": "bank_account",
+        "value": "Acct 20511042746438"
+      },
+      {
+        "type": "driver_license",
+        "value": "TX278508345"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 604,
+    "split": "challenge",
+    "text": "Date of birth: 07/14/1999",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "07/14/1999"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 605,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 606,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 607,
+    "split": "challenge",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 608,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 609,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 610,
+    "split": "challenge",
+    "text": "Customer record: My social handle is @arjun_9814. Member ID: M841699 passwd Orange1034$",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_9814"
+      },
+      {
+        "type": "medical_id",
+        "value": "Member ID: M841699"
+      },
+      {
+        "type": "password",
+        "value": "passwd Orange1034$"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 611,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 612,
+    "split": "test",
+    "text": "DOB is 1969-03-07.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1969-03-07"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 613,
+    "split": "test",
+    "text": "Deliver to 1925 Tech Park Avenue.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "1925 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 614,
+    "split": "test",
+    "text": "The patient is 64 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "64 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 615,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 616,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 617,
+    "split": "test",
+    "text": "Reach the customer on +61 487 657 567.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+61 487 657 567"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 618,
+    "split": "test",
+    "text": "Home address: 8772 Oak Street",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "8772 Oak Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 619,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 620,
+    "split": "challenge",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 621,
+    "split": "challenge",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 622,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 623,
+    "split": "test",
+    "text": "Charge the purchase to 4290921094796339.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4290921094796339"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 624,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 625,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 626,
+    "split": "challenge",
+    "text": "Client connected from 8.125.120.169.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "8.125.120.169"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 627,
+    "split": "test",
+    "text": "Passport number: 954417434",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "954417434"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 628,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 629,
+    "split": "challenge",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 630,
+    "split": "test",
+    "text": "The node is reachable at 0697:1e3e:5dbc:9524:fa17:013f:a4ac:7a41.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "0697:1e3e:5dbc:9524:fa17:013f:a4ac:7a41"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 631,
+    "split": "test",
+    "text": "pwd=Secure208#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Secure208#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 632,
+    "split": "test",
+    "text": "Routing 935784148",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 935784148"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 633,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 634,
+    "split": "test",
+    "text": "Device identifier is 00-50-d6-ae-17-58.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "00-50-d6-ae-17-58"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 635,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 636,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 637,
+    "split": "test",
+    "text": "Call me at (442) 832-4487.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "442) 832-4487"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 638,
+    "split": "test",
+    "text": "VIN 2Z1ZT3GDN38UU4TGC is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "2Z1ZT3GDN38UU4TGC"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 639,
+    "split": "challenge",
+    "text": "Medicare POL66007604",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare POL66007604"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 640,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 641,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 642,
+    "split": "challenge",
+    "text": "Do not share SSN 284-93-9873.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "284-93-9873"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 643,
+    "split": "challenge",
+    "text": "Private support note: Device identifier is 6b:47:dc:8c:1c:51. Passport number: 208776449",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "6b:47:dc:8c:1c:51"
+      },
+      {
+        "type": "passport",
+        "value": "208776449"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 644,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 645,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 646,
+    "split": "challenge",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 647,
+    "split": "test",
+    "text": "DOB is 08/13/1981.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "08/13/1981"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 648,
+    "split": "challenge",
+    "text": "MAC address: 61-ea-08-66-0c-e7",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "61-ea-08-66-0c-e7"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 649,
+    "split": "challenge",
+    "text": "Customer record: Travel document 362112084 is confidential. DL number is CA614129320. Acct 68967779768282 My social handle is @dev_9542.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "362112084"
+      },
+      {
+        "type": "driver_license",
+        "value": "CA614129320"
+      },
+      {
+        "type": "bank_account",
+        "value": "Acct 68967779768282"
+      },
+      {
+        "type": "username",
+        "value": "@dev_9542"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 650,
+    "split": "challenge",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 651,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 652,
+    "split": "test",
+    "text": "Emergency contact: (842) 389-1479",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "842) 389-1479"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 653,
+    "split": "challenge",
+    "text": "Do not share SSN 719-26-2701.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "719-26-2701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 654,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 655,
+    "split": "challenge",
+    "text": "Customer record: Passport number: 466751240 Member ID: INS57837739 I currently live near San Jose, CA 95131. Bank account number 92567842179189 is confidential.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "466751240"
+      },
+      {
+        "type": "medical_id",
+        "value": "Member ID: INS57837739"
+      },
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 656,
+    "split": "test",
+    "text": "Account email: john_387@gmail.com",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "john_387@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 657,
+    "split": "test",
+    "text": "Ship the package to 1520 Main Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "1520 Main Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 658,
+    "split": "challenge",
+    "text": "Device identifier is 4d:b3:c8:7b:5a:38.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "4d:b3:c8:7b:5a:38"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 659,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 660,
+    "split": "test",
+    "text": "Vehicle VIN: KY1VH9UD1DLMGP1PK",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "KY1VH9UD1DLMGP1PK"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 661,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 662,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 663,
+    "split": "challenge",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 664,
+    "split": "test",
+    "text": "Card number: 4083510301818803",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4083510301818803"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 665,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 666,
+    "split": "test",
+    "text": "The patient is 27 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "27 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 667,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 668,
+    "split": "challenge",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 669,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 670,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 671,
+    "split": "test",
+    "text": "Bank account number 63292986144214 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 672,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 673,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Policy #: INS73964446 Call me at (758) 449-1316. MAC address: cb-c3-0d-30-0d-ad",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS73964446"
+      },
+      {
+        "type": "phone",
+        "value": "758) 449-1316"
+      },
+      {
+        "type": "mac",
+        "value": "cb-c3-0d-30-0d-ad"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 674,
+    "split": "challenge",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 675,
+    "split": "test",
+    "text": "Reach the customer on +1 665 553 3558.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+1 665 553 3558"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 676,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 677,
+    "split": "test",
+    "text": "Medicare INS44370101",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare INS44370101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 678,
+    "split": "challenge",
+    "text": "MAC address: a6:49:9c:76:28:3c",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "a6:49:9c:76:28:3c"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 679,
+    "split": "test",
+    "text": "Card number: 6204-1920-5077-0466",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6204-1920-5077-0466"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 680,
+    "split": "challenge",
+    "text": "Deliver to 9350 Tech Park Avenue.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "9350 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 681,
+    "split": "test",
+    "text": "IPv6 address: 6582:8b8c:b935:331b:644d:cc0e:39de:a63c",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "6582:8b8c:b935:331b:644d:cc0e:39de:a63c"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 682,
+    "split": "test",
+    "text": "password: Nimbus808!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Nimbus808!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 683,
+    "split": "test",
+    "text": "Call me at +1 738 388 7389.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+1 738 388 7389"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 684,
+    "split": "challenge",
+    "text": "User supplied this message: Location pin is -62.2957°N, -8.2351°E. Client connected from 73.25.9.205. DL number is B938365737. Account email: wilson.maya@gmail.com",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "62.2957°N, -8.2351°E"
+      },
+      {
+        "type": "ipv4",
+        "value": "73.25.9.205"
+      },
+      {
+        "type": "driver_license",
+        "value": "B938365737"
+      },
+      {
+        "type": "email",
+        "value": "wilson.maya@gmail.com"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 685,
+    "split": "challenge",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 686,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 687,
+    "split": "test",
+    "text": "Bank account number 74614979193532 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 688,
+    "split": "test",
+    "text": "pwd=Qwerty6715#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Qwerty6715#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 689,
+    "split": "challenge",
+    "text": "Username: @suraj_7633",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_7633"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 690,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 691,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 692,
+    "split": "challenge",
+    "text": "Card number: 4619-3786-6346-8648",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4619-3786-6346-8648"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 693,
+    "split": "challenge",
+    "text": "Passport number: 716778178",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "716778178"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 694,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 695,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 696,
+    "split": "test",
+    "text": "VIN B94FYLZRX7HM69JAB is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "B94FYLZRX7HM69JAB"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 697,
+    "split": "test",
+    "text": "The node is reachable at 6d42:d3ab:8267:1d1a:9046:57d7:86c8:d55a.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "6d42:d3ab:8267:1d1a:9046:57d7:86c8:d55a"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 698,
+    "split": "test",
+    "text": "Location pin is -63.8196°N, 100.3015°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "63.8196°N, 100.3015°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 699,
+    "split": "challenge",
+    "text": "Device identifier is 5d:bb:b7:04:86:49.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "5d:bb:b7:04:86:49"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 700,
+    "split": "test",
+    "text": "DOB is 2002-12-02.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "2002-12-02"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 701,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 702,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 703,
+    "split": "test",
+    "text": "DL number is NY673938427.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "NY673938427"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 704,
+    "split": "test",
+    "text": "DL number is B385131235.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B385131235"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 705,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 706,
+    "split": "test",
+    "text": "Travel document 502150848 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "502150848"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 707,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 708,
+    "split": "challenge",
+    "text": "Contact me at arjun_355@company.co.uk for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "arjun_355@company.co.uk"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 709,
+    "split": "challenge",
+    "text": "My social handle is @suraj_6045.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_6045"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 710,
+    "split": "test",
+    "text": "VIN LAEG2PLB75YTL95LU is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "LAEG2PLB75YTL95LU"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 711,
+    "split": "test",
+    "text": "Allowlist 203.223.199.65 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "203.223.199.65"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 712,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 713,
+    "split": "test",
+    "text": "Medicare INS29329664",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare INS29329664"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 714,
+    "split": "test",
+    "text": "Member ID: M18123474",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: M18123474"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 715,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 716,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 717,
+    "split": "test",
+    "text": "Insurance ID INS56214190 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID INS56214190"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 718,
+    "split": "test",
+    "text": "Contact @priya_182 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_182"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 719,
+    "split": "test",
+    "text": "Deliver to 8351 Main Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "8351 Main Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 720,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 721,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 722,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 723,
+    "split": "challenge",
+    "text": "Private support note: Current coordinates: 15.5355°N, 83.0102°E The applicant's SSN is 380-18-9734.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "15.5355°N, 83.0102°E"
+      },
+      {
+        "type": "ssn",
+        "value": "380-18-9734"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 724,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 725,
+    "split": "challenge",
+    "text": "Patient was born on 1963-01-05.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1963-01-05"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 726,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 727,
+    "split": "test",
+    "text": "My social handle is @suraj_4726.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_4726"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 728,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 729,
+    "split": "challenge",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 730,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 731,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 732,
+    "split": "test",
+    "text": "Bank account number 54831988409936 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 733,
+    "split": "challenge",
+    "text": "My social handle is @suraj_6026.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_6026"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 734,
+    "split": "challenge",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 735,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 736,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 737,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 738,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 739,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 740,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 741,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 742,
+    "split": "test",
+    "text": "password: Nimbus7187!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Nimbus7187!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 743,
+    "split": "test",
+    "text": "IPv6 address: a6d0:7872:1a5b:45a1:cc4b:13d9:0385:796b",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "a6d0:7872:1a5b:45a1:cc4b:13d9:0385:796b"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 744,
+    "split": "test",
+    "text": "Passport number: 415898695",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "415898695"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 745,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 746,
+    "split": "test",
+    "text": "The node is reachable at f684:e4bd:1369:b3e8:6584:8630:732b:e377.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "f684:e4bd:1369:b3e8:6584:8630:732b:e377"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 747,
+    "split": "test",
+    "text": "The delivery destination is Chicago, IL 60601.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 748,
+    "split": "challenge",
+    "text": "Private support note: DL number is CA876929019. password: Nimbus3372! Contact me at priya.das@example.com for the project. Deliver to 4170 Park Avenue.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA876929019"
+      },
+      {
+        "type": "password",
+        "value": "password: Nimbus3372!"
+      },
+      {
+        "type": "email",
+        "value": "priya.das@example.com"
+      },
+      {
+        "type": "address",
+        "value": "4170 Park Avenue"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 749,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 750,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 751,
+    "split": "test",
+    "text": "My social handle is @arjun_351.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_351"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 752,
+    "split": "challenge",
+    "text": "User supplied this message: passwd Orange4007$ The patient is 16 years old. Account: 5749381497439",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange4007$"
+      },
+      {
+        "type": "age",
+        "value": "16 years old"
+      },
+      {
+        "type": "bank_account",
+        "value": "Account: 5749381497439"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 753,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 754,
+    "split": "challenge",
+    "text": "Account: 55342363823037",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 55342363823037"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 755,
+    "split": "test",
+    "text": "Driver license: NY258859194",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "NY258859194"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 756,
+    "split": "test",
+    "text": "MAC address: a1-9a-78-5b-4d-f9",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "a1-9a-78-5b-4d-f9"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 757,
+    "split": "test",
+    "text": "The node is reachable at 4f11:51e8:ea80:87ee:acad:5416:8358:55ad.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "4f11:51e8:ea80:87ee:acad:5416:8358:55ad"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 758,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 759,
+    "split": "test",
+    "text": "Do not expose miller.neha@example.com to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "miller.neha@example.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 760,
+    "split": "test",
+    "text": "Travel document 741834869 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "741834869"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 761,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 762,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 763,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 764,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 765,
+    "split": "test",
+    "text": "Policy #: POL57544105",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: POL57544105"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 766,
+    "split": "test",
+    "text": "Vehicle VIN: MF8V4TGAHH00B0KGL",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "MF8V4TGAHH00B0KGL"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 767,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 768,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 769,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 770,
+    "split": "test",
+    "text": "Travel document 263612029 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "263612029"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 771,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 772,
+    "split": "test",
+    "text": "The node is reachable at 49e3:859d:688e:72a0:6941:34b9:6f40:6611.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "49e3:859d:688e:72a0:6941:34b9:6f40:6611"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 773,
+    "split": "challenge",
+    "text": "pwd=Secure2639#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Secure2639#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 774,
+    "split": "test",
+    "text": "Location pin is -79.2035°N, -95.6346°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "79.2035°N, -95.6346°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 775,
+    "split": "challenge",
+    "text": "The node is reachable at 4e63:2c21:d8e0:29e2:3245:4a71:6adc:fc04.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "4e63:2c21:d8e0:29e2:3245:4a71:6adc:fc04"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 776,
+    "split": "test",
+    "text": "Passport number: 416637003",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "416637003"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 777,
+    "split": "test",
+    "text": "Location pin is -69.1021°N, 121.0392°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "69.1021°N, 121.0392°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 778,
+    "split": "challenge",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 779,
+    "split": "challenge",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 780,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 781,
+    "split": "test",
+    "text": "Routing 382984574",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 382984574"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 782,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 783,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 784,
+    "split": "test",
+    "text": "Acct 49894988769572",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 49894988769572"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 785,
+    "split": "test",
+    "text": "Device identifier is 47-c2-77-e3-a0-23.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "47-c2-77-e3-a0-23"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 786,
+    "split": "test",
+    "text": "Charge the purchase to 6563 1247 5983 1419.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6563 1247 5983 1419"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 787,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 788,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 789,
+    "split": "test",
+    "text": "VIN 3PEBPFLS7419PDRVB is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "3PEBPFLS7419PDRVB"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 790,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 791,
+    "split": "challenge",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 792,
+    "split": "test",
+    "text": "Emergency contact: +91 76872 32525",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 76872 32525"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 793,
+    "split": "test",
+    "text": "Charge the purchase to 5561 7925 5687 0436.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5561 7925 5687 0436"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 794,
+    "split": "test",
+    "text": "DL number is A721306115.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A721306115"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 795,
+    "split": "challenge",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 796,
+    "split": "test",
+    "text": "The patient is 86 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "86 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 797,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 798,
+    "split": "challenge",
+    "text": "The node is reachable at 2be2:406b:a31b:7192:cb82:a26c:00ed:a16b.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "2be2:406b:a31b:7192:cb82:a26c:00ed:a16b"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 799,
+    "split": "challenge",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 800,
+    "split": "test",
+    "text": "The patient is 52 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "52 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 801,
+    "split": "challenge",
+    "text": "Ship the package to 9185 Oak Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "9185 Oak Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 802,
+    "split": "test",
+    "text": "Insurance ID POL28807440 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL28807440"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 803,
+    "split": "challenge",
+    "text": "I currently live near San Jose, CA 95131.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 804,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 805,
+    "split": "test",
+    "text": "Payment card 6023-8759-8079-8321 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6023-8759-8079-8321"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 806,
+    "split": "challenge",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 807,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 808,
+    "split": "challenge",
+    "text": "User supplied this message: Home address: 7865 Park Avenue SSN on file: 251-37-5917",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7865 Park Avenue"
+      },
+      {
+        "type": "ssn",
+        "value": "251-37-5917"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 809,
+    "split": "challenge",
+    "text": "Internal test prompt: VIN 99Z0AUGFUND8BJGV2 is registered to the vehicle. Payment card 4882 9837 1151 1487 is on file. Device identifier is d6:dd:11:8d:7d:97. Insurance ID M44482680 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "99Z0AUGFUND8BJGV2"
+      },
+      {
+        "type": "credit_card",
+        "value": "4882 9837 1151 1487"
+      },
+      {
+        "type": "mac",
+        "value": "d6:dd:11:8d:7d:97"
+      },
+      {
+        "type": "medical_id",
+        "value": "Insurance ID M44482680"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 810,
+    "split": "test",
+    "text": "Ship the package to 1556 Tech Park Avenue.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "1556 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 811,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 812,
+    "split": "test",
+    "text": "Passport number: 957453981",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "957453981"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 813,
+    "split": "test",
+    "text": "The applicant's SSN is 810-68-4920.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "810-68-4920"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 814,
+    "split": "challenge",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 815,
+    "split": "challenge",
+    "text": "Internal test prompt: VIN TD2VC6XY4J9B8DGZ6 is registered to the vehicle. Device identifier is ae-45-4f-6f-97-6a.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "TD2VC6XY4J9B8DGZ6"
+      },
+      {
+        "type": "mac",
+        "value": "ae-45-4f-6f-97-6a"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 816,
+    "split": "test",
+    "text": "Member ID: M85825658",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: M85825658"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 817,
+    "split": "challenge",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 818,
+    "split": "test",
+    "text": "Office location: San Jose, CA 95131",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 819,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 820,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 821,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 822,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 823,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 824,
+    "split": "test",
+    "text": "Current coordinates: 24.0344°N, 119.8934°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "24.0344°N, 119.8934°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 825,
+    "split": "test",
+    "text": "SSN on file: 109-93-7815",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "109-93-7815"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 826,
+    "split": "test",
+    "text": "Location pin is 48.3462°N, -174.1384°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "48.3462°N, -174.1384°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 827,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 828,
+    "split": "test",
+    "text": "Allowlist 197.239.170.216 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "197.239.170.216"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 829,
+    "split": "test",
+    "text": "VIN H2E3UBNLWSMW7ARZU is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "H2E3UBNLWSMW7ARZU"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 830,
+    "split": "test",
+    "text": "Date of birth: 09/27/2001",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "09/27/2001"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 831,
+    "split": "challenge",
+    "text": "Client connected from 135.208.49.39.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "135.208.49.39"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 832,
+    "split": "test",
+    "text": "Device identifier is 15:3f:69:23:5d:68.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "15:3f:69:23:5d:68"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 833,
+    "split": "challenge",
+    "text": "Please sanitize before sending: The patient is 31 years old. Travel document 859068085 is confidential. DOB is 2005-09-13. Driver license: A362631603",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "age",
+        "value": "31 years old"
+      },
+      {
+        "type": "passport",
+        "value": "859068085"
+      },
+      {
+        "type": "dob",
+        "value": "2005-09-13"
+      },
+      {
+        "type": "driver_license",
+        "value": "A362631603"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 834,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 835,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 836,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 837,
+    "split": "challenge",
+    "text": "Phone number = +44 7899 813247",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+44 7899 813247"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 838,
+    "split": "test",
+    "text": "SSN on file: 634-77-6625",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "634-77-6625"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 839,
+    "split": "test",
+    "text": "Vehicle VIN: P3DXVWS86YX46F00C",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "P3DXVWS86YX46F00C"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 840,
+    "split": "challenge",
+    "text": "Policy #: INS3632219",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS3632219"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 841,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 842,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 843,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 844,
+    "split": "test",
+    "text": "MAC address: 01-bd-11-09-2a-09",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "01-bd-11-09-2a-09"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 845,
+    "split": "challenge",
+    "text": "Internal test prompt: Driver license: TX581121113 The applicant's SSN is 640-36-2760.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX581121113"
+      },
+      {
+        "type": "ssn",
+        "value": "640-36-2760"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 846,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 847,
+    "split": "test",
+    "text": "I currently live near Austin, TX 78701.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 848,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 849,
+    "split": "test",
+    "text": "Please send the report to arjun+work@gmail.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "arjun+work@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 850,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 851,
+    "split": "test",
+    "text": "passwd Blue3105$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Blue3105$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 852,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 853,
+    "split": "test",
+    "text": "DL number is TX276322404.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX276322404"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 854,
+    "split": "test",
+    "text": "Emergency contact: +61 457 829 381",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+61 457 829 381"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 855,
+    "split": "test",
+    "text": "Card number: 6802 0985 5038 2478",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6802 0985 5038 2478"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 856,
+    "split": "challenge",
+    "text": "Phone number = (948) 410-4214",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "948) 410-4214"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 857,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 858,
+    "split": "challenge",
+    "text": "MAC address: 31-f5-02-79-a8-c6",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "31-f5-02-79-a8-c6"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 859,
+    "split": "test",
+    "text": "Server IP is 211.170.118.53.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "211.170.118.53"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 860,
+    "split": "test",
+    "text": "The patient is 65 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "65 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 861,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 862,
+    "split": "test",
+    "text": "Medicare M89606021",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare M89606021"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 863,
+    "split": "challenge",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 864,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 865,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 866,
+    "split": "challenge",
+    "text": "Card number: 6629-9918-6989-0002",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6629-9918-6989-0002"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 867,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 868,
+    "split": "test",
+    "text": "Vehicle VIN: 4HR8V1FTBTKDAUDHE",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "4HR8V1FTBTKDAUDHE"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 869,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 870,
+    "split": "test",
+    "text": "Contact me at ananya_615@gmail.com for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "ananya_615@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 871,
+    "split": "test",
+    "text": "DL number is B295382415.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B295382415"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 872,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 873,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 874,
+    "split": "test",
+    "text": "I currently live near San Jose, CA 95131.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 875,
+    "split": "challenge",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 876,
+    "split": "test",
+    "text": "DOB is 07/16/1986.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "07/16/1986"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 877,
+    "split": "challenge",
+    "text": "Contact me at emily_730@gmail.com for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "emily_730@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 878,
+    "split": "test",
+    "text": "DL number is TX846474882.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX846474882"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 879,
+    "split": "test",
+    "text": "passwd Blue1389$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Blue1389$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 880,
+    "split": "test",
+    "text": "Please send the report to aisha.mehta44@mail.org.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "aisha.mehta44@mail.org"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 881,
+    "split": "challenge",
+    "text": "Routing 222412528",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 222412528"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 882,
+    "split": "test",
+    "text": "Vehicle VIN: UWJ415G4ZA2X70278",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "UWJ415G4ZA2X70278"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 883,
+    "split": "test",
+    "text": "Charge the purchase to 4720889222058916.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4720889222058916"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 884,
+    "split": "test",
+    "text": "The patient is 73 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "73 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 885,
+    "split": "test",
+    "text": "My social handle is @dev_3309.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_3309"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 886,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 887,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 888,
+    "split": "test",
+    "text": "The node is reachable at 9e93:bd38:1b27:1a50:67a7:7fee:b3a0:cf35.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "9e93:bd38:1b27:1a50:67a7:7fee:b3a0:cf35"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 889,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 890,
+    "split": "challenge",
+    "text": "Private support note: The node is reachable at 66d2:3e9a:d83c:74b9:dfad:9bbe:2732:4f98. I currently live near Chicago, IL 60601. Patient was born on 1976-06-20. Call me at +91 60455 37799.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "66d2:3e9a:d83c:74b9:dfad:9bbe:2732:4f98"
+      },
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      },
+      {
+        "type": "dob",
+        "value": "1976-06-20"
+      },
+      {
+        "type": "phone",
+        "value": "+91 60455 37799"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 891,
+    "split": "challenge",
+    "text": "Emergency contact: +1 420 478 3740",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+1 420 478 3740"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 892,
+    "split": "challenge",
+    "text": "DL number is B790084394.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B790084394"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 893,
+    "split": "challenge",
+    "text": "Do not share SSN 432-93-9375.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "432-93-9375"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 894,
+    "split": "test",
+    "text": "Acct 25040661973931",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 25040661973931"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 895,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 896,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 897,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 898,
+    "split": "challenge",
+    "text": "Acct 35909459522704",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 35909459522704"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 899,
+    "split": "test",
+    "text": "My social handle is @arjun_4245.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_4245"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 900,
+    "split": "test",
+    "text": "Call me at +44 7975 165963.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+44 7975 165963"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 901,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 902,
+    "split": "challenge",
+    "text": "Client connected from 220.218.128.48.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "220.218.128.48"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 903,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 904,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 905,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Acct 21644562141592 The delivery destination is Denver, CO 80202. Username: @suraj_8558",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 21644562141592"
+      },
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      },
+      {
+        "type": "username",
+        "value": "@suraj_8558"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 906,
+    "split": "test",
+    "text": "Travel document 335720609 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "335720609"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 907,
+    "split": "test",
+    "text": "My personal email is arjun_832@university.edu.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "arjun_832@university.edu"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 908,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 909,
+    "split": "test",
+    "text": "My social handle is @priya_9328.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_9328"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 910,
+    "split": "challenge",
+    "text": "Do not share SSN 155-17-8658.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "155-17-8658"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 911,
+    "split": "challenge",
+    "text": "Contact me at brown.arjun@university.edu for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "brown.arjun@university.edu"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 912,
+    "split": "test",
+    "text": "Card number: 4229 1715 8316 7222",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4229 1715 8316 7222"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 913,
+    "split": "test",
+    "text": "Passport number: 178951303",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "178951303"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 914,
+    "split": "challenge",
+    "text": "Passport number: 481688467",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "481688467"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 915,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 916,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Contact @suraj_6738 on the platform. Driver license: B2202895 IPv6 address: 10a5:7b7e:6387:6637:c0fe:2729:e1f7:beed",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_6738"
+      },
+      {
+        "type": "driver_license",
+        "value": "B2202895"
+      },
+      {
+        "type": "ipv6",
+        "value": "10a5:7b7e:6387:6637:c0fe:2729:e1f7:beed"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 917,
+    "split": "test",
+    "text": "Please send the report to ananya+work@example.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "ananya+work@example.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 918,
+    "split": "challenge",
+    "text": "Internal test prompt: Medicare INS91094916 The applicant's SSN is 893-97-5444. The patient is 43 years old. Home address: 2861 Tech Park Avenue",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare INS91094916"
+      },
+      {
+        "type": "ssn",
+        "value": "893-97-5444"
+      },
+      {
+        "type": "age",
+        "value": "43 years old"
+      },
+      {
+        "type": "address",
+        "value": "2861 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 919,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 920,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 921,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 922,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 923,
+    "split": "test",
+    "text": "Driver license: TX963396377",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX963396377"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 924,
+    "split": "challenge",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 925,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 926,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 927,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 928,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 929,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 930,
+    "split": "test",
+    "text": "The patient is 15 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "15 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 931,
+    "split": "test",
+    "text": "Travel document 596734153 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "596734153"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 932,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 933,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 934,
+    "split": "test",
+    "text": "Emergency contact: +91 66505 14694",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 66505 14694"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 935,
+    "split": "test",
+    "text": "The applicant's SSN is 828-12-9134.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "828-12-9134"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 936,
+    "split": "test",
+    "text": "The applicant's SSN is 120-23-6337.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "120-23-6337"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 937,
+    "split": "test",
+    "text": "Location pin is -88.8121°N, 64.4497°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "88.8121°N, 64.4497°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 938,
+    "split": "test",
+    "text": "Deliver to 6993 Church Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6993 Church Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 939,
+    "split": "test",
+    "text": "The patient is 87 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "87 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 940,
+    "split": "challenge",
+    "text": "Office location: Seattle, WA 98101",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 941,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 942,
+    "split": "test",
+    "text": "Phone number = +91 83248 88198",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 83248 88198"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 943,
+    "split": "test",
+    "text": "Device identifier is da:63:e5:8b:f3:c4.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "da:63:e5:8b:f3:c4"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 944,
+    "split": "test",
+    "text": "MAC address: f8:64:e7:81:c1:f7",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "f8:64:e7:81:c1:f7"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 945,
+    "split": "test",
+    "text": "The patient is 39 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "39 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 946,
+    "split": "challenge",
+    "text": "Device identifier is c0-cd-36-f5-1d-df.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "c0-cd-36-f5-1d-df"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 947,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 948,
+    "split": "challenge",
+    "text": "Server IP is 7.116.8.141.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "7.116.8.141"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 949,
+    "split": "test",
+    "text": "The patient is 95 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "95 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 950,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 951,
+    "split": "test",
+    "text": "Current coordinates: -67.6147°N, -107.5188°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "67.6147°N, -107.5188°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 952,
+    "split": "challenge",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 953,
+    "split": "test",
+    "text": "The delivery destination is San Jose, CA 95131.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 954,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 955,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 956,
+    "split": "test",
+    "text": "Driver license: A659202299",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A659202299"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 957,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 958,
+    "split": "test",
+    "text": "Do not expose vikram.thomas@outlook.com to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "vikram.thomas@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 959,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 960,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 961,
+    "split": "test",
+    "text": "Account: 18774338686351",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 18774338686351"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 962,
+    "split": "challenge",
+    "text": "Payment card 4814-3068-0404-0961 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4814-3068-0404-0961"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 963,
+    "split": "test",
+    "text": "The patient is 34 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "34 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 964,
+    "split": "test",
+    "text": "I currently live near Chicago, IL 60601.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 965,
+    "split": "challenge",
+    "text": "SSN on file: 374-16-9586",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "374-16-9586"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 966,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 967,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 968,
+    "split": "challenge",
+    "text": "Routing 318480979",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 318480979"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 969,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 970,
+    "split": "test",
+    "text": "Driver license: B75750898",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B75750898"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 971,
+    "split": "test",
+    "text": "Device identifier is b5:f7:a1:9a:80:4d.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "b5:f7:a1:9a:80:4d"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 972,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 973,
+    "split": "test",
+    "text": "Server IP is 89.240.251.153.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "89.240.251.153"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 974,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 975,
+    "split": "test",
+    "text": "Driver license: TX818711554",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX818711554"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 976,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 977,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 978,
+    "split": "test",
+    "text": "Device identifier is 5e:82:8a:58:22:a4.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "5e:82:8a:58:22:a4"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 979,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 980,
+    "split": "test",
+    "text": "SSN on file: 361-59-6826",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "361-59-6826"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 981,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 982,
+    "split": "test",
+    "text": "VIN N6UR5WXYDGTEMJEZN is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "N6UR5WXYDGTEMJEZN"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 983,
+    "split": "challenge",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 984,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 985,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 986,
+    "split": "test",
+    "text": "Reach the customer on (268) 841-2445.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "268) 841-2445"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 987,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 988,
+    "split": "challenge",
+    "text": "Call me at (412) 715-9413.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "412) 715-9413"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 989,
+    "split": "test",
+    "text": "Medicare M87250702",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare M87250702"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 990,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 991,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 992,
+    "split": "test",
+    "text": "Allowlist 139.56.151.111 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "139.56.151.111"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 993,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 994,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 995,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 996,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 997,
+    "split": "test",
+    "text": "Call me at +61 495 167 680.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+61 495 167 680"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 998,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 999,
+    "split": "challenge",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1000,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1001,
+    "split": "challenge",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1002,
+    "split": "test",
+    "text": "Member ID: POL34125373",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: POL34125373"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1003,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1004,
+    "split": "test",
+    "text": "Username: @suraj_7144",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_7144"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1005,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1006,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1007,
+    "split": "test",
+    "text": "Travel document 732634871 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "732634871"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1008,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1009,
+    "split": "test",
+    "text": "My personal email is aisha+work@gmail.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "aisha+work@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1010,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1011,
+    "split": "challenge",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1012,
+    "split": "test",
+    "text": "Passport number: 404212456",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "404212456"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1013,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1014,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1015,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1016,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1017,
+    "split": "test",
+    "text": "Current coordinates: 10.7728°N, 33.1844°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "10.7728°N, 33.1844°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1018,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1019,
+    "split": "test",
+    "text": "Insurance ID M25675292 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID M25675292"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1020,
+    "split": "test",
+    "text": "I currently live near Seattle, WA 98101.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1021,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1022,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1023,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1024,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1025,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1026,
+    "split": "test",
+    "text": "Emergency contact: +91 83787 33444",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 83787 33444"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1027,
+    "split": "challenge",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1028,
+    "split": "test",
+    "text": "Call me at +91 98461 76895.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 98461 76895"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1029,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1030,
+    "split": "test",
+    "text": "Account email: vikram_151@gmail.com",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "vikram_151@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1031,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1032,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1033,
+    "split": "challenge",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1034,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1035,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Current coordinates: -15.9037°N, 79.8971°E Routing 272959295 Do not share SSN 500-34-5528. Medicare INS69394177",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "15.9037°N, 79.8971°E"
+      },
+      {
+        "type": "bank_account",
+        "value": "Routing 272959295"
+      },
+      {
+        "type": "ssn",
+        "value": "500-34-5528"
+      },
+      {
+        "type": "medical_id",
+        "value": "Medicare INS69394177"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1036,
+    "split": "challenge",
+    "text": "Vehicle VIN: VYZE1DCYK74PDZMKT",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "VYZE1DCYK74PDZMKT"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1037,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1038,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1039,
+    "split": "challenge",
+    "text": "Private support note: password: Coffee3112! Vehicle VIN: LX7Y1WKV2NUBLNV51 My social handle is @admin_6396.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Coffee3112!"
+      },
+      {
+        "type": "vin",
+        "value": "LX7Y1WKV2NUBLNV51"
+      },
+      {
+        "type": "username",
+        "value": "@admin_6396"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1040,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1041,
+    "split": "challenge",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1042,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1043,
+    "split": "challenge",
+    "text": "Member ID: POL77363382",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: POL77363382"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1044,
+    "split": "test",
+    "text": "Driver license: CA619588907",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA619588907"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1045,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1046,
+    "split": "challenge",
+    "text": "Account email: john.thomas72@company.co.uk",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "john.thomas72@company.co.uk"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1047,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1048,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1049,
+    "split": "test",
+    "text": "SSN on file: 556-71-3871",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "556-71-3871"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1050,
+    "split": "challenge",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1051,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1052,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1053,
+    "split": "test",
+    "text": "Location pin is 33.4698°N, -56.5902°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "33.4698°N, -56.5902°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1054,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1055,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Do not expose john.iyer@mail.org to third parties. The applicant's SSN is 680-58-6022. Passport number: 835965187",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "email",
+        "value": "john.iyer@mail.org"
+      },
+      {
+        "type": "ssn",
+        "value": "680-58-6022"
+      },
+      {
+        "type": "passport",
+        "value": "835965187"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1056,
+    "split": "test",
+    "text": "My personal email is karan.nair52@gmail.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "karan.nair52@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1057,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1058,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1059,
+    "split": "test",
+    "text": "VIN A98PR7ZLLD1LNALXG is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "A98PR7ZLLD1LNALXG"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1060,
+    "split": "test",
+    "text": "Travel document 455896505 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "455896505"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1061,
+    "split": "test",
+    "text": "Location pin is 83.0031°N, -140.0143°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "83.0031°N, -140.0143°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1062,
+    "split": "test",
+    "text": "Patient was born on 1988-03-05.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1988-03-05"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1063,
+    "split": "challenge",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1064,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1065,
+    "split": "test",
+    "text": "Allowlist 174.237.4.152 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "174.237.4.152"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1066,
+    "split": "challenge",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1067,
+    "split": "test",
+    "text": "Vehicle VIN: NV7F39CPLCNLP28T4",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "NV7F39CPLCNLP28T4"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1068,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1069,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1070,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1071,
+    "split": "challenge",
+    "text": "Do not share SSN 726-42-7173.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "726-42-7173"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1072,
+    "split": "test",
+    "text": "Home address: 4111 MG Road",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "4111 MG Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1073,
+    "split": "challenge",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1074,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1075,
+    "split": "challenge",
+    "text": "Account: 84349876762562",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 84349876762562"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1076,
+    "split": "test",
+    "text": "Emergency contact: +44 7913 276677",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+44 7913 276677"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1077,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1078,
+    "split": "test",
+    "text": "Driver license: B526549947",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B526549947"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1079,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1080,
+    "split": "test",
+    "text": "Device identifier is cd-ae-0d-6f-3b-5c.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "cd-ae-0d-6f-3b-5c"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1081,
+    "split": "challenge",
+    "text": "User supplied this message: Device identifier is 14:e5:35:a4:fd:f9. Insurance ID POL27370811 belongs to the patient. My social handle is @arjun_995.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "14:e5:35:a4:fd:f9"
+      },
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL27370811"
+      },
+      {
+        "type": "username",
+        "value": "@arjun_995"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1082,
+    "split": "challenge",
+    "text": "Customer record: Travel document 433918850 is confidential. The patient is 63 years old. MAC address: 37:1a:9d:18:46:ba VIN 5GJTX5Y75RVZDN8B1 is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "433918850"
+      },
+      {
+        "type": "age",
+        "value": "63 years old"
+      },
+      {
+        "type": "mac",
+        "value": "37:1a:9d:18:46:ba"
+      },
+      {
+        "type": "vin",
+        "value": "5GJTX5Y75RVZDN8B1"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1083,
+    "split": "challenge",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1084,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1085,
+    "split": "test",
+    "text": "The node is reachable at 041c:f4ab:867a:217b:7ffd:8149:d106:25d9.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "041c:f4ab:867a:217b:7ffd:8149:d106:25d9"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1086,
+    "split": "test",
+    "text": "Location pin is -14.2318°N, -46.7567°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "14.2318°N, -46.7567°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1087,
+    "split": "test",
+    "text": "Home address: 6634 Tech Park Avenue",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6634 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1088,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1089,
+    "split": "test",
+    "text": "DOB is 1973-05-03.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1973-05-03"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1090,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1091,
+    "split": "challenge",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1092,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1093,
+    "split": "test",
+    "text": "Current coordinates: 34.3379°N, 6.6392°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "34.3379°N, 6.6392°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1094,
+    "split": "challenge",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1095,
+    "split": "test",
+    "text": "The node is reachable at de65:0fd7:7393:8f77:9b4f:451c:da67:b991.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "de65:0fd7:7393:8f77:9b4f:451c:da67:b991"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1096,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1097,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1098,
+    "split": "challenge",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1099,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1100,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1101,
+    "split": "test",
+    "text": "The patient is 61 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "61 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1102,
+    "split": "challenge",
+    "text": "Do not share SSN 118-44-6555.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "118-44-6555"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1103,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1104,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1105,
+    "split": "test",
+    "text": "Policy #: M15245793",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: M15245793"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1106,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1107,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1108,
+    "split": "test",
+    "text": "Routing 312873065",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 312873065"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1109,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1110,
+    "split": "challenge",
+    "text": "Travel document 921839502 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "921839502"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1111,
+    "split": "test",
+    "text": "Account: 79872611920945",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 79872611920945"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1112,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1113,
+    "split": "test",
+    "text": "Server IP is 173.161.60.139.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "173.161.60.139"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1114,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1115,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1116,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1117,
+    "split": "test",
+    "text": "Contact me at vikram+work@university.edu for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "vikram+work@university.edu"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1118,
+    "split": "challenge",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1119,
+    "split": "test",
+    "text": "The applicant's SSN is 778-67-9417.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "778-67-9417"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1120,
+    "split": "challenge",
+    "text": "My personal email is iyer.priya@company.co.uk.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "iyer.priya@company.co.uk"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1121,
+    "split": "challenge",
+    "text": "Current coordinates: 41.5182°N, -87.9851°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "41.5182°N, -87.9851°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1122,
+    "split": "challenge",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1123,
+    "split": "challenge",
+    "text": "The delivery destination is Seattle, WA 98101.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1124,
+    "split": "challenge",
+    "text": "Vehicle VIN: 5ZDMNG4FSYAPH2VSY",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "5ZDMNG4FSYAPH2VSY"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1125,
+    "split": "test",
+    "text": "pwd=Alpha8807#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Alpha8807#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1126,
+    "split": "test",
+    "text": "Payment card 5462-6864-6607-4925 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5462-6864-6607-4925"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1127,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1128,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1129,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1130,
+    "split": "challenge",
+    "text": "Internal test prompt: Member ID: M40657117 Payment card 5614-7823-6931-4810 is on file. Contact @suraj_4131 on the platform. MAC address: d5-28-bc-30-ba-80",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: M40657117"
+      },
+      {
+        "type": "credit_card",
+        "value": "5614-7823-6931-4810"
+      },
+      {
+        "type": "username",
+        "value": "@suraj_4131"
+      },
+      {
+        "type": "mac",
+        "value": "d5-28-bc-30-ba-80"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1131,
+    "split": "test",
+    "text": "The applicant's SSN is 812-79-3806.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "812-79-3806"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1132,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1133,
+    "split": "test",
+    "text": "MAC address: 8d:5f:fd:46:05:c7",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "8d:5f:fd:46:05:c7"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1134,
+    "split": "challenge",
+    "text": "Ship the package to 6849 Park Avenue.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6849 Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1135,
+    "split": "test",
+    "text": "DL number is B861734192.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B861734192"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1136,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1137,
+    "split": "test",
+    "text": "VIN PNTLZ6RW1ENW82ECG is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "PNTLZ6RW1ENW82ECG"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1138,
+    "split": "challenge",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1139,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1140,
+    "split": "challenge",
+    "text": "Acct 31318747388205",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 31318747388205"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1141,
+    "split": "test",
+    "text": "The patient is 3 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "3 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1142,
+    "split": "challenge",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1143,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1144,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1145,
+    "split": "challenge",
+    "text": "Call me at +1 606 657 4061.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+1 606 657 4061"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1146,
+    "split": "challenge",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1147,
+    "split": "test",
+    "text": "passwd Blue4406$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Blue4406$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1148,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1149,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1150,
+    "split": "challenge",
+    "text": "Please sanitize before sending: IPv6 address: 4e11:b741:c7ec:2507:72ec:40d3:333f:6dc7 Current coordinates: 88.3213°N, 114.8547°E",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "4e11:b741:c7ec:2507:72ec:40d3:333f:6dc7"
+      },
+      {
+        "type": "coordinates",
+        "value": "88.3213°N, 114.8547°E"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1151,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1152,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1153,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1154,
+    "split": "test",
+    "text": "Charge the purchase to 5665 4993 3104 0385.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5665 4993 3104 0385"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1155,
+    "split": "test",
+    "text": "Current coordinates: -64.8463°N, -63.3453°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "64.8463°N, -63.3453°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1156,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1157,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1158,
+    "split": "test",
+    "text": "Insurance ID POL8207493 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL8207493"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1159,
+    "split": "test",
+    "text": "Passport number: 115336436",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "115336436"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1160,
+    "split": "challenge",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1161,
+    "split": "test",
+    "text": "Do not expose arjun.iyer14@example.com to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "arjun.iyer14@example.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1162,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1163,
+    "split": "test",
+    "text": "Contact me at rahul+work@gmail.com for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "rahul+work@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1164,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1165,
+    "split": "test",
+    "text": "Username: @suraj_7674",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_7674"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1166,
+    "split": "challenge",
+    "text": "Internal test prompt: Date of birth: 1963-04-17 VIN 9KKDYSTFKJ0RZN0FG is registered to the vehicle. Passport number: 389435582 I currently live near Denver, CO 80202.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1963-04-17"
+      },
+      {
+        "type": "vin",
+        "value": "9KKDYSTFKJ0RZN0FG"
+      },
+      {
+        "type": "passport",
+        "value": "389435582"
+      },
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1167,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1168,
+    "split": "test",
+    "text": "VIN CLDAWTYRNE9MRFC6A is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "CLDAWTYRNE9MRFC6A"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1169,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1170,
+    "split": "challenge",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1171,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1172,
+    "split": "test",
+    "text": "Travel document 781791121 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "781791121"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1173,
+    "split": "test",
+    "text": "Account email: arjun+work@mail.org",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "arjun+work@mail.org"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1174,
+    "split": "challenge",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1175,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1176,
+    "split": "challenge",
+    "text": "Internal test prompt: Vehicle VIN: TRZ6WNCJAFZK1HAPU Do not share SSN 180-45-2619. password: Coffee2918! Username: @arjun_8685",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "TRZ6WNCJAFZK1HAPU"
+      },
+      {
+        "type": "ssn",
+        "value": "180-45-2619"
+      },
+      {
+        "type": "password",
+        "value": "password: Coffee2918!"
+      },
+      {
+        "type": "username",
+        "value": "@arjun_8685"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1177,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1178,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1179,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1180,
+    "split": "challenge",
+    "text": "Allowlist 102.61.67.210 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "102.61.67.210"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1181,
+    "split": "test",
+    "text": "IPv6 address: bdd5:7eb6:8e28:0293:7dcb:3274:046f:73be",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "bdd5:7eb6:8e28:0293:7dcb:3274:046f:73be"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1182,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1183,
+    "split": "challenge",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1184,
+    "split": "challenge",
+    "text": "Internal test prompt: Passport number: 629797329 Emergency contact: +1 906 661 9692",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "629797329"
+      },
+      {
+        "type": "phone",
+        "value": "+1 906 661 9692"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1185,
+    "split": "challenge",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1186,
+    "split": "challenge",
+    "text": "Internal test prompt: Passport number: 621344197 VIN 8A08A6CB2PGWXXL6E is registered to the vehicle. Please send the report to das.maya@outlook.com. passwd Orange2468$",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "621344197"
+      },
+      {
+        "type": "vin",
+        "value": "8A08A6CB2PGWXXL6E"
+      },
+      {
+        "type": "email",
+        "value": "das.maya@outlook.com"
+      },
+      {
+        "type": "password",
+        "value": "passwd Orange2468$"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1187,
+    "split": "test",
+    "text": "IPv6 address: 25a3:9334:671c:702e:8def:fdbf:19f7:7494",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "25a3:9334:671c:702e:8def:fdbf:19f7:7494"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1188,
+    "split": "challenge",
+    "text": "The delivery destination is Denver, CO 80202.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1189,
+    "split": "test",
+    "text": "The patient is 57 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "57 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1190,
+    "split": "test",
+    "text": "Deliver to 6328 Church Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6328 Church Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1191,
+    "split": "test",
+    "text": "Location pin is 41.7033°N, 14.6971°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "41.7033°N, 14.6971°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1192,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1193,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1194,
+    "split": "test",
+    "text": "MAC address: ec:0a:1d:0a:2e:2f",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "ec:0a:1d:0a:2e:2f"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1195,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1196,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1197,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1198,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1199,
+    "split": "test",
+    "text": "The patient is 10 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "10 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1200,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1201,
+    "split": "challenge",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1202,
+    "split": "test",
+    "text": "Contact @arjun_3496 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_3496"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1203,
+    "split": "test",
+    "text": "Passport number: 824895569",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "824895569"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1204,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1205,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1206,
+    "split": "challenge",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1207,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1208,
+    "split": "test",
+    "text": "Payment card 5406 9207 1899 4989 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5406 9207 1899 4989"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1209,
+    "split": "test",
+    "text": "Location pin is 79.4603°N, -19.0897°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "79.4603°N, -19.0897°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1210,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1211,
+    "split": "challenge",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1212,
+    "split": "test",
+    "text": "Policy #: INS44857621",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS44857621"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1213,
+    "split": "test",
+    "text": "Client connected from 162.60.239.166.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "162.60.239.166"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1214,
+    "split": "test",
+    "text": "My personal email is rao.karan@example.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "rao.karan@example.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1215,
+    "split": "challenge",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1216,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1217,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1218,
+    "split": "challenge",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1219,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1220,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1221,
+    "split": "test",
+    "text": "Device identifier is 15-63-cc-a2-f5-a0.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "15-63-cc-a2-f5-a0"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1222,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1223,
+    "split": "test",
+    "text": "VIN MYUWWWUCBLBS5YJUZ is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "MYUWWWUCBLBS5YJUZ"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1224,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1225,
+    "split": "challenge",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1226,
+    "split": "test",
+    "text": "Current coordinates: -29.3295°N, 140.6345°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "29.3295°N, 140.6345°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1227,
+    "split": "test",
+    "text": "My social handle is @priya_9031.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_9031"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1228,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1229,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1230,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1231,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1232,
+    "split": "test",
+    "text": "Card number: 5748-3388-3899-1669",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5748-3388-3899-1669"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1233,
+    "split": "challenge",
+    "text": "Username: @arjun_5578",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_5578"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1234,
+    "split": "challenge",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1235,
+    "split": "challenge",
+    "text": "User supplied this message: DL number is NY514006330. Server IP is 22.59.160.195. The patient is 45 years old.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "NY514006330"
+      },
+      {
+        "type": "ipv4",
+        "value": "22.59.160.195"
+      },
+      {
+        "type": "age",
+        "value": "45 years old"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1236,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1237,
+    "split": "test",
+    "text": "Policy #: INS81809502",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS81809502"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1238,
+    "split": "challenge",
+    "text": "Travel document 373576491 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "373576491"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1239,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1240,
+    "split": "challenge",
+    "text": "The applicant's SSN is 126-69-4041.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "126-69-4041"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1241,
+    "split": "test",
+    "text": "Home address: 1554 Market Street",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "1554 Market Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1242,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1243,
+    "split": "test",
+    "text": "Account email: john_280@university.edu",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "john_280@university.edu"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1244,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Acct 32035174036164 Contact me at emily.sharma94@university.edu for the project.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 32035174036164"
+      },
+      {
+        "type": "email",
+        "value": "emily.sharma94@university.edu"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1245,
+    "split": "challenge",
+    "text": "Server IP is 160.194.175.15.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "160.194.175.15"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1246,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1247,
+    "split": "test",
+    "text": "Server IP is 70.117.226.92.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "70.117.226.92"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1248,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1249,
+    "split": "test",
+    "text": "DOB is 10/09/1999.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "10/09/1999"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1250,
+    "split": "challenge",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1251,
+    "split": "test",
+    "text": "Account: 17946474863579",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 17946474863579"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1252,
+    "split": "test",
+    "text": "Current coordinates: 13.7120°N, -168.6737°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "13.7120°N, -168.6737°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1253,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1254,
+    "split": "test",
+    "text": "Emergency contact: +91 88658 60515",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 88658 60515"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1255,
+    "split": "test",
+    "text": "Location pin is -45.6570°N, 65.4508°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "45.6570°N, 65.4508°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1256,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1257,
+    "split": "challenge",
+    "text": "Driver license: A986274915",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A986274915"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1258,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1259,
+    "split": "test",
+    "text": "The applicant's SSN is 276-21-2147.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "276-21-2147"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1260,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1261,
+    "split": "test",
+    "text": "Contact @admin_5319 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@admin_5319"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1262,
+    "split": "test",
+    "text": "Emergency contact: +1 401 361 7339",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+1 401 361 7339"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1263,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1264,
+    "split": "challenge",
+    "text": "Please send the report to karan.brown@mail.org.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "karan.brown@mail.org"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1265,
+    "split": "challenge",
+    "text": "IPv6 address: b9a6:2fd4:9034:dd0b:6a02:6066:6227:1631",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "b9a6:2fd4:9034:dd0b:6a02:6066:6227:1631"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1266,
+    "split": "test",
+    "text": "Location pin is 10.2585°N, -40.1428°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "10.2585°N, -40.1428°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1267,
+    "split": "test",
+    "text": "MAC address: f3:c7:a3:36:d3:9a",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "f3:c7:a3:36:d3:9a"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1268,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1269,
+    "split": "test",
+    "text": "I currently live near Denver, CO 80202.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1270,
+    "split": "test",
+    "text": "Card number: 5224-6995-7188-0671",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5224-6995-7188-0671"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1271,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1272,
+    "split": "test",
+    "text": "VIN NVUNNYJLUP7FBAWNW is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "NVUNNYJLUP7FBAWNW"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1273,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1274,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1275,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1276,
+    "split": "test",
+    "text": "SSN on file: 434-54-2470",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "434-54-2470"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1277,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1278,
+    "split": "challenge",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1279,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1280,
+    "split": "test",
+    "text": "Passport number: 580067261",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "580067261"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1281,
+    "split": "challenge",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1282,
+    "split": "test",
+    "text": "The delivery destination is San Jose, CA 95131.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1283,
+    "split": "test",
+    "text": "DOB is 1977-03-09.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1977-03-09"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1284,
+    "split": "test",
+    "text": "passwd Orange6010$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange6010$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1285,
+    "split": "test",
+    "text": "Travel document 531250422 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "531250422"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1286,
+    "split": "test",
+    "text": "Passport number: 993514549",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "993514549"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1287,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Home address: 3957 Church Street Passport number: 997976168 Driver license: TX675758893",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "address",
+        "value": "3957 Church Street"
+      },
+      {
+        "type": "passport",
+        "value": "997976168"
+      },
+      {
+        "type": "driver_license",
+        "value": "TX675758893"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1288,
+    "split": "test",
+    "text": "Phone number = (494) 266-8857",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "494) 266-8857"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1289,
+    "split": "test",
+    "text": "password: Rocket6761!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Rocket6761!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1290,
+    "split": "challenge",
+    "text": "The delivery destination is Chicago, IL 60601.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1291,
+    "split": "test",
+    "text": "Account email: john+work@example.com",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "john+work@example.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1292,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1293,
+    "split": "test",
+    "text": "Server IP is 116.139.111.242.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "116.139.111.242"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1294,
+    "split": "test",
+    "text": "Charge the purchase to 5581967251921777.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5581967251921777"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1295,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1296,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1297,
+    "split": "challenge",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1298,
+    "split": "test",
+    "text": "SSN on file: 798-80-7357",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "798-80-7357"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1299,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1300,
+    "split": "challenge",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1301,
+    "split": "challenge",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1302,
+    "split": "challenge",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1303,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1304,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1305,
+    "split": "test",
+    "text": "password: Tiger4266!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Tiger4266!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1306,
+    "split": "test",
+    "text": "Deliver to 7724 Church Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7724 Church Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1307,
+    "split": "test",
+    "text": "The node is reachable at 9fc4:e636:2947:5d3d:6a7a:8a13:e9ba:ec6e.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "9fc4:e636:2947:5d3d:6a7a:8a13:e9ba:ec6e"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1308,
+    "split": "test",
+    "text": "Current coordinates: 16.8412°N, -113.7099°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "16.8412°N, -113.7099°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1309,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1310,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1311,
+    "split": "challenge",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1312,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1313,
+    "split": "test",
+    "text": "Contact @admin_8965 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@admin_8965"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1314,
+    "split": "test",
+    "text": "IPv6 address: 0d7c:92ea:cc22:f062:b2ca:4d26:5f70:ac87",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "0d7c:92ea:cc22:f062:b2ca:4d26:5f70:ac87"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1315,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1316,
+    "split": "test",
+    "text": "Insurance ID POL6662160 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL6662160"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1317,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1318,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1319,
+    "split": "test",
+    "text": "Member ID: INS78285693",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: INS78285693"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1320,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1321,
+    "split": "challenge",
+    "text": "Please sanitize before sending: IPv6 address: 96a7:da40:aaaf:f931:4750:4bf3:02fd:a2f0 passwd Green2317$",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "96a7:da40:aaaf:f931:4750:4bf3:02fd:a2f0"
+      },
+      {
+        "type": "password",
+        "value": "passwd Green2317$"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1322,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1323,
+    "split": "test",
+    "text": "The delivery destination is Austin, TX 78701.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1324,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1325,
+    "split": "test",
+    "text": "Driver license: CA140394069",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA140394069"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1326,
+    "split": "test",
+    "text": "Server IP is 107.93.224.120.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "107.93.224.120"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1327,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1328,
+    "split": "test",
+    "text": "Allowlist 52.240.156.119 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "52.240.156.119"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1329,
+    "split": "test",
+    "text": "Payment card 6185-6888-5181-1485 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6185-6888-5181-1485"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1330,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1331,
+    "split": "test",
+    "text": "Emergency contact: +1 201 418 4064",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+1 201 418 4064"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1332,
+    "split": "challenge",
+    "text": "VIN SV2872UVKPV36ESDB is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "SV2872UVKPV36ESDB"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1333,
+    "split": "test",
+    "text": "Insurance ID POL36161499 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL36161499"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1334,
+    "split": "test",
+    "text": "Vehicle VIN: YUF8EFAA28807H755",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "YUF8EFAA28807H755"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1335,
+    "split": "challenge",
+    "text": "IPv6 address: f2b9:825d:3189:e11f:0b00:99c0:a4db:eade",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "f2b9:825d:3189:e11f:0b00:99c0:a4db:eade"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1336,
+    "split": "test",
+    "text": "IPv6 address: eef9:591d:39fb:f59d:8132:487f:b596:fd38",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "eef9:591d:39fb:f59d:8132:487f:b596:fd38"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1337,
+    "split": "challenge",
+    "text": "Private support note: Policy #: M84356268 MAC address: db:ab:d9:94:a7:fd Account: 79714613856085 Home address: 675 Market Street",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: M84356268"
+      },
+      {
+        "type": "mac",
+        "value": "db:ab:d9:94:a7:fd"
+      },
+      {
+        "type": "bank_account",
+        "value": "Account: 79714613856085"
+      },
+      {
+        "type": "address",
+        "value": "675 Market Street"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1338,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1339,
+    "split": "test",
+    "text": "Home address: 1671 Tech Park Avenue",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "1671 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1340,
+    "split": "test",
+    "text": "Do not share SSN 716-34-7730.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "716-34-7730"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1341,
+    "split": "test",
+    "text": "Member ID: POL93942084",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: POL93942084"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1342,
+    "split": "challenge",
+    "text": "MAC address: 62:cf:8e:e2:51:7a",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "62:cf:8e:e2:51:7a"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1343,
+    "split": "challenge",
+    "text": "The patient is 12 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "12 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1344,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1345,
+    "split": "test",
+    "text": "Office location: Chicago, IL 60601",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1346,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1347,
+    "split": "test",
+    "text": "Office location: Austin, TX 78701",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1348,
+    "split": "test",
+    "text": "DOB is 07/11/1981.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "07/11/1981"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1349,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1350,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1351,
+    "split": "test",
+    "text": "Vehicle VIN: VR769HG9YSTB6HN1A",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "VR769HG9YSTB6HN1A"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1352,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1353,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1354,
+    "split": "challenge",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1355,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1356,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1357,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1358,
+    "split": "challenge",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1359,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1360,
+    "split": "challenge",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1361,
+    "split": "test",
+    "text": "DOB is 03/07/1974.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "03/07/1974"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1362,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1363,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1364,
+    "split": "test",
+    "text": "Travel document 302828538 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "302828538"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1365,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1366,
+    "split": "challenge",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1367,
+    "split": "challenge",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1368,
+    "split": "test",
+    "text": "Please send the report to das.arjun@outlook.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "das.arjun@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1369,
+    "split": "challenge",
+    "text": "Passport number: 236251342",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "236251342"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1370,
+    "split": "challenge",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1371,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1372,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1373,
+    "split": "test",
+    "text": "Payment card 5622776351091642 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5622776351091642"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1374,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1375,
+    "split": "challenge",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1376,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1377,
+    "split": "challenge",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1378,
+    "split": "test",
+    "text": "The node is reachable at 21b1:4ea5:0586:3fc8:08b8:974d:6f85:7ca3.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "21b1:4ea5:0586:3fc8:08b8:974d:6f85:7ca3"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1379,
+    "split": "test",
+    "text": "My personal email is john+work@mail.org.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "john+work@mail.org"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1380,
+    "split": "challenge",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1381,
+    "split": "test",
+    "text": "The patient is 49 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "49 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1382,
+    "split": "test",
+    "text": "Deliver to 857 Church Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "857 Church Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1383,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1384,
+    "split": "test",
+    "text": "Location pin is -64.9490°N, -6.9289°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "64.9490°N, -6.9289°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1385,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1386,
+    "split": "test",
+    "text": "Phone number = (528) 615-8335",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "528) 615-8335"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1387,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1388,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1389,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1390,
+    "split": "test",
+    "text": "Device identifier is 7e-76-b9-a4-37-de.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "7e-76-b9-a4-37-de"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1391,
+    "split": "test",
+    "text": "My social handle is @priya_9901.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_9901"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1392,
+    "split": "challenge",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1393,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1394,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1395,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1396,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1397,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1398,
+    "split": "test",
+    "text": "Device identifier is b8-41-9c-ba-38-83.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "b8-41-9c-ba-38-83"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1399,
+    "split": "challenge",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1400,
+    "split": "test",
+    "text": "Insurance ID INS51390055 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID INS51390055"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1401,
+    "split": "test",
+    "text": "Server IP is 129.129.137.111.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "129.129.137.111"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1402,
+    "split": "test",
+    "text": "Office location: Austin, TX 78701",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1403,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1404,
+    "split": "test",
+    "text": "Location pin is -1.6022°N, -178.4434°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "1.6022°N, -178.4434°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1405,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1406,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1407,
+    "split": "test",
+    "text": "Date of birth: 2005-08-23",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "2005-08-23"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1408,
+    "split": "challenge",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1409,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1410,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1411,
+    "split": "challenge",
+    "text": "Passport number: 317653682",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "317653682"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1412,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1413,
+    "split": "challenge",
+    "text": "User supplied this message: Username: @arjun_8214 Reach the customer on (881) 900-1577. Driver license: CA225984007 Passport number: 908508862",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_8214"
+      },
+      {
+        "type": "phone",
+        "value": "881) 900-1577"
+      },
+      {
+        "type": "driver_license",
+        "value": "CA225984007"
+      },
+      {
+        "type": "passport",
+        "value": "908508862"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1414,
+    "split": "test",
+    "text": "MAC address: 64:4e:38:68:06:75",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "64:4e:38:68:06:75"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1415,
+    "split": "test",
+    "text": "Server IP is 138.188.29.2.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "138.188.29.2"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1416,
+    "split": "challenge",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1417,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1418,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1419,
+    "split": "test",
+    "text": "Contact @dev_3204 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_3204"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1420,
+    "split": "test",
+    "text": "Policy #: INS71256788",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS71256788"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1421,
+    "split": "test",
+    "text": "Allowlist 119.102.126.229 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "119.102.126.229"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1422,
+    "split": "test",
+    "text": "Current coordinates: 15.6691°N, 52.9336°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "15.6691°N, 52.9336°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1423,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1424,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1425,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1426,
+    "split": "challenge",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1427,
+    "split": "test",
+    "text": "Do not share SSN 681-20-5830.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "681-20-5830"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1428,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1429,
+    "split": "challenge",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1430,
+    "split": "test",
+    "text": "Server IP is 18.239.42.225.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "18.239.42.225"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1431,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1432,
+    "split": "test",
+    "text": "Travel document 721604628 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "721604628"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1433,
+    "split": "challenge",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1434,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1435,
+    "split": "challenge",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1436,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1437,
+    "split": "test",
+    "text": "Payment card 6196 6659 2391 4411 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6196 6659 2391 4411"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1438,
+    "split": "challenge",
+    "text": "pwd=Secure5550#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Secure5550#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1439,
+    "split": "challenge",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1440,
+    "split": "challenge",
+    "text": "Private support note: Routing 391847685 The applicant's SSN is 434-93-3374. Ship the package to 1647 Church Street. Passport number: 333414280",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 391847685"
+      },
+      {
+        "type": "ssn",
+        "value": "434-93-3374"
+      },
+      {
+        "type": "address",
+        "value": "1647 Church Street"
+      },
+      {
+        "type": "passport",
+        "value": "333414280"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1441,
+    "split": "challenge",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1442,
+    "split": "challenge",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1443,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1444,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1445,
+    "split": "challenge",
+    "text": "Vehicle VIN: 6AKD6CWD6H4G3MNE2",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "6AKD6CWD6H4G3MNE2"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1446,
+    "split": "challenge",
+    "text": "Location pin is -27.6354°N, -35.9517°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "27.6354°N, -35.9517°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1447,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1448,
+    "split": "test",
+    "text": "Device identifier is 03-7d-19-a0-bc-02.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "03-7d-19-a0-bc-02"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1449,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Contact @dev_5879 on the platform. Device identifier is a1-b2-5f-e0-b8-b7.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_5879"
+      },
+      {
+        "type": "mac",
+        "value": "a1-b2-5f-e0-b8-b7"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1450,
+    "split": "test",
+    "text": "Driver license: CA428687706",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA428687706"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1451,
+    "split": "challenge",
+    "text": "Home address: 4142 Lake View Road",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "4142 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1452,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1453,
+    "split": "test",
+    "text": "Vehicle VIN: 0ZPMBDHXCG4VRCZPT",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "0ZPMBDHXCG4VRCZPT"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1454,
+    "split": "challenge",
+    "text": "Internal test prompt: Username: @suraj_4773 SSN on file: 740-34-1874 Home address: 9700 Oak Street The patient is 57 years old.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_4773"
+      },
+      {
+        "type": "ssn",
+        "value": "740-34-1874"
+      },
+      {
+        "type": "address",
+        "value": "9700 Oak Street"
+      },
+      {
+        "type": "age",
+        "value": "57 years old"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1455,
+    "split": "challenge",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1456,
+    "split": "test",
+    "text": "DL number is B514378695.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B514378695"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1457,
+    "split": "test",
+    "text": "Passport number: 306835156",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "306835156"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1458,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1459,
+    "split": "test",
+    "text": "My social handle is @priya_2458.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_2458"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1460,
+    "split": "test",
+    "text": "Payment card 6523-3409-8084-2079 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6523-3409-8084-2079"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1461,
+    "split": "challenge",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1462,
+    "split": "challenge",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1463,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1464,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1465,
+    "split": "test",
+    "text": "Please send the report to john.patel@gmail.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "john.patel@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1466,
+    "split": "test",
+    "text": "Device identifier is 03:38:47:80:36:97.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "03:38:47:80:36:97"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1467,
+    "split": "challenge",
+    "text": "Internal test prompt: Call me at +91 71921 71539. Vehicle VIN: JGF841HL6ZYMTPXH3",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 71921 71539"
+      },
+      {
+        "type": "vin",
+        "value": "JGF841HL6ZYMTPXH3"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1468,
+    "split": "test",
+    "text": "SSN on file: 298-42-4771",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "298-42-4771"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1469,
+    "split": "challenge",
+    "text": "The patient is 51 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "51 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1470,
+    "split": "test",
+    "text": "Card number: 5588-9682-6806-8308",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5588-9682-6806-8308"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1471,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1472,
+    "split": "test",
+    "text": "Date of birth: 1978-09-15",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1978-09-15"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1473,
+    "split": "test",
+    "text": "DL number is A726947289.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A726947289"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1474,
+    "split": "challenge",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1475,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1476,
+    "split": "challenge",
+    "text": "Driver license: CA220686016",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA220686016"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1477,
+    "split": "test",
+    "text": "Allowlist 7.94.171.60 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "7.94.171.60"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1478,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1479,
+    "split": "test",
+    "text": "Location pin is 67.9353°N, 165.0243°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "67.9353°N, 165.0243°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1480,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1481,
+    "split": "challenge",
+    "text": "Customer record: Member ID: INS36943952 The node is reachable at 2eb7:ad5e:bcfe:4cc5:985b:4f47:fac6:fc68. I currently live near Austin, TX 78701. Server IP is 46.41.73.5.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: INS36943952"
+      },
+      {
+        "type": "ipv6",
+        "value": "2eb7:ad5e:bcfe:4cc5:985b:4f47:fac6:fc68"
+      },
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      },
+      {
+        "type": "ipv4",
+        "value": "46.41.73.5"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1482,
+    "split": "test",
+    "text": "Card number: 5833 4100 8569 6337",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5833 4100 8569 6337"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1483,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1484,
+    "split": "test",
+    "text": "Date of birth: 04/12/1978",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "04/12/1978"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1485,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1486,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1487,
+    "split": "challenge",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1488,
+    "split": "test",
+    "text": "Server IP is 65.63.198.31.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "65.63.198.31"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1489,
+    "split": "challenge",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1490,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1491,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1492,
+    "split": "test",
+    "text": "Phone number = +1 249 982 4759",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+1 249 982 4759"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1493,
+    "split": "test",
+    "text": "Call me at (895) 657-5545.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "895) 657-5545"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1494,
+    "split": "test",
+    "text": "Policy #: INS23669662",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS23669662"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1495,
+    "split": "test",
+    "text": "Routing 863566400",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 863566400"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1496,
+    "split": "challenge",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1497,
+    "split": "test",
+    "text": "Payment card 5463-5640-6967-0853 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5463-5640-6967-0853"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1498,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1499,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1500,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1501,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1502,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1503,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1504,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1505,
+    "split": "test",
+    "text": "The node is reachable at d7c7:406b:2df2:c86a:c9fd:c835:cf9f:3b72.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "d7c7:406b:2df2:c86a:c9fd:c835:cf9f:3b72"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1506,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1507,
+    "split": "test",
+    "text": "MAC address: fa-c2-40-81-c4-83",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "fa-c2-40-81-c4-83"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1508,
+    "split": "test",
+    "text": "Allowlist 201.26.219.182 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "201.26.219.182"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1509,
+    "split": "challenge",
+    "text": "Internal test prompt: Deliver to 6127 Main Road. Phone number = (384) 386-6640",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6127 Main Road"
+      },
+      {
+        "type": "phone",
+        "value": "384) 386-6640"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1510,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1511,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1512,
+    "split": "test",
+    "text": "Emergency contact: +91 79885 82695",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 79885 82695"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1513,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1514,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1515,
+    "split": "test",
+    "text": "The node is reachable at 910f:f5be:52a5:fb98:eb6b:b105:3bd1:e050.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "910f:f5be:52a5:fb98:eb6b:b105:3bd1:e050"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1516,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1517,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1518,
+    "split": "test",
+    "text": "Patient was born on 1994-05-05.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1994-05-05"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1519,
+    "split": "challenge",
+    "text": "Contact me at daniel.singh@university.edu for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "daniel.singh@university.edu"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1520,
+    "split": "challenge",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1521,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1522,
+    "split": "challenge",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1523,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1524,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1525,
+    "split": "test",
+    "text": "I currently live near Chicago, IL 60601.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1526,
+    "split": "test",
+    "text": "password: Rocket2923!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Rocket2923!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1527,
+    "split": "test",
+    "text": "The patient is 64 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "64 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1528,
+    "split": "test",
+    "text": "The patient is 13 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "13 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1529,
+    "split": "test",
+    "text": "Medicare POL33294792",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare POL33294792"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1530,
+    "split": "test",
+    "text": "Policy #: INS8162886",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS8162886"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1531,
+    "split": "challenge",
+    "text": "Customer record: Passport number: 105463454 Current coordinates: -67.3556°N, 19.5656°E Do not share SSN 452-53-2652.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "105463454"
+      },
+      {
+        "type": "coordinates",
+        "value": "67.3556°N, 19.5656°E"
+      },
+      {
+        "type": "ssn",
+        "value": "452-53-2652"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1532,
+    "split": "test",
+    "text": "Ship the package to 645 MG Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "645 MG Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1533,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1534,
+    "split": "test",
+    "text": "Do not share SSN 328-74-3449.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "328-74-3449"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1535,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1536,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1537,
+    "split": "challenge",
+    "text": "passwd Orange4100$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange4100$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1538,
+    "split": "challenge",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1539,
+    "split": "test",
+    "text": "Account: 36982578914154",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 36982578914154"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1540,
+    "split": "test",
+    "text": "Username: @priya_1384",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_1384"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1541,
+    "split": "challenge",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1542,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1543,
+    "split": "test",
+    "text": "Routing 22249242",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1544,
+    "split": "challenge",
+    "text": "Private support note: The patient is 21 years old. Medicare M82231273",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "age",
+        "value": "21 years old"
+      },
+      {
+        "type": "medical_id",
+        "value": "Medicare M82231273"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1545,
+    "split": "challenge",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1546,
+    "split": "challenge",
+    "text": "Current coordinates: -62.6795°N, -63.9051°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "62.6795°N, -63.9051°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1547,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Vehicle VIN: F0BM44TK3MZPV3YK3 My personal email is aisha.iyer@example.com. The patient is 87 years old.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "F0BM44TK3MZPV3YK3"
+      },
+      {
+        "type": "email",
+        "value": "aisha.iyer@example.com"
+      },
+      {
+        "type": "age",
+        "value": "87 years old"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1548,
+    "split": "test",
+    "text": "Policy #: POL11175178",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: POL11175178"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1549,
+    "split": "test",
+    "text": "Travel document 596154137 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "596154137"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1550,
+    "split": "test",
+    "text": "Contact @dev_158 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_158"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1551,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1552,
+    "split": "challenge",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1553,
+    "split": "test",
+    "text": "Allowlist 46.98.248.32 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "46.98.248.32"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1554,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1555,
+    "split": "test",
+    "text": "DL number is CA445011519.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA445011519"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1556,
+    "split": "test",
+    "text": "The delivery destination is Chicago, IL 60601.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1557,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1558,
+    "split": "test",
+    "text": "Device identifier is b2-22-b8-86-64-83.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "b2-22-b8-86-64-83"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1559,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1560,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1561,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1562,
+    "split": "test",
+    "text": "Charge the purchase to 4130 9907 8847 3475.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4130 9907 8847 3475"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1563,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1564,
+    "split": "test",
+    "text": "Reach the customer on +44 7389 238665.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+44 7389 238665"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1565,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1566,
+    "split": "challenge",
+    "text": "Customer record: Reach the customer on (434) 533-7495. Client connected from 100.224.237.65.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "434) 533-7495"
+      },
+      {
+        "type": "ipv4",
+        "value": "100.224.237.65"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1567,
+    "split": "test",
+    "text": "The delivery destination is Seattle, WA 98101.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1568,
+    "split": "challenge",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1569,
+    "split": "test",
+    "text": "Passport number: 930246946",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "930246946"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1570,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1571,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1572,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1573,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1574,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1575,
+    "split": "test",
+    "text": "DOB is 1993-02-19.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1993-02-19"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1576,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1577,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1578,
+    "split": "test",
+    "text": "Card number: 4438672039428925",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4438672039428925"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1579,
+    "split": "challenge",
+    "text": "Ship the package to 5378 Oak Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "5378 Oak Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1580,
+    "split": "test",
+    "text": "Account email: aisha.sharma38@gmail.com",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "aisha.sharma38@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1581,
+    "split": "test",
+    "text": "The patient is 79 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "79 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1582,
+    "split": "challenge",
+    "text": "IPv6 address: 5010:61fb:ef46:53f3:c4cc:2056:755b:4a98",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "5010:61fb:ef46:53f3:c4cc:2056:755b:4a98"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1583,
+    "split": "challenge",
+    "text": "Phone number = (597) 273-7098",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "597) 273-7098"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1584,
+    "split": "challenge",
+    "text": "passwd Green4602$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Green4602$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1585,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1586,
+    "split": "test",
+    "text": "Contact @dev_6370 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_6370"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1587,
+    "split": "challenge",
+    "text": "DL number is A439393928.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A439393928"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1588,
+    "split": "test",
+    "text": "passwd Green5909$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Green5909$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1589,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1590,
+    "split": "test",
+    "text": "Device identifier is 83-81-be-56-93-72.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "83-81-be-56-93-72"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1591,
+    "split": "challenge",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1592,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1593,
+    "split": "challenge",
+    "text": "The patient is 86 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "86 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1594,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1595,
+    "split": "test",
+    "text": "Travel document 156906902 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "156906902"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1596,
+    "split": "test",
+    "text": "Account email: karan.iyer68@outlook.com",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "karan.iyer68@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1597,
+    "split": "test",
+    "text": "Allowlist 24.238.96.72 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "24.238.96.72"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1598,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1599,
+    "split": "test",
+    "text": "Contact @rahul_9882 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@rahul_9882"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1600,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1601,
+    "split": "test",
+    "text": "Reach the customer on +44 7249 327027.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+44 7249 327027"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1602,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1603,
+    "split": "test",
+    "text": "Vehicle VIN: 3ZLPHGMU367JTB3CW",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "3ZLPHGMU367JTB3CW"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1604,
+    "split": "challenge",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1605,
+    "split": "challenge",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1606,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1607,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1608,
+    "split": "test",
+    "text": "Device identifier is 3d:39:75:59:f3:22.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "3d:39:75:59:f3:22"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1609,
+    "split": "test",
+    "text": "Contact me at patel.neha@mail.org for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "patel.neha@mail.org"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1610,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1611,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1612,
+    "split": "test",
+    "text": "Allowlist 89.92.126.181 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "89.92.126.181"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1613,
+    "split": "test",
+    "text": "The node is reachable at 03c9:e9ac:69e6:03f7:e6fa:0756:fcc9:f626.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "03c9:e9ac:69e6:03f7:e6fa:0756:fcc9:f626"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1614,
+    "split": "test",
+    "text": "Device identifier is 3b:ef:90:fe:b4:b0.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "3b:ef:90:fe:b4:b0"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1615,
+    "split": "challenge",
+    "text": "Private support note: Ship the package to 5734 Lake View Road. My social handle is @priya_3803. Call me at (532) 504-2704.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "address",
+        "value": "5734 Lake View Road"
+      },
+      {
+        "type": "username",
+        "value": "@priya_3803"
+      },
+      {
+        "type": "phone",
+        "value": "532) 504-2704"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1616,
+    "split": "test",
+    "text": "Ship the package to 5034 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "5034 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1617,
+    "split": "challenge",
+    "text": "Client connected from 62.59.8.17.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "62.59.8.17"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1618,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1619,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1620,
+    "split": "test",
+    "text": "My social handle is @priya_753.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_753"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1621,
+    "split": "test",
+    "text": "passwd Green7842$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Green7842$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1622,
+    "split": "test",
+    "text": "Contact @dev_981 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_981"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1623,
+    "split": "challenge",
+    "text": "Private support note: Client connected from 212.172.198.139. password: Coffee333!",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "212.172.198.139"
+      },
+      {
+        "type": "password",
+        "value": "password: Coffee333!"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1624,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1625,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1626,
+    "split": "challenge",
+    "text": "The patient is 9 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "9 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1627,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1628,
+    "split": "test",
+    "text": "Device identifier is 6b-2f-f2-e8-d1-7c.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "6b-2f-f2-e8-d1-7c"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1629,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1630,
+    "split": "test",
+    "text": "Insurance ID POL78529274 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL78529274"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1631,
+    "split": "test",
+    "text": "My personal email is vikram.miller@gmail.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "vikram.miller@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1632,
+    "split": "challenge",
+    "text": "The patient is 4 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "4 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1633,
+    "split": "test",
+    "text": "Account: 26649166676156",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 26649166676156"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1634,
+    "split": "test",
+    "text": "Account: 47912733190071",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 47912733190071"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1635,
+    "split": "test",
+    "text": "Server IP is 166.136.120.226.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "166.136.120.226"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1636,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1637,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1638,
+    "split": "test",
+    "text": "Patient was born on 1977-02-17.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1977-02-17"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1639,
+    "split": "challenge",
+    "text": "The delivery destination is Denver, CO 80202.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1640,
+    "split": "challenge",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1641,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1642,
+    "split": "test",
+    "text": "I currently live near Seattle, WA 98101.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1643,
+    "split": "challenge",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1644,
+    "split": "test",
+    "text": "Reach the customer on +61 444 733 713.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+61 444 733 713"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1645,
+    "split": "test",
+    "text": "Deliver to 4093 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "4093 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1646,
+    "split": "test",
+    "text": "Patient was born on 2004-11-10.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "2004-11-10"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1647,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1648,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1649,
+    "split": "challenge",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1650,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1651,
+    "split": "test",
+    "text": "DOB is 1989-08-27.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1989-08-27"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1652,
+    "split": "challenge",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1653,
+    "split": "test",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1654,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1655,
+    "split": "test",
+    "text": "Server IP is 200.167.143.169.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "200.167.143.169"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1656,
+    "split": "challenge",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1657,
+    "split": "challenge",
+    "text": "Private support note: Vehicle VIN: E4MR48T9TWRWHNKB9 Client connected from 103.16.207.171. The delivery destination is Denver, CO 80202. Deliver to 3110 Main Road.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "E4MR48T9TWRWHNKB9"
+      },
+      {
+        "type": "ipv4",
+        "value": "103.16.207.171"
+      },
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      },
+      {
+        "type": "address",
+        "value": "3110 Main Road"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1658,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1659,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1660,
+    "split": "test",
+    "text": "Allowlist 160.42.39.254 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "160.42.39.254"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1661,
+    "split": "challenge",
+    "text": "Location pin is -50.9660°N, 149.4027°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "50.9660°N, 149.4027°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1662,
+    "split": "test",
+    "text": "pwd=Secure763#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Secure763#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1663,
+    "split": "challenge",
+    "text": "DL number is B108092991.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B108092991"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1664,
+    "split": "test",
+    "text": "My social handle is @admin_4717.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@admin_4717"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1665,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1666,
+    "split": "test",
+    "text": "Passport number: 740236915",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "740236915"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1667,
+    "split": "test",
+    "text": "Server IP is 65.96.50.146.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "65.96.50.146"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1668,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1669,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1670,
+    "split": "test",
+    "text": "Allowlist 69.32.208.77 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "69.32.208.77"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1671,
+    "split": "challenge",
+    "text": "Allowlist 71.55.38.123 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "71.55.38.123"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1672,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1673,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1674,
+    "split": "test",
+    "text": "VIN RJX652TX085EBA4C5 is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "RJX652TX085EBA4C5"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1675,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1676,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1677,
+    "split": "challenge",
+    "text": "Customer record: Payment card 6596982635182666 is on file. The delivery destination is Denver, CO 80202.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6596982635182666"
+      },
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1678,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1679,
+    "split": "test",
+    "text": "passwd Blue9644$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Blue9644$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1680,
+    "split": "test",
+    "text": "Vehicle VIN: M0EGKVYU6PXLUH5HR",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "M0EGKVYU6PXLUH5HR"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1681,
+    "split": "challenge",
+    "text": "password: Tiger8891!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Tiger8891!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1682,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1683,
+    "split": "test",
+    "text": "Office location: Boston, MA 02108",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1684,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1685,
+    "split": "test",
+    "text": "pwd=Alpha1933#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Alpha1933#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1686,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1687,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1688,
+    "split": "test",
+    "text": "Deliver to 6965 Tech Park Avenue.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6965 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1689,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1690,
+    "split": "test",
+    "text": "I currently live near Seattle, WA 98101.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1691,
+    "split": "test",
+    "text": "Contact @admin_2045 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@admin_2045"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1692,
+    "split": "test",
+    "text": "Date of birth: 1992-07-09",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1992-07-09"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1693,
+    "split": "challenge",
+    "text": "DL number is TX121480062.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX121480062"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1694,
+    "split": "test",
+    "text": "Routing 48135533",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1695,
+    "split": "test",
+    "text": "The patient is 11 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "11 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1696,
+    "split": "test",
+    "text": "Date of birth: 09/07/1991",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "09/07/1991"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1697,
+    "split": "test",
+    "text": "Do not share SSN 806-70-1094.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "806-70-1094"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1698,
+    "split": "challenge",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1699,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1700,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1701,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1702,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1703,
+    "split": "test",
+    "text": "Deliver to 2900 Tech Park Avenue.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "2900 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1704,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1705,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1706,
+    "split": "challenge",
+    "text": "Charge the purchase to 5609-7895-9267-3000.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5609-7895-9267-3000"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1707,
+    "split": "challenge",
+    "text": "Internal test prompt: Contact me at das.maya@company.co.uk for the project. Deliver to 2072 Oak Street.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "email",
+        "value": "das.maya@company.co.uk"
+      },
+      {
+        "type": "address",
+        "value": "2072 Oak Street"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1708,
+    "split": "challenge",
+    "text": "Bank account number 17007942858274 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1709,
+    "split": "challenge",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1710,
+    "split": "test",
+    "text": "Current coordinates: 21.4753°N, 105.6731°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "21.4753°N, 105.6731°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1711,
+    "split": "test",
+    "text": "Account: 46766744748530",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 46766744748530"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1712,
+    "split": "challenge",
+    "text": "Server IP is 9.91.157.52.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "9.91.157.52"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1713,
+    "split": "test",
+    "text": "Please send the report to daniel_966@outlook.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "daniel_966@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1714,
+    "split": "test",
+    "text": "password: Rocket4893!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Rocket4893!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1715,
+    "split": "test",
+    "text": "passwd Orange6458$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange6458$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1716,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1717,
+    "split": "challenge",
+    "text": "The patient is 47 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "47 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1718,
+    "split": "challenge",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1719,
+    "split": "challenge",
+    "text": "My social handle is @suraj_4292.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_4292"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1720,
+    "split": "test",
+    "text": "Passport number: 255286195",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "255286195"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1721,
+    "split": "test",
+    "text": "Date of birth: 12/20/1972",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "12/20/1972"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1722,
+    "split": "test",
+    "text": "Deliver to 3381 Main Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "3381 Main Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1723,
+    "split": "test",
+    "text": "password: Rocket8492!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Rocket8492!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1724,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1725,
+    "split": "test",
+    "text": "Charge the purchase to 5756-9646-9953-4808.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5756-9646-9953-4808"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1726,
+    "split": "test",
+    "text": "My personal email is maya.thomas@mail.org.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "maya.thomas@mail.org"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1727,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1728,
+    "split": "test",
+    "text": "The applicant's SSN is 525-14-3029.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "525-14-3029"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1729,
+    "split": "test",
+    "text": "Acct 66824873230938",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 66824873230938"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1730,
+    "split": "challenge",
+    "text": "Acct 71831242759714",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 71831242759714"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1731,
+    "split": "test",
+    "text": "Travel document 646508745 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "646508745"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1732,
+    "split": "test",
+    "text": "IPv6 address: e70b:308d:8d66:0098:fccf:b723:6279:a310",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "e70b:308d:8d66:0098:fccf:b723:6279:a310"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1733,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1734,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Phone number = (530) 332-3411 My social handle is @dev_6677.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "530) 332-3411"
+      },
+      {
+        "type": "username",
+        "value": "@dev_6677"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1735,
+    "split": "test",
+    "text": "Travel document 441652280 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "441652280"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1736,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1737,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1738,
+    "split": "challenge",
+    "text": "passwd Orange4784$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange4784$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1739,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1740,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1741,
+    "split": "challenge",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1742,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1743,
+    "split": "test",
+    "text": "SSN on file: 244-96-7296",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "244-96-7296"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1744,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1745,
+    "split": "test",
+    "text": "Device identifier is 31:83:4f:29:a3:9e.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "31:83:4f:29:a3:9e"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1746,
+    "split": "challenge",
+    "text": "User supplied this message: DOB is 05/31/2002. Allowlist 18.7.237.216 for this test.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "05/31/2002"
+      },
+      {
+        "type": "ipv4",
+        "value": "18.7.237.216"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1747,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1748,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1749,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1750,
+    "split": "test",
+    "text": "Policy #: M73512714",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: M73512714"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1751,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1752,
+    "split": "test",
+    "text": "Reach the customer on (742) 770-8833.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "742) 770-8833"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1753,
+    "split": "challenge",
+    "text": "IPv6 address: 325f:be68:8d0f:fffa:86f3:b3f5:50f8:7928",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "325f:be68:8d0f:fffa:86f3:b3f5:50f8:7928"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1754,
+    "split": "test",
+    "text": "The patient is 8 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "8 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1755,
+    "split": "test",
+    "text": "VIN 3GKHNTLZ4ZFMMYEEB is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "3GKHNTLZ4ZFMMYEEB"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1756,
+    "split": "test",
+    "text": "Account email: rahul.sharma@outlook.com",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "rahul.sharma@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1757,
+    "split": "test",
+    "text": "My social handle is @suraj_6758.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_6758"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1758,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1759,
+    "split": "test",
+    "text": "pwd=Delta4376#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Delta4376#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1760,
+    "split": "test",
+    "text": "IPv6 address: 08c5:6cf1:7b74:bf15:9423:8c14:4f7c:5858",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "08c5:6cf1:7b74:bf15:9423:8c14:4f7c:5858"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1761,
+    "split": "challenge",
+    "text": "Account: 42803213316615",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 42803213316615"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1762,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1763,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1764,
+    "split": "test",
+    "text": "Contact @rahul_5455 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@rahul_5455"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1765,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1766,
+    "split": "test",
+    "text": "Account: 93646408125873",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 93646408125873"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1767,
+    "split": "test",
+    "text": "Travel document 121096181 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "121096181"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1768,
+    "split": "test",
+    "text": "Ship the package to 1453 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "1453 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1769,
+    "split": "test",
+    "text": "Office location: Seattle, WA 98101",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1770,
+    "split": "test",
+    "text": "Medicare INS51131823",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare INS51131823"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1771,
+    "split": "challenge",
+    "text": "User supplied this message: Office location: Boston, MA 02108 The applicant's SSN is 317-85-2786.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      },
+      {
+        "type": "ssn",
+        "value": "317-85-2786"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1772,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1773,
+    "split": "test",
+    "text": "Deliver to 6356 Main Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6356 Main Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1774,
+    "split": "test",
+    "text": "Contact @dev_6053 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_6053"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1775,
+    "split": "test",
+    "text": "Driver license: B834152821",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B834152821"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1776,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1777,
+    "split": "challenge",
+    "text": "Reach the customer on +91 65735 60845.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 65735 60845"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1778,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1779,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1780,
+    "split": "challenge",
+    "text": "passwd Green7721$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Green7721$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1781,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1782,
+    "split": "test",
+    "text": "Reach the customer on +91 91583 54803.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 91583 54803"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1783,
+    "split": "challenge",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1784,
+    "split": "test",
+    "text": "Travel document 684724509 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "684724509"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1785,
+    "split": "test",
+    "text": "Current coordinates: -76.2319°N, 139.2959°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "76.2319°N, 139.2959°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1786,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1787,
+    "split": "test",
+    "text": "Account: 94694037616475",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 94694037616475"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1788,
+    "split": "test",
+    "text": "Location pin is 71.9827°N, -10.8609°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "71.9827°N, -10.8609°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1789,
+    "split": "test",
+    "text": "Ship the package to 3384 MG Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "3384 MG Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1790,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1791,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1792,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1793,
+    "split": "test",
+    "text": "Policy #: M23970871",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: M23970871"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1794,
+    "split": "challenge",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1795,
+    "split": "challenge",
+    "text": "DL number is NY330841408.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "NY330841408"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1796,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1797,
+    "split": "challenge",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1798,
+    "split": "challenge",
+    "text": "Reach the customer on (885) 971-5787.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "885) 971-5787"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1799,
+    "split": "test",
+    "text": "Username: @priya_982",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_982"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1800,
+    "split": "test",
+    "text": "MAC address: 87-ae-b9-ec-0e-45",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "87-ae-b9-ec-0e-45"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1801,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1802,
+    "split": "challenge",
+    "text": "Contact @rahul_1155 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@rahul_1155"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1803,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1804,
+    "split": "challenge",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1805,
+    "split": "test",
+    "text": "Charge the purchase to 4812 9723 7012 7839.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4812 9723 7012 7839"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1806,
+    "split": "test",
+    "text": "Please send the report to thomas.priya@mail.org.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "thomas.priya@mail.org"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1807,
+    "split": "test",
+    "text": "Routing 635092918",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 635092918"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1808,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1809,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1810,
+    "split": "test",
+    "text": "DL number is A736489565.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A736489565"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1811,
+    "split": "test",
+    "text": "Client connected from 37.46.104.239.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "37.46.104.239"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1812,
+    "split": "test",
+    "text": "Payment card 5691 7353 2184 5186 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5691 7353 2184 5186"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1813,
+    "split": "challenge",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1814,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1815,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1816,
+    "split": "test",
+    "text": "VIN P8XWR8CJM833SMTGF is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "P8XWR8CJM833SMTGF"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1817,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1818,
+    "split": "challenge",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1819,
+    "split": "test",
+    "text": "Bank account number 64618611606317 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1820,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1821,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1822,
+    "split": "test",
+    "text": "SSN on file: 701-61-1406",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "701-61-1406"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1823,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1824,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1825,
+    "split": "test",
+    "text": "The patient is 92 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "92 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1826,
+    "split": "test",
+    "text": "Travel document 815569376 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "815569376"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1827,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1828,
+    "split": "challenge",
+    "text": "Office location: Austin, TX 78701",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1829,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1830,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1831,
+    "split": "challenge",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1832,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1833,
+    "split": "challenge",
+    "text": "DL number is CA229022570.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA229022570"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1834,
+    "split": "challenge",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1835,
+    "split": "challenge",
+    "text": "Payment card 5404180053492659 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5404180053492659"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1836,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1837,
+    "split": "challenge",
+    "text": "Card number: 4956 0305 0864 3346",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4956 0305 0864 3346"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1838,
+    "split": "test",
+    "text": "Policy #: POL79025212",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: POL79025212"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1839,
+    "split": "test",
+    "text": "Date of birth: 2004-04-30",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "2004-04-30"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1840,
+    "split": "challenge",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1841,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1842,
+    "split": "test",
+    "text": "SSN on file: 555-39-1493",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "555-39-1493"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1843,
+    "split": "test",
+    "text": "Acct 78530735874054",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 78530735874054"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1844,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1845,
+    "split": "test",
+    "text": "Account: 94046525487211",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 94046525487211"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1846,
+    "split": "test",
+    "text": "Patient was born on 1994-02-19.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1994-02-19"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1847,
+    "split": "test",
+    "text": "VIN F2DG8YPG3411YZ7MA is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "F2DG8YPG3411YZ7MA"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1848,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1849,
+    "split": "test",
+    "text": "Bank account number 46920204995249 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1850,
+    "split": "challenge",
+    "text": "Location pin is -9.4936°N, -0.1980°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "9.4936°N, -0.1980°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1851,
+    "split": "test",
+    "text": "Routing 930764571",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 930764571"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1852,
+    "split": "challenge",
+    "text": "Account email: rao.priya@university.edu",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "rao.priya@university.edu"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1853,
+    "split": "challenge",
+    "text": "The patient is 11 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "11 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1854,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1855,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1856,
+    "split": "test",
+    "text": "I currently live near Austin, TX 78701.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1857,
+    "split": "challenge",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1858,
+    "split": "challenge",
+    "text": "Current coordinates: 86.8706°N, -8.0090°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "86.8706°N, -8.0090°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1859,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1860,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1861,
+    "split": "challenge",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1862,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1863,
+    "split": "test",
+    "text": "Card number: 6895232764402420",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6895232764402420"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1864,
+    "split": "test",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1865,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1866,
+    "split": "test",
+    "text": "Routing 986727278",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 986727278"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1867,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1868,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1869,
+    "split": "test",
+    "text": "Travel document 551819648 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "551819648"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1870,
+    "split": "test",
+    "text": "Patient was born on 1971-07-19.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1971-07-19"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1871,
+    "split": "test",
+    "text": "password: Nimbus111!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Nimbus111!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1872,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1873,
+    "split": "test",
+    "text": "Do not expose arjun.thomas87@university.edu to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "arjun.thomas87@university.edu"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1874,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1875,
+    "split": "test",
+    "text": "Allowlist 24.242.95.85 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "24.242.95.85"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1876,
+    "split": "challenge",
+    "text": "Home address: 6938 Tech Park Avenue",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6938 Tech Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1877,
+    "split": "test",
+    "text": "SSN on file: 242-50-7004",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "242-50-7004"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1878,
+    "split": "test",
+    "text": "Routing 652957613",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 652957613"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1879,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1880,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1881,
+    "split": "test",
+    "text": "Reach the customer on (543) 283-3709.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "543) 283-3709"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1882,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1883,
+    "split": "test",
+    "text": "IPv6 address: 0ca8:aaf3:e3b9:329f:10f6:4f59:191b:3a26",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "0ca8:aaf3:e3b9:329f:10f6:4f59:191b:3a26"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1884,
+    "split": "challenge",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1885,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1886,
+    "split": "test",
+    "text": "Driver license: CA720294467",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA720294467"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1887,
+    "split": "test",
+    "text": "The node is reachable at eb7b:375c:064c:4f1a:327e:3051:3d77:d3ae.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "eb7b:375c:064c:4f1a:327e:3051:3d77:d3ae"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1888,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1889,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1890,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1891,
+    "split": "test",
+    "text": "Location pin is -65.2719°N, 7.7776°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "65.2719°N, 7.7776°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1892,
+    "split": "test",
+    "text": "Current coordinates: 35.7113°N, -41.6835°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "35.7113°N, -41.6835°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1893,
+    "split": "challenge",
+    "text": "Contact @dev_284 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_284"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1894,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1895,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1896,
+    "split": "challenge",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1897,
+    "split": "challenge",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1898,
+    "split": "test",
+    "text": "Card number: 5656194665502198",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5656194665502198"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1899,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1900,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1901,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1902,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1903,
+    "split": "challenge",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1904,
+    "split": "test",
+    "text": "The node is reachable at 3df6:b18d:700b:c0df:47d5:5937:dae1:9e55.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "3df6:b18d:700b:c0df:47d5:5937:dae1:9e55"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1905,
+    "split": "test",
+    "text": "Vehicle VIN: HB8WF06D3M05XZGZK",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "HB8WF06D3M05XZGZK"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1906,
+    "split": "challenge",
+    "text": "User supplied this message: Patient was born on 08/20/1967. I currently live near Boston, MA 02108.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "08/20/1967"
+      },
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1907,
+    "split": "challenge",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1908,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1909,
+    "split": "test",
+    "text": "Contact @priya_4639 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_4639"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1910,
+    "split": "test",
+    "text": "The patient is 87 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "87 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1911,
+    "split": "test",
+    "text": "passwd Blue7770$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Blue7770$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1912,
+    "split": "challenge",
+    "text": "Travel document 831769330 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "831769330"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1913,
+    "split": "challenge",
+    "text": "Internal test prompt: The patient is 97 years old. password: Nimbus5909! Driver license: NY773993554 Client connected from 88.228.177.228.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "age",
+        "value": "97 years old"
+      },
+      {
+        "type": "password",
+        "value": "password: Nimbus5909!"
+      },
+      {
+        "type": "driver_license",
+        "value": "NY773993554"
+      },
+      {
+        "type": "ipv4",
+        "value": "88.228.177.228"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1914,
+    "split": "test",
+    "text": "Contact @arjun_8527 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_8527"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1915,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1916,
+    "split": "test",
+    "text": "The applicant's SSN is 386-82-1891.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "386-82-1891"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1917,
+    "split": "challenge",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1918,
+    "split": "test",
+    "text": "Server IP is 23.194.231.179.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "23.194.231.179"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1919,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1920,
+    "split": "challenge",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1921,
+    "split": "challenge",
+    "text": "The applicant's SSN is 304-30-8353.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "304-30-8353"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1922,
+    "split": "test",
+    "text": "SSN on file: 263-96-1518",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "263-96-1518"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1923,
+    "split": "challenge",
+    "text": "password: Nimbus6694!",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "password: Nimbus6694!"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1924,
+    "split": "test",
+    "text": "Policy #: POL16710275",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: POL16710275"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1925,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1926,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1927,
+    "split": "challenge",
+    "text": "User supplied this message: Phone number = (747) 200-2098 Please send the report to aisha_258@example.com. VIN 8DER35YEXJ7NBTS6X is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "747) 200-2098"
+      },
+      {
+        "type": "email",
+        "value": "aisha_258@example.com"
+      },
+      {
+        "type": "vin",
+        "value": "8DER35YEXJ7NBTS6X"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1928,
+    "split": "test",
+    "text": "The patient is 72 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "72 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1929,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1930,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1931,
+    "split": "test",
+    "text": "IPv6 address: 6061:f87c:3177:7ed0:c6c9:05b0:f11a:8bc1",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "6061:f87c:3177:7ed0:c6c9:05b0:f11a:8bc1"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1932,
+    "split": "test",
+    "text": "Card number: 5293-6299-3345-4887",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5293-6299-3345-4887"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1933,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1934,
+    "split": "test",
+    "text": "Server IP is 37.17.90.142.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "37.17.90.142"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1935,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1936,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1937,
+    "split": "test",
+    "text": "Charge the purchase to 5257 5094 2840 9956.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5257 5094 2840 9956"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1938,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1939,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1940,
+    "split": "challenge",
+    "text": "Bank account number 259207883819 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1941,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1942,
+    "split": "test",
+    "text": "The patient is 12 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "12 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1943,
+    "split": "test",
+    "text": "DL number is TX913700128.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX913700128"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1944,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Bank account number 81587859354824 is confidential. SSN on file: 342-44-6666 The patient is 98 years old.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "342-44-6666"
+      },
+      {
+        "type": "age",
+        "value": "98 years old"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 1945,
+    "split": "test",
+    "text": "MAC address: fd-e0-f9-8c-e4-6b",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "fd-e0-f9-8c-e4-6b"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1946,
+    "split": "test",
+    "text": "Ship the package to 5777 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "5777 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1947,
+    "split": "test",
+    "text": "Card number: 6294689877309742",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6294689877309742"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1948,
+    "split": "test",
+    "text": "Charge the purchase to 6953-6535-0559-6650.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6953-6535-0559-6650"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1949,
+    "split": "test",
+    "text": "DL number is TX362912722.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX362912722"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1950,
+    "split": "test",
+    "text": "Reach the customer on (337) 516-2792.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "337) 516-2792"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1951,
+    "split": "test",
+    "text": "Office location: Chicago, IL 60601",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1952,
+    "split": "test",
+    "text": "The patient is 99 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "99 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1953,
+    "split": "test",
+    "text": "The GPU has 19 GB of VRAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1954,
+    "split": "test",
+    "text": "Ship the package to 6957 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6957 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1955,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1956,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1957,
+    "split": "challenge",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1958,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1959,
+    "split": "test",
+    "text": "Date of birth: 1967-12-13",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1967-12-13"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1960,
+    "split": "test",
+    "text": "IPv6 address: 70d2:72e2:902e:f1f8:f66e:efc1:9e68:629b",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "70d2:72e2:902e:f1f8:f66e:efc1:9e68:629b"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1961,
+    "split": "test",
+    "text": "DL number is TX663668164.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX663668164"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1962,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1963,
+    "split": "challenge",
+    "text": "The regex test string is AA:BB:CC:DD:EE:FF inside documentation.",
+    "expected_pii": false,
+    "category": "MAC-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1964,
+    "split": "challenge",
+    "text": "Vehicle VIN: Z3TFH1DZXWLB4MVY3",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "Z3TFH1DZXWLB4MVY3"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1965,
+    "split": "challenge",
+    "text": "Driver license: CA516402154",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA516402154"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1966,
+    "split": "test",
+    "text": "Allowlist 70.236.52.155 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "70.236.52.155"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1967,
+    "split": "test",
+    "text": "IPv6 address: ea49:2f7c:6580:79e7:5856:5a3c:62f3:402f",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "ea49:2f7c:6580:79e7:5856:5a3c:62f3:402f"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1968,
+    "split": "test",
+    "text": "Driver license: CA860458981",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA860458981"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1969,
+    "split": "challenge",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1970,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1971,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1972,
+    "split": "test",
+    "text": "Call me at (476) 313-3575.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "476) 313-3575"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1973,
+    "split": "test",
+    "text": "Deliver to 6091 Park Avenue.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6091 Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1974,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1975,
+    "split": "challenge",
+    "text": "Travel document 526916992 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "526916992"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1976,
+    "split": "test",
+    "text": "passwd Orange6606$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange6606$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1977,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1978,
+    "split": "test",
+    "text": "Do not share SSN 781-71-4488.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "781-71-4488"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1979,
+    "split": "challenge",
+    "text": "VIN ES62Y7RX3UXWNPGPA is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "ES62Y7RX3UXWNPGPA"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1980,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1981,
+    "split": "test",
+    "text": "Do not share SSN 853-20-2714.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "853-20-2714"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1982,
+    "split": "test",
+    "text": "I currently live near Seattle, WA 98101.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1983,
+    "split": "test",
+    "text": "DL number is NY868367781.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "NY868367781"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1984,
+    "split": "test",
+    "text": "passwd Green8647$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Green8647$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1985,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1986,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1987,
+    "split": "challenge",
+    "text": "Deliver to 7870 Lake View Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7870 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1988,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1989,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1990,
+    "split": "test",
+    "text": "The patient is 90 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "90 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1991,
+    "split": "test",
+    "text": "Current coordinates: 13.6100°N, 120.1049°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "13.6100°N, 120.1049°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1992,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1993,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1994,
+    "split": "test",
+    "text": "The node is reachable at 1a34:3967:499e:33fc:b283:d929:3f63:14bb.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "1a34:3967:499e:33fc:b283:d929:3f63:14bb"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1995,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 1996,
+    "split": "test",
+    "text": "Location pin is 14.6423°N, 107.3084°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "14.6423°N, 107.3084°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1997,
+    "split": "challenge",
+    "text": "Date of birth: 1982-09-02",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1982-09-02"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1998,
+    "split": "test",
+    "text": "Allowlist 40.117.118.235 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "40.117.118.235"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 1999,
+    "split": "test",
+    "text": "Charge the purchase to 6122864098385429.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6122864098385429"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2000,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2001,
+    "split": "challenge",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2002,
+    "split": "test",
+    "text": "MAC address: e2-13-43-45-4a-89",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "e2-13-43-45-4a-89"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2003,
+    "split": "test",
+    "text": "Do not share SSN 385-69-9037.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "385-69-9037"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2004,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2005,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2006,
+    "split": "test",
+    "text": "Office location: Denver, CO 80202",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2007,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2008,
+    "split": "test",
+    "text": "Server IP is 123.26.45.108.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "123.26.45.108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2009,
+    "split": "test",
+    "text": "Travel document 278239211 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "278239211"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2010,
+    "split": "challenge",
+    "text": "Private support note: Contact @dev_1526 on the platform. IPv6 address: 2676:a951:3803:317e:a28d:62ef:33df:c17b Location pin is -45.5624°N, -2.1927°E.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_1526"
+      },
+      {
+        "type": "ipv6",
+        "value": "2676:a951:3803:317e:a28d:62ef:33df:c17b"
+      },
+      {
+        "type": "coordinates",
+        "value": "45.5624°N, -2.1927°E"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2011,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2012,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2013,
+    "split": "test",
+    "text": "DL number is B858751261.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B858751261"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2014,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2015,
+    "split": "test",
+    "text": "Card number: 6766 0194 4772 1276",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6766 0194 4772 1276"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2016,
+    "split": "test",
+    "text": "SSN on file: 245-43-8141",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "245-43-8141"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2017,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2018,
+    "split": "challenge",
+    "text": "Internal test prompt: Client connected from 66.5.237.14. DL number is B307785329. Patient was born on 11/07/1962.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "66.5.237.14"
+      },
+      {
+        "type": "driver_license",
+        "value": "B307785329"
+      },
+      {
+        "type": "dob",
+        "value": "11/07/1962"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2019,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2020,
+    "split": "test",
+    "text": "Allowlist 79.141.120.206 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "79.141.120.206"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2021,
+    "split": "test",
+    "text": "IPv6 address: fb7a:21df:74aa:4a6e:ddb3:6e25:5831:5028",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "fb7a:21df:74aa:4a6e:ddb3:6e25:5831:5028"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2022,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2023,
+    "split": "challenge",
+    "text": "The applicant's SSN is 399-15-6797.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "399-15-6797"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2024,
+    "split": "test",
+    "text": "Location pin is 60.0087°N, -176.6339°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "60.0087°N, -176.6339°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2025,
+    "split": "test",
+    "text": "The delivery destination is Boston, MA 02108.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2026,
+    "split": "challenge",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2027,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2028,
+    "split": "challenge",
+    "text": "Customer record: Please send the report to emily.thomas34@outlook.com. Emergency contact: +91 61881 53015 password: Coffee4306!",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "email",
+        "value": "emily.thomas34@outlook.com"
+      },
+      {
+        "type": "phone",
+        "value": "+91 61881 53015"
+      },
+      {
+        "type": "password",
+        "value": "password: Coffee4306!"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2029,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2030,
+    "split": "test",
+    "text": "Do not share SSN 798-54-1208.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "798-54-1208"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2031,
+    "split": "challenge",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2032,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2033,
+    "split": "challenge",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2034,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2035,
+    "split": "test",
+    "text": "Travel document 945802820 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "945802820"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2036,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2037,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2038,
+    "split": "test",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2039,
+    "split": "challenge",
+    "text": "Insurance ID POL71913906 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL71913906"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2040,
+    "split": "test",
+    "text": "DL number is NY554406770.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "NY554406770"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2041,
+    "split": "test",
+    "text": "DOB is 1969-01-16.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1969-01-16"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2042,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2043,
+    "split": "challenge",
+    "text": "Contact @dev_9670 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_9670"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2044,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2045,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2046,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2047,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2048,
+    "split": "test",
+    "text": "Routing 939254130",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 939254130"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2049,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2050,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2051,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2052,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2053,
+    "split": "test",
+    "text": "Device identifier is 6c-79-01-d2-bb-09.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "6c-79-01-d2-bb-09"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2054,
+    "split": "challenge",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2055,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2056,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2057,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2058,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2059,
+    "split": "test",
+    "text": "I currently live near Denver, CO 80202.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2060,
+    "split": "challenge",
+    "text": "Vehicle VIN: Y2ATA0XY5C6RFXK8F",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "Y2ATA0XY5C6RFXK8F"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2061,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2062,
+    "split": "challenge",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2063,
+    "split": "test",
+    "text": "Contact @admin_3054 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@admin_3054"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2064,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2065,
+    "split": "test",
+    "text": "VIN 1H77XM68ZGTVWAL70 is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "1H77XM68ZGTVWAL70"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2066,
+    "split": "test",
+    "text": "Phone number = +1 558 520 4782",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+1 558 520 4782"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2067,
+    "split": "test",
+    "text": "The applicant's SSN is 338-99-5027.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "338-99-5027"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2068,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2069,
+    "split": "test",
+    "text": "I currently live near Austin, TX 78701.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2070,
+    "split": "test",
+    "text": "Current coordinates: 89.3703°N, 6.6532°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "89.3703°N, 6.6532°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2071,
+    "split": "test",
+    "text": "Call me at +91 84904 72683.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 84904 72683"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2072,
+    "split": "challenge",
+    "text": "Reach the customer on +44 7660 393633.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+44 7660 393633"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2073,
+    "split": "test",
+    "text": "DL number is B858419276.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B858419276"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2074,
+    "split": "challenge",
+    "text": "Internal test prompt: My social handle is @arjun_4552. The patient is 19 years old.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_4552"
+      },
+      {
+        "type": "age",
+        "value": "19 years old"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2075,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2076,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2077,
+    "split": "challenge",
+    "text": "Ship the package to 854 MG Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "854 MG Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2078,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2079,
+    "split": "test",
+    "text": "Contact me at arjun.iyer61@outlook.com for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "arjun.iyer61@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2080,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2081,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2082,
+    "split": "challenge",
+    "text": "Device identifier is dc-64-9b-06-21-ee.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "dc-64-9b-06-21-ee"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2083,
+    "split": "test",
+    "text": "Account: 93231975605821",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 93231975605821"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2084,
+    "split": "test",
+    "text": "Bank account number 85950599294569 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2085,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2086,
+    "split": "test",
+    "text": "DL number is TX297569752.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX297569752"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2087,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2088,
+    "split": "challenge",
+    "text": "Driver license: CA792990916",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA792990916"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2089,
+    "split": "test",
+    "text": "Charge the purchase to 5073 3547 7565 8398.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5073 3547 7565 8398"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2090,
+    "split": "challenge",
+    "text": "Internal test prompt: My personal email is vikram.iyer@outlook.com. MAC address: 98-46-cc-be-c6-3a The delivery destination is San Jose, CA 95131.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "email",
+        "value": "vikram.iyer@outlook.com"
+      },
+      {
+        "type": "mac",
+        "value": "98-46-cc-be-c6-3a"
+      },
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2091,
+    "split": "test",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2092,
+    "split": "test",
+    "text": "pwd=Qwerty3279#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Qwerty3279#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2093,
+    "split": "test",
+    "text": "Vehicle VIN: K1LZ7ZLRJ9VM5F7TS",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "K1LZ7ZLRJ9VM5F7TS"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2094,
+    "split": "test",
+    "text": "My social handle is @dev_2372.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@dev_2372"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2095,
+    "split": "challenge",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2096,
+    "split": "challenge",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2097,
+    "split": "test",
+    "text": "Charge the purchase to 5867301975091045.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5867301975091045"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2098,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2099,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2100,
+    "split": "challenge",
+    "text": "Customer record: IPv6 address: a059:6a90:0e28:dadb:9c09:4bbe:7d22:0e7b Charge the purchase to 4046-2956-2844-4345.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "a059:6a90:0e28:dadb:9c09:4bbe:7d22:0e7b"
+      },
+      {
+        "type": "credit_card",
+        "value": "4046-2956-2844-4345"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2101,
+    "split": "challenge",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2102,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2103,
+    "split": "test",
+    "text": "Location pin is 67.9373°N, -82.7194°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "67.9373°N, -82.7194°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2104,
+    "split": "test",
+    "text": "DL number is TX278458059.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "TX278458059"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2105,
+    "split": "test",
+    "text": "Do not expose emily+work@company.co.uk to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "emily+work@company.co.uk"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2106,
+    "split": "test",
+    "text": "Ship the package to 4739 Main Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "4739 Main Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2107,
+    "split": "challenge",
+    "text": "User supplied this message: Acct 26961879152025 Contact @admin_9832 on the platform. Reach the customer on +61 443 782 942.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Acct 26961879152025"
+      },
+      {
+        "type": "username",
+        "value": "@admin_9832"
+      },
+      {
+        "type": "phone",
+        "value": "+61 443 782 942"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2108,
+    "split": "test",
+    "text": "Charge the purchase to 4648 6161 8873 3789.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "4648 6161 8873 3789"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2109,
+    "split": "test",
+    "text": "Patient was born on 1960-06-14.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1960-06-14"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2110,
+    "split": "challenge",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2111,
+    "split": "test",
+    "text": "The node is reachable at bebb:7bde:315e:e252:b14e:4433:6062:e9df.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "bebb:7bde:315e:e252:b14e:4433:6062:e9df"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2112,
+    "split": "challenge",
+    "text": "Private support note: Phone number = (792) 968-4971 Vehicle VIN: 3F95E5ZC8PBK2PV5Z Home address: 4749 Main Road pwd=Qwerty8321#",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "792) 968-4971"
+      },
+      {
+        "type": "vin",
+        "value": "3F95E5ZC8PBK2PV5Z"
+      },
+      {
+        "type": "address",
+        "value": "4749 Main Road"
+      },
+      {
+        "type": "password",
+        "value": "pwd=Qwerty8321#"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2113,
+    "split": "test",
+    "text": "Home address: 4573 Park Avenue",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "4573 Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2114,
+    "split": "test",
+    "text": "SSN on file: 317-74-4304",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "317-74-4304"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2115,
+    "split": "test",
+    "text": "The patient is 33 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "33 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2116,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2117,
+    "split": "test",
+    "text": "Home address: 8161 Park Avenue",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "8161 Park Avenue"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2118,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2119,
+    "split": "challenge",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2120,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Insurance ID POL56059043 belongs to the patient. VIN WPFTU608V09RLJSFK is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID POL56059043"
+      },
+      {
+        "type": "vin",
+        "value": "WPFTU608V09RLJSFK"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2121,
+    "split": "challenge",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2122,
+    "split": "test",
+    "text": "Current coordinates: 10.1804°N, -25.1179°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "10.1804°N, -25.1179°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2123,
+    "split": "challenge",
+    "text": "Customer record: Payment card 6671-3954-1078-9811 is on file. The delivery destination is Chicago, IL 60601.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6671-3954-1078-9811"
+      },
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2124,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2125,
+    "split": "challenge",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2126,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2127,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2128,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Account: 32336859430946 I currently live near Austin, TX 78701. MAC address: 72-a5-4a-5d-e4-09",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 32336859430946"
+      },
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      },
+      {
+        "type": "mac",
+        "value": "72-a5-4a-5d-e4-09"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2129,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2130,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2131,
+    "split": "test",
+    "text": "The processor has 11 cores and 113 GB RAM.",
+    "expected_pii": false,
+    "category": "Hardware",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2132,
+    "split": "test",
+    "text": "Device identifier is a7-c4-05-4b-e7-6e.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "a7-c4-05-4b-e7-6e"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2133,
+    "split": "challenge",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2134,
+    "split": "test",
+    "text": "pwd=Alpha9734#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Alpha9734#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2135,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2136,
+    "split": "test",
+    "text": "The release date is 2026-06-28.",
+    "expected_pii": false,
+    "category": "Date",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2137,
+    "split": "test",
+    "text": "Bank account number 94822312574372 is confidential.",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2138,
+    "split": "test",
+    "text": "DL number is B814901562.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B814901562"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2139,
+    "split": "test",
+    "text": "Transaction reference 995347428717 was accepted.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2140,
+    "split": "challenge",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2141,
+    "split": "test",
+    "text": "Medicare POL40714309",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare POL40714309"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2142,
+    "split": "test",
+    "text": "passwd Orange1699$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange1699$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2143,
+    "split": "test",
+    "text": "I currently live near Boston, MA 02108.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Boston, MA 02108"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2144,
+    "split": "test",
+    "text": "Location pin is -82.0663°N, -8.0245°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "82.0663°N, -8.0245°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2145,
+    "split": "test",
+    "text": "The patient is 28 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "28 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2146,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2147,
+    "split": "test",
+    "text": "Contact @priya_6563 on the platform.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@priya_6563"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2148,
+    "split": "challenge",
+    "text": "Customer record: Member ID: M65746454 Charge the purchase to 5040527162144516. Home address: 6929 Main Road",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: M65746454"
+      },
+      {
+        "type": "credit_card",
+        "value": "5040527162144516"
+      },
+      {
+        "type": "address",
+        "value": "6929 Main Road"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2149,
+    "split": "test",
+    "text": "const id = 3358;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2150,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2151,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2152,
+    "split": "challenge",
+    "text": "Internal test prompt: Location pin is -86.6156°N, -36.6189°E. Charge the purchase to 6204-7651-6075-1094. Device identifier is 93-bb-8e-3d-c5-7e.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "86.6156°N, -36.6189°E"
+      },
+      {
+        "type": "credit_card",
+        "value": "6204-7651-6075-1094"
+      },
+      {
+        "type": "mac",
+        "value": "93-bb-8e-3d-c5-7e"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2153,
+    "split": "test",
+    "text": "pwd=Alpha335#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Alpha335#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2154,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2155,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2156,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2157,
+    "split": "test",
+    "text": "passwd Orange6786$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange6786$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2158,
+    "split": "test",
+    "text": "The patient is 41 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "41 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2159,
+    "split": "challenge",
+    "text": "Private support note: Location pin is 0.3450°N, 42.1277°E. Office location: Seattle, WA 98101 The patient is 99 years old. MAC address: 93-11-b3-6a-35-2d",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "0.3450°N, 42.1277°E"
+      },
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      },
+      {
+        "type": "age",
+        "value": "99 years old"
+      },
+      {
+        "type": "mac",
+        "value": "93-11-b3-6a-35-2d"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2160,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2161,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2162,
+    "split": "challenge",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2163,
+    "split": "test",
+    "text": "Driver license: CA420092692",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA420092692"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2164,
+    "split": "challenge",
+    "text": "User supplied this message: Driver license: NY552825014 MAC address: c4:60:d2:e0:5b:ee Member ID: M14365759",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "NY552825014"
+      },
+      {
+        "type": "mac",
+        "value": "c4:60:d2:e0:5b:ee"
+      },
+      {
+        "type": "medical_id",
+        "value": "Member ID: M14365759"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2165,
+    "split": "test",
+    "text": "VIN R2442LYMS5TP1WW04 is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "R2442LYMS5TP1WW04"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2166,
+    "split": "challenge",
+    "text": "The regex example mentions 123 Main Road as a dummy string.",
+    "expected_pii": false,
+    "category": "Address-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2167,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2168,
+    "split": "test",
+    "text": "Emergency contact: +91 87361 10879",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 87361 10879"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2169,
+    "split": "test",
+    "text": "Server IP is 106.121.214.53.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "106.121.214.53"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2170,
+    "split": "test",
+    "text": "Office location: Chicago, IL 60601",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2171,
+    "split": "challenge",
+    "text": "The patient is 29 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "29 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2172,
+    "split": "test",
+    "text": "My personal email is karan_89@outlook.com.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "karan_89@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2173,
+    "split": "test",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2174,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2175,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2176,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2177,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2178,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2179,
+    "split": "challenge",
+    "text": "Call me at +61 405 250 859.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+61 405 250 859"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2180,
+    "split": "test",
+    "text": "Payment card 6081 5744 8726 0401 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6081 5744 8726 0401"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2181,
+    "split": "challenge",
+    "text": "Internal test prompt: passwd Blue8828$ Passport number: 735560936 My personal email is karan_315@outlook.com. DL number is CA596788065.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Blue8828$"
+      },
+      {
+        "type": "passport",
+        "value": "735560936"
+      },
+      {
+        "type": "email",
+        "value": "karan_315@outlook.com"
+      },
+      {
+        "type": "driver_license",
+        "value": "CA596788065"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2182,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2183,
+    "split": "test",
+    "text": "Server IP is 29.15.241.158.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "29.15.241.158"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2184,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2185,
+    "split": "challenge",
+    "text": "Location pin is -74.1604°N, -173.6403°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "74.1604°N, -173.6403°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2186,
+    "split": "test",
+    "text": "Passport number: 490776073",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "490776073"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2187,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2188,
+    "split": "challenge",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2189,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2190,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2191,
+    "split": "challenge",
+    "text": "pwd=Delta9944#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Delta9944#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2192,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2193,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2194,
+    "split": "test",
+    "text": "I currently live near Denver, CO 80202.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2195,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2196,
+    "split": "test",
+    "text": "Reach the customer on +91 97679 40566.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 97679 40566"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2197,
+    "split": "test",
+    "text": "IPv6 address: bc19:4005:0c55:9157:281c:c6cf:9816:7f3e",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "bc19:4005:0c55:9157:281c:c6cf:9816:7f3e"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2198,
+    "split": "test",
+    "text": "Current coordinates: -51.0539°N, 21.7006°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "51.0539°N, 21.7006°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2199,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2200,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2201,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2202,
+    "split": "test",
+    "text": "Routing 546777726",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 546777726"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2203,
+    "split": "test",
+    "text": "SSN on file: 468-70-1970",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "468-70-1970"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2204,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2205,
+    "split": "test",
+    "text": "Ship the package to 6032 Main Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "6032 Main Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2206,
+    "split": "test",
+    "text": "The patient is 99 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "99 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2207,
+    "split": "test",
+    "text": "MAC address: b7:c9:bb:b1:b8:cc",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "b7:c9:bb:b1:b8:cc"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2208,
+    "split": "challenge",
+    "text": "Vehicle VIN: ZAJ06L3FZRKUHSXY0",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "ZAJ06L3FZRKUHSXY0"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2209,
+    "split": "test",
+    "text": "The patient is 85 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "85 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2210,
+    "split": "test",
+    "text": "Home address: 7444 Lake View Road",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7444 Lake View Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2211,
+    "split": "test",
+    "text": "The package contains 24 units and weighs 12 kg.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2212,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2213,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2214,
+    "split": "test",
+    "text": "DL number is B940391224.",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "B940391224"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2215,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2216,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2217,
+    "split": "test",
+    "text": "The product code is 622-275-2327.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2218,
+    "split": "test",
+    "text": "VIN 1UC4E2WW6FRGN3420 is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "1UC4E2WW6FRGN3420"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2219,
+    "split": "test",
+    "text": "The patient is 7 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "7 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2220,
+    "split": "test",
+    "text": "The applicant's SSN is 353-84-1497.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "353-84-1497"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2221,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2222,
+    "split": "challenge",
+    "text": "Internal test prompt: Location pin is 42.5458°N, -117.0712°E. The node is reachable at 8d47:4068:70ec:9a59:548e:2608:cb06:2fa3.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "42.5458°N, -117.0712°E"
+      },
+      {
+        "type": "ipv6",
+        "value": "8d47:4068:70ec:9a59:548e:2608:cb06:2fa3"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2223,
+    "split": "test",
+    "text": "passwd Orange9414$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Orange9414$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2224,
+    "split": "test",
+    "text": "Home address: 5809 Market Street",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "5809 Market Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2225,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2226,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2227,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2228,
+    "split": "challenge",
+    "text": "Private support note: Do not share SSN 509-28-4460. IPv6 address: 23fe:9c8d:3833:31f3:b327:fe34:8f67:00d5",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "509-28-4460"
+      },
+      {
+        "type": "ipv6",
+        "value": "23fe:9c8d:3833:31f3:b327:fe34:8f67:00d5"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2229,
+    "split": "test",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2230,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2231,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2232,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2233,
+    "split": "test",
+    "text": "IPv6 address: db1d:350f:0708:6cbd:c39d:3c15:12a9:2571",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "db1d:350f:0708:6cbd:c39d:3c15:12a9:2571"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2234,
+    "split": "challenge",
+    "text": "Private support note: The patient is 88 years old. Username: @dev_137 Device identifier is e1-af-7c-6e-a8-8f.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "age",
+        "value": "88 years old"
+      },
+      {
+        "type": "username",
+        "value": "@dev_137"
+      },
+      {
+        "type": "mac",
+        "value": "e1-af-7c-6e-a8-8f"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2235,
+    "split": "test",
+    "text": "for (let i = 0; i < 29; i++) console.log(i);",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2236,
+    "split": "test",
+    "text": "Date of birth: 07/29/1962",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "07/29/1962"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2237,
+    "split": "test",
+    "text": "Policy #: INS92831874",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: INS92831874"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2238,
+    "split": "challenge",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2239,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2240,
+    "split": "test",
+    "text": "Account: 67609261632268",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 67609261632268"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2241,
+    "split": "test",
+    "text": "CREATE TABLE users (id INT PRIMARY KEY, name VARCHAR(50));",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2242,
+    "split": "challenge",
+    "text": "The appointment is on 12/10/2026.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2243,
+    "split": "test",
+    "text": "Passport number: 553361271",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "553361271"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2244,
+    "split": "test",
+    "text": "Do not expose karan.sharma55@company.co.uk to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "karan.sharma55@company.co.uk"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2245,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2246,
+    "split": "challenge",
+    "text": "Customer record: pwd=Secure6531# Location pin is -76.4052°N, -61.2464°E. The patient is 42 years old.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Secure6531#"
+      },
+      {
+        "type": "coordinates",
+        "value": "76.4052°N, -61.2464°E"
+      },
+      {
+        "type": "age",
+        "value": "42 years old"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2247,
+    "split": "challenge",
+    "text": "The applicant's SSN is 226-60-4406.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "226-60-4406"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2248,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2249,
+    "split": "test",
+    "text": "Software version 1.0.63 is installed.",
+    "expected_pii": false,
+    "category": "Version Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2250,
+    "split": "test",
+    "text": "Routing 412232253",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Routing 412232253"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2251,
+    "split": "challenge",
+    "text": "Medicare M74506088",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare M74506088"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2252,
+    "split": "test",
+    "text": "SSN on file: 779-95-8557",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "779-95-8557"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2253,
+    "split": "challenge",
+    "text": "User supplied this message: The patient is 85 years old. Medicare POL91640334 I currently live near Chicago, IL 60601. Vehicle VIN: RL38YRPK9UK2X9PMZ",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "age",
+        "value": "85 years old"
+      },
+      {
+        "type": "medical_id",
+        "value": "Medicare POL91640334"
+      },
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      },
+      {
+        "type": "vin",
+        "value": "RL38YRPK9UK2X9PMZ"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2254,
+    "split": "test",
+    "text": "Can you summarize the main idea of this document?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2255,
+    "split": "challenge",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2256,
+    "split": "challenge",
+    "text": "Policy #: POL59650086",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Policy #: POL59650086"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2257,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2258,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2259,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2260,
+    "split": "test",
+    "text": "Office location: Chicago, IL 60601",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Chicago, IL 60601"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2261,
+    "split": "test",
+    "text": "Device identifier is 55:cc:84:9d:0b:2f.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "55:cc:84:9d:0b:2f"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2262,
+    "split": "test",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2263,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2264,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2265,
+    "split": "test",
+    "text": "const card = \"4111 1111 1111 1112\"; // intentionally invalid Luhn example",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2266,
+    "split": "challenge",
+    "text": "DOB is 1970-03-31.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1970-03-31"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2267,
+    "split": "challenge",
+    "text": "ABCDEFGHIJKLMNPRST is an example string used only in documentation.",
+    "expected_pii": false,
+    "category": "VIN-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2268,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2269,
+    "split": "test",
+    "text": "VIN 4DVT9M65NT9YVF30X is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "4DVT9M65NT9YVF30X"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2270,
+    "split": "test",
+    "text": "Passport number: 429344573",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "429344573"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2271,
+    "split": "challenge",
+    "text": "Internal batch number: 1153884450590029.",
+    "expected_pii": false,
+    "category": "16-digit Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2272,
+    "split": "test",
+    "text": "Driver license: CA487916973",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA487916973"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2273,
+    "split": "test",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2274,
+    "split": "test",
+    "text": "Emergency contact: +91 63265 17479",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 63265 17479"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2275,
+    "split": "test",
+    "text": "Call me at +61 448 938 898.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+61 448 938 898"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2276,
+    "split": "test",
+    "text": "Deliver to 7018 Main Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7018 Main Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2277,
+    "split": "test",
+    "text": "Ship the package to 1833 Main Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "1833 Main Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2278,
+    "split": "test",
+    "text": "The node is reachable at f909:6f58:d152:cdee:5143:cf56:ec4a:5b73.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "f909:6f58:d152:cdee:5143:cf56:ec4a:5b73"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2279,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2280,
+    "split": "test",
+    "text": "MAC address: 16-1f-f5-53-46-d9",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "16-1f-f5-53-46-d9"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2281,
+    "split": "test",
+    "text": "Open https://example.com/products/584 for details.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2282,
+    "split": "test",
+    "text": "Travel document 308908138 is confidential.",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "308908138"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2283,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2284,
+    "split": "test",
+    "text": "DOB is 05/28/2005.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "05/28/2005"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2285,
+    "split": "test",
+    "text": "Username: @admin_7278",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@admin_7278"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2286,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2287,
+    "split": "test",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2288,
+    "split": "challenge",
+    "text": "The patient is 12 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "12 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2289,
+    "split": "test",
+    "text": "The node is reachable at a2e1:58cc:146a:59bd:0f48:6094:3ca5:9c15.",
+    "expected_pii": true,
+    "category": "IPv6",
+    "entities": [
+      {
+        "type": "ipv6",
+        "value": "a2e1:58cc:146a:59bd:0f48:6094:3ca5:9c15"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2290,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Card number: 6042-0653-7892-0870 IPv6 address: 8638:ea36:946f:3d43:b8be:ced0:25b1:a10a Acct 60486037845570 Reach the customer on +1 532 424 4485.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6042-0653-7892-0870"
+      },
+      {
+        "type": "ipv6",
+        "value": "8638:ea36:946f:3d43:b8be:ced0:25b1:a10a"
+      },
+      {
+        "type": "bank_account",
+        "value": "Acct 60486037845570"
+      },
+      {
+        "type": "phone",
+        "value": "+1 532 424 4485"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2291,
+    "split": "test",
+    "text": "Insurance ID M64359592 belongs to the patient.",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Insurance ID M64359592"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2292,
+    "split": "test",
+    "text": "Release scheduled for 2026-09-12.",
+    "expected_pii": false,
+    "category": "Date Context",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2293,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2294,
+    "split": "test",
+    "text": "I currently live near Denver, CO 80202.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Denver, CO 80202"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2295,
+    "split": "challenge",
+    "text": "Location pin is 62.7671°N, 38.0539°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "62.7671°N, 38.0539°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2296,
+    "split": "test",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2297,
+    "split": "test",
+    "text": "Do not expose john.nair@company.co.uk to third parties.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "john.nair@company.co.uk"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2298,
+    "split": "test",
+    "text": "Device identifier is dc-8b-05-0a-bb-9b.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "dc-8b-05-0a-bb-9b"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2299,
+    "split": "test",
+    "text": "The applicant's SSN is 154-19-6221.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "154-19-6221"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2300,
+    "split": "challenge",
+    "text": "Charge the purchase to 5267-5705-6847-1840.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "5267-5705-6847-1840"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2301,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2302,
+    "split": "test",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2303,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2304,
+    "split": "challenge",
+    "text": "The patient is 44 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "44 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2305,
+    "split": "test",
+    "text": "Location pin is 42.8403°N, -15.1865°E.",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "42.8403°N, -15.1865°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2306,
+    "split": "test",
+    "text": ".container { width: 177px; margin: 0 auto; }",
+    "expected_pii": false,
+    "category": "CSS",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2307,
+    "split": "challenge",
+    "text": "Phone number = +91 73981 16022",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 73981 16022"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2308,
+    "split": "challenge",
+    "text": "The loopback host is 127.0.0.1 in every local development environment.",
+    "expected_pii": false,
+    "category": "IP-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2309,
+    "split": "test",
+    "text": "pwd=Delta7247#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Delta7247#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2310,
+    "split": "test",
+    "text": "The meeting starts at 10:30 AM tomorrow.",
+    "expected_pii": false,
+    "category": "Normal Text",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2311,
+    "split": "challenge",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2312,
+    "split": "test",
+    "text": "The applicant's SSN is 298-18-6695.",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "298-18-6695"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2313,
+    "split": "test",
+    "text": "Call me at +91 98657 52946.",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+91 98657 52946"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2314,
+    "split": "test",
+    "text": "Routing 70755758",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2315,
+    "split": "test",
+    "text": "Client connected from 1.160.214.106.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "1.160.214.106"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2316,
+    "split": "test",
+    "text": "passwd Blue6636$",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "passwd Blue6636$"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2317,
+    "split": "test",
+    "text": "MAC address: 25-09-3c-02-4c-f2",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "25-09-3c-02-4c-f2"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2318,
+    "split": "challenge",
+    "text": "Customer record: Date of birth: 10/13/1980 Device identifier is 88:3a:49:45:18:16. I currently live near Austin, TX 78701. My social handle is @suraj_3087.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "10/13/1980"
+      },
+      {
+        "type": "mac",
+        "value": "88:3a:49:45:18:16"
+      },
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      },
+      {
+        "type": "username",
+        "value": "@suraj_3087"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2319,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2320,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2321,
+    "split": "test",
+    "text": "Android API level 34 and build 123456789 are not passport numbers.",
+    "expected_pii": false,
+    "category": "Version",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2322,
+    "split": "challenge",
+    "text": "Driver license: A114435399",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "A114435399"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2323,
+    "split": "challenge",
+    "text": "Patient was born on 1969-11-26.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1969-11-26"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2324,
+    "split": "test",
+    "text": "Contact me at aisha+work@outlook.com for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "aisha+work@outlook.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2325,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2326,
+    "split": "test",
+    "text": "Device identifier is 28:10:a1:ac:fb:4e.",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "28:10:a1:ac:fb:4e"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2327,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2328,
+    "split": "challenge",
+    "text": "Current coordinates: 50.5560°N, 124.6091°E",
+    "expected_pii": true,
+    "category": "Coordinates",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "50.5560°N, 124.6091°E"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2329,
+    "split": "challenge",
+    "text": "Date of birth: 02/24/1961",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "02/24/1961"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2330,
+    "split": "challenge",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2331,
+    "split": "challenge",
+    "text": "Deliver to 7257 MG Road.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "7257 MG Road"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2332,
+    "split": "test",
+    "text": "DOB is 1981-07-22.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1981-07-22"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2333,
+    "split": "test",
+    "text": "pwd=Alpha3247#",
+    "expected_pii": true,
+    "category": "Password",
+    "entities": [
+      {
+        "type": "password",
+        "value": "pwd=Alpha3247#"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2334,
+    "split": "test",
+    "text": "Contact me at karan.patel@gmail.com for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "karan.patel@gmail.com"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2335,
+    "split": "test",
+    "text": "VIN CZY634VE3GBV4EFEJ is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "CZY634VE3GBV4EFEJ"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2336,
+    "split": "test",
+    "text": "Patient was born on 12/17/1983.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "12/17/1983"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2337,
+    "split": "challenge",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2338,
+    "split": "test",
+    "text": "const apiUrl = \"https://api.example.com/v1/users/54\";",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2339,
+    "split": "test",
+    "text": "Phone number = +44 7063 350667",
+    "expected_pii": true,
+    "category": "Phone",
+    "entities": [
+      {
+        "type": "phone",
+        "value": "+44 7063 350667"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2340,
+    "split": "test",
+    "text": "What is the difference between TCP and UDP?",
+    "expected_pii": false,
+    "category": "General Query",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2341,
+    "split": "test",
+    "text": "VIN 6NZBXFTHGFF77E39N is registered to the vehicle.",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "6NZBXFTHGFF77E39N"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2342,
+    "split": "test",
+    "text": "The answer is x = 286 * 4.2.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2343,
+    "split": "test",
+    "text": "Member ID: M82474488",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: M82474488"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2344,
+    "split": "test",
+    "text": "The patient is 5 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "5 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2345,
+    "split": "challenge",
+    "text": "const phone = \"555-123-4567\"; // test fixture, not personal data",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2346,
+    "split": "test",
+    "text": "The ZIP+4 example is 12345-6789.",
+    "expected_pii": false,
+    "category": "Phone-like Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2347,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2348,
+    "split": "challenge",
+    "text": "{\"userId\": 549, \"status\": \"active\"}",
+    "expected_pii": false,
+    "category": "JSON",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2349,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2350,
+    "split": "test",
+    "text": "Contact me at aisha.thomas28@company.co.uk for the project.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "aisha.thomas28@company.co.uk"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2351,
+    "split": "test",
+    "text": "Deliver to 9765 Church Street.",
+    "expected_pii": true,
+    "category": "Address",
+    "entities": [
+      {
+        "type": "address",
+        "value": "9765 Church Street"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2352,
+    "split": "challenge",
+    "text": "I currently live near Austin, TX 78701.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Austin, TX 78701"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2353,
+    "split": "challenge",
+    "text": "The result of the benchmark was 19 percent.",
+    "expected_pii": false,
+    "category": "Math",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2354,
+    "split": "test",
+    "text": "See section 7.2 on page 37.",
+    "expected_pii": false,
+    "category": "Reference",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2355,
+    "split": "test",
+    "text": "Username: @arjun_2468",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_2468"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2356,
+    "split": "test",
+    "text": "Medicare INS54870926",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare INS54870926"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2357,
+    "split": "test",
+    "text": "Documentation: https://developer.mozilla.org/en-US/",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2358,
+    "split": "challenge",
+    "text": "Customer record: VIN 3MSLKHJN01TYS0GRY is registered to the vehicle. The patient is 70 years old.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "3MSLKHJN01TYS0GRY"
+      },
+      {
+        "type": "age",
+        "value": "70 years old"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2359,
+    "split": "test",
+    "text": "Driver license: CA970283551",
+    "expected_pii": true,
+    "category": "Driver's License",
+    "entities": [
+      {
+        "type": "driver_license",
+        "value": "CA970283551"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2360,
+    "split": "test",
+    "text": "DOB is 1969-01-12.",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1969-01-12"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2361,
+    "split": "challenge",
+    "text": "Medicare INS11706578",
+    "expected_pii": true,
+    "category": "Medical ID",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Medicare INS11706578"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2362,
+    "split": "test",
+    "text": "Passport number: 905409699",
+    "expected_pii": true,
+    "category": "Passport",
+    "entities": [
+      {
+        "type": "passport",
+        "value": "905409699"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2363,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2364,
+    "split": "test",
+    "text": "Username: @arjun_4028",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_4028"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2365,
+    "split": "test",
+    "text": "The delivery destination is San Jose, CA 95131.",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "San Jose, CA 95131"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2366,
+    "split": "test",
+    "text": "Date of birth: 1995-06-23",
+    "expected_pii": true,
+    "category": "Date of Birth",
+    "entities": [
+      {
+        "type": "dob",
+        "value": "1995-06-23"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2367,
+    "split": "test",
+    "text": "The measurement is 387921958672.",
+    "expected_pii": false,
+    "category": "Long Number",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2368,
+    "split": "test",
+    "text": "Allowlist 214.156.156.99 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "214.156.156.99"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2369,
+    "split": "test",
+    "text": "SELECT * FROM users WHERE id = 353;",
+    "expected_pii": false,
+    "category": "Database",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2370,
+    "split": "test",
+    "text": "The parser documentation uses the pattern 12.3456N, 78.9012E as an example.",
+    "expected_pii": false,
+    "category": "Coordinate-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2371,
+    "split": "test",
+    "text": "The email parser accepts values such as user_name without treating them as PII.",
+    "expected_pii": false,
+    "category": "Username-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2372,
+    "split": "challenge",
+    "text": "The patient is 58 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "58 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2373,
+    "split": "challenge",
+    "text": "Please sanitize before sending: Location pin is 18.0959°N, 126.7243°E. Routing 207606983 Travel document 732960821 is confidential.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "coordinates",
+        "value": "18.0959°N, 126.7243°E"
+      },
+      {
+        "type": "bank_account",
+        "value": "Routing 207606983"
+      },
+      {
+        "type": "passport",
+        "value": "732960821"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2374,
+    "split": "test",
+    "text": "Order ID: #89364817.",
+    "expected_pii": false,
+    "category": "Order Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2375,
+    "split": "test",
+    "text": "Visit https://user:pass@example.com:8080/test for the local fixture.",
+    "expected_pii": false,
+    "category": "URL",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2376,
+    "split": "test",
+    "text": "The word password appears in this documentation paragraph but no secret is present.",
+    "expected_pii": false,
+    "category": "Password-like",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2377,
+    "split": "test",
+    "text": "Use @media queries in the CSS file.",
+    "expected_pii": false,
+    "category": "At Symbol",
+    "entities": [],
+    "difficulty": "adversarial",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2378,
+    "split": "test",
+    "text": "Memory address 0x6590F.",
+    "expected_pii": false,
+    "category": "Hex",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2379,
+    "split": "test",
+    "text": "Allowlist 1.165.9.172 for this test.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "1.165.9.172"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2380,
+    "split": "challenge",
+    "text": "Internal test prompt: Member ID: INS68156299 Passport number: 369812648 Deliver to 6953 Market Street.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "medical_id",
+        "value": "Member ID: INS68156299"
+      },
+      {
+        "type": "passport",
+        "value": "369812648"
+      },
+      {
+        "type": "address",
+        "value": "6953 Market Street"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2381,
+    "split": "challenge",
+    "text": "Customer record: Deliver to 126 Oak Street. The patient is 20 years old. Current coordinates: -9.6676°N, 29.6013°E Patient was born on 2002-05-09.",
+    "expected_pii": true,
+    "category": "Mixed PII",
+    "entities": [
+      {
+        "type": "address",
+        "value": "126 Oak Street"
+      },
+      {
+        "type": "age",
+        "value": "20 years old"
+      },
+      {
+        "type": "coordinates",
+        "value": "9.6676°N, 29.6013°E"
+      },
+      {
+        "type": "dob",
+        "value": "2002-05-09"
+      }
+    ],
+    "difficulty": "mixed",
+    "source": "synthetic-mixed"
+  },
+  {
+    "id": 2382,
+    "split": "test",
+    "text": "MAC address: 69-ed-21-64-11-30",
+    "expected_pii": true,
+    "category": "MAC Address",
+    "entities": [
+      {
+        "type": "mac",
+        "value": "69-ed-21-64-11-30"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2383,
+    "split": "challenge",
+    "text": "Account: 22166012785109",
+    "expected_pii": true,
+    "category": "Bank Account",
+    "entities": [
+      {
+        "type": "bank_account",
+        "value": "Account: 22166012785109"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2384,
+    "split": "challenge",
+    "text": "The subnet mask contains 255.255.0.0.",
+    "expected_pii": false,
+    "category": "IPv4-like Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2385,
+    "split": "test",
+    "text": "The patient is 76 years old.",
+    "expected_pii": true,
+    "category": "Age",
+    "entities": [
+      {
+        "type": "age",
+        "value": "76 years old"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2386,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2387,
+    "split": "challenge",
+    "text": "My social handle is @suraj_4559.",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@suraj_4559"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2388,
+    "split": "challenge",
+    "text": "Office location: Seattle, WA 98101",
+    "expected_pii": true,
+    "category": "Location",
+    "entities": [
+      {
+        "type": "location",
+        "value": "Seattle, WA 98101"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2389,
+    "split": "test",
+    "text": "SSN on file: 528-81-6834",
+    "expected_pii": true,
+    "category": "SSN",
+    "entities": [
+      {
+        "type": "ssn",
+        "value": "528-81-6834"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2390,
+    "split": "test",
+    "text": "Client connected from 63.243.153.33.",
+    "expected_pii": true,
+    "category": "IPv4",
+    "entities": [
+      {
+        "type": "ipv4",
+        "value": "63.243.153.33"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2391,
+    "split": "challenge",
+    "text": "Vehicle VIN: T3W5V2MTBZV59UL9V",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "T3W5V2MTBZV59UL9V"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2392,
+    "split": "test",
+    "text": "Support ticket 596708 is currently open.",
+    "expected_pii": false,
+    "category": "Ticket Number",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2393,
+    "split": "test",
+    "text": "Vehicle VIN: VG2JH05BN0YUE8DW5",
+    "expected_pii": true,
+    "category": "VIN",
+    "entities": [
+      {
+        "type": "vin",
+        "value": "VG2JH05BN0YUE8DW5"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2394,
+    "split": "test",
+    "text": "Username: @arjun_4906",
+    "expected_pii": true,
+    "category": "Username",
+    "entities": [
+      {
+        "type": "username",
+        "value": "@arjun_4906"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2395,
+    "split": "challenge",
+    "text": "The sensor measured 1.23e-2 units.",
+    "expected_pii": false,
+    "category": "Scientific",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2396,
+    "split": "test",
+    "text": "The build completed at 16:09 UTC.",
+    "expected_pii": false,
+    "category": "Time",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2397,
+    "split": "test",
+    "text": "const PORT = 4000;",
+    "expected_pii": false,
+    "category": "Code",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  },
+  {
+    "id": 2398,
+    "split": "test",
+    "text": "My personal email is maya+work@mail.org.",
+    "expected_pii": true,
+    "category": "Email",
+    "entities": [
+      {
+        "type": "email",
+        "value": "maya+work@mail.org"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2399,
+    "split": "test",
+    "text": "Payment card 6461-3415-8420-7416 is on file.",
+    "expected_pii": true,
+    "category": "Credit Card",
+    "entities": [
+      {
+        "type": "credit_card",
+        "value": "6461-3415-8420-7416"
+      }
+    ],
+    "difficulty": "normal",
+    "source": "synthetic-pii"
+  },
+  {
+    "id": 2400,
+    "split": "test",
+    "text": "The student scored 96 out of 100 on the final examination.",
+    "expected_pii": false,
+    "category": "Academic",
+    "entities": [],
+    "difficulty": "normal",
+    "source": "synthetic-safe"
+  }
+];
